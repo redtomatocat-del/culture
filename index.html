@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>사회·문화 — 수업연계 후속탐구 워크북</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F7F8FB; --paper:#FFFFFF; --surface:#EEF1F6; --border:#DDE2EC;
+  --main:#3D5A80; --main-d:#1E2F45; --topic:#5C7EA3;
+  --sub:#57534E; --muted:#9AA1AE; --text:#181C24;
+  --guide-bg:#FAEEDA; --guide-tx:#854F0B;
+  --weak-bg:#FBEAE8; --weak-tx:#9C3B30; --good-bg:#E8F1F8; --good-tx:#2C5A86;
+  --font-body:'Pretendard',sans-serif;
+  --font-head:'Gowun Dodum','Pretendard',sans-serif;
+  --font-data:'JetBrains Mono',monospace;
+  --r:10px; --sh:0 1px 2px rgba(24,28,36,.04),0 4px 12px rgba(24,28,36,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:var(--font-body);color:var(--text);background:var(--bg);letter-spacing:-.005em;word-break:keep-all}
+body{padding:18px 16px;background-image:radial-gradient(circle,#C9D2E2 1px,transparent 1.2px);background-size:18px 18px}
+.wrap{max-width:840px;margin:0 auto}
+
+.hd{background:var(--main-d);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:18px 22px;box-shadow:var(--sh)}
+.hd h1{font-family:var(--font-head);font-weight:400;font-size:22px;margin-bottom:4px}
+.hd p{font-size:12.5px;opacity:.85;line-height:1.6}
+
+.note{background:#FFF7ED;border-left:4px solid #C2410C;border-radius:0 8px 8px 0;padding:11px 14px;margin:14px 0;font-size:12.5px;line-height:1.65;color:#6B2E0A}
+.note b{color:#C2410C}
+
+.card{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.card-hd{background:var(--topic);color:#fff;padding:10px 18px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.card-hd .num{font-family:var(--font-data);font-size:11px;background:rgba(255,255,255,.18);padding:2px 7px;border-radius:4px}
+.card-body{padding:14px 18px}
+
+.grid{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;align-items:center}
+.grid .lb{font-size:12.5px;font-weight:600;color:var(--sub)}
+.grid select,.grid input{width:100%;font-family:var(--font-body);font-size:13.5px;padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none;transition:border-color .12s}
+.grid select:focus,.grid input:focus{border-color:var(--main)}
+.tgt-inline{font-family:var(--font-data);font-size:10.5px;font-weight:500;color:var(--muted)}
+
+.confirm{margin-top:12px;display:none;align-items:center;gap:8px;background:var(--good-bg);color:var(--good-tx);border:1px solid #BBD3E8;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600}
+.confirm.show{display:flex}
+.confirm .chip{font-family:var(--font-data);font-size:11px;background:#fff;border:1px solid #BBD3E8;border-radius:5px;padding:2px 8px;font-weight:500}
+
+.phase{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.phase-hd{background:var(--main);color:#fff;padding:11px 18px;display:flex;align-items:center;gap:10px}
+.phase-hd .ttl{font-weight:700;font-size:14px}
+.phase-hd .phase-tag{font-family:var(--font-data);font-size:10px;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:4px;letter-spacing:.03em}
+.phase-hd .st{margin-left:auto;font-family:var(--font-data);font-size:10.5px;padding:2px 9px;border-radius:10px;background:rgba(255,255,255,.16);font-weight:500}
+.phase-hd .st.done{background:#A9CDE8;color:#173A57}
+.phase-hd .st.ing{background:#F4D58A;color:#7A5B12}
+.phase-body{padding:14px 18px}
+
+.guide{background:var(--guide-bg);color:var(--guide-tx);padding:10px 13px;border-radius:7px;font-size:12px;line-height:1.65;margin-bottom:9px;font-style:italic}
+
+.ex-body{padding:0 0 9px;display:flex;flex-direction:column;gap:9px}
+.ex-row{font-size:12.5px;line-height:1.6;border-radius:7px;padding:9px 12px}
+.ex-row.weak{background:var(--weak-bg);color:var(--weak-tx)}
+.ex-row.good{background:var(--good-bg);color:var(--good-tx)}
+.ex-row .tag{display:inline-block;font-family:var(--font-data);font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;margin-right:7px;vertical-align:middle}
+.ex-row.weak .tag{background:#E9A89F;color:#7A271B}
+.ex-row.good .tag{background:#A9CDE8;color:#173A57}
+
+textarea{width:100%;font-family:var(--font-body);font-size:13.5px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;background:var(--paper);color:var(--text);outline:none;resize:vertical;min-height:120px;line-height:1.7;transition:border-color .12s}
+textarea:focus{border-color:var(--main)}
+textarea.short{min-height:70px}
+
+.meter{margin-top:7px}
+.meter-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.meter-bar > i{display:block;height:100%;width:0%;background:var(--muted);border-radius:3px;transition:width .25s,background .25s}
+.meter-row{display:flex;align-items:center;gap:8px}
+.meter-ch{font-family:var(--font-data);font-size:10.5px;color:var(--muted);min-width:90px}
+.meter-fb{font-size:12px;line-height:1.4;flex:1}
+.meter.s0 .meter-bar > i{background:var(--muted)}
+.meter.s1 .meter-bar > i{background:#E0A93B}
+.meter.s2 .meter-bar > i{background:#5B8CBB}
+.meter.s3 .meter-bar > i{background:var(--main)}
+.meter.s0 .meter-fb{color:var(--muted)}
+.meter.s1 .meter-fb{color:#9A6B12}
+.meter.s2 .meter-fb{color:#3C6B96}
+.meter.s3 .meter-fb{color:var(--main);font-weight:600}
+
+.foot{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-top:14px}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-lb{font-size:12px;color:var(--sub);font-weight:600;min-width:96px}
+.prog-lb b{color:var(--main)}
+.bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--main);transition:width .25s}
+
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:var(--font-body);font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;cursor:pointer;border:1.5px solid;transition:all .12s}
+.btn-main{background:var(--main);color:#fff;border-color:var(--main)}
+.btn-main:hover{background:var(--main-d);border-color:var(--main-d)}
+.btn-main:disabled{background:var(--muted);border-color:var(--muted);cursor:not-allowed}
+.btn-save{background:#FFF7ED;color:#9A6B12;border-color:#F4D58A}
+.btn-save:hover{background:#FCEFD6}
+.btn-sub{background:var(--paper);color:var(--sub);border-color:var(--border)}
+.btn-sub:hover{background:var(--surface)}
+
+.msg{margin-top:10px;font-size:12.5px;padding:9px 12px;border-radius:7px;display:none;line-height:1.55}
+.msg.show{display:block}
+.msg.ok{background:#ECFDF5;color:#065F46;border:1px solid #6EE7B7}
+.msg.err{background:#FEF2F2;color:#991B1B;border:1px solid #FCA5A5}
+.msg.warn{background:#FFFBEB;color:#92400E;border:1px solid #FCD34D}
+
+.local-info{font-size:11.5px;color:var(--muted);font-family:var(--font-data);margin-top:8px}
+.local-info b{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hd">
+    <h1>🌏 사회·문화 — 수업연계 후속탐구 워크북</h1>
+    <p>수업·토론·뉴스·독서·경험에서 출발한 질문 하나를 교과 개념으로 파고듭니다. <b>8칸을 차례로 채우고 제출</b>하세요. · 자동 임시저장 · 여러 번 제출 OK(이어서 저장)</p>
+  </div>
+
+  <div class="note">
+    <b>📝 작성 안내</b><br>
+    1) <b>반·번호·이름</b>을 정확히 입력하세요. (이 정보로 임시저장·제출이 구분됩니다)<br>
+    2) 후속탐구 제목·계기 유형을 고르고, ①~⑧을 차례로 작성하세요. 한 번에 다 못 채워도 됩니다.<br>
+    3) <b>약함/좋음 예시</b>를 먼저 읽고, 막대가 파란색이 되면 분량 충분.<br>
+    4) <b>⑥ 실제로 한 일</b>과 <b>⑦ 한 문장 요약</b>은 학교생활기록부(세특) 기록의 근거가 됩니다. 날짜·행동이 드러나게 구체적으로.<br>
+    5) <b>제출하기</b>를 누르면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
+  </div>
+
+  <!-- 학생 정보 -->
+  <div class="card">
+    <div class="card-hd"><span class="num">STEP 0</span> 학생 정보 (직접 입력)</div>
+    <div class="card-body">
+      <div class="grid">
+        <div class="lb">반</div>
+        <input type="text" id="inBan" inputmode="numeric" placeholder="예: 3">
+        <div class="lb">번호</div>
+        <input type="text" id="inNum" inputmode="numeric" placeholder="예: 5">
+        <div class="lb">이름</div>
+        <input type="text" id="inName" placeholder="본인 이름">
+      </div>
+      <div class="confirm" id="confirm">
+        <span>✓ <b id="cfName"></b> 님</span>
+        <span class="chip" id="cfId"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="formArea">
+
+    <!-- 제목·계기 유형 -->
+    <div class="card">
+      <div class="card-hd"><span class="num">STEP 1</span> 후속탐구 개요 <span class="tgt-inline" style="margin-left:auto">임시 제목 OK</span></div>
+      <div class="card-body">
+        <div class="grid">
+          <div class="lb">후속탐구 제목</div>
+          <input type="text" id="title" placeholder="예: 청소년 온라인 도박, 처벌보다 또래가 문제다 (나중에 바꿔도 OK)">
+          <div class="lb">탐구 계기 유형</div>
+          <select id="motiveType">
+            <option value="">— 선택 —</option>
+            <option>수행평가</option>
+            <option>사회문화 수업</option>
+            <option>다른 교과 수업</option>
+            <option>토론·발표</option>
+            <option>뉴스·시사</option>
+            <option>독서·영상</option>
+            <option>동아리·진로활동</option>
+            <option>생활 경험</option>
+            <option>기타</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8단계 (정적 HTML — 어떤 기기/브라우저에서도 무조건 표시) -->
+    <div id="sections">
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">① 탐구 계기</span><span class="phase-tag">시작</span><span class="st" id="st_motive">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">어떤 수업·활동·자료(언제, 무엇)에서 이 탐구가 출발했고, 그때 처음 떠오른 질문·문제의식은 무엇이었나? "원래 관심 있어서"는 약한 답이에요.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>평소 사회 문제에 관심이 많아서 이 주제를 골랐다.</div><div class="ex-row good"><span class="tag">좋음</span>5월 사회문화 수업에서 차별적 교제 이론을 배운 뒤, 뉴스에서 본 청소년 온라인 도박 기사와 연결됐다. 처벌보다 또래 관계가 시작과 재범을 좌우한다는 기사 내용이 이론과 실제로 맞는지 직접 확인하고 싶어졌다.</div></div>
+          <textarea id="ta_motive" placeholder="어떤 수업·기사·책·활동에서, 어떤 질문이 떠올랐는지 구체적으로."></textarea>
+          <div class="meter s0" id="meter_motive"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_motive">0 / 100자</span><span class="meter-fb" id="fb_motive"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">② 탐구 질문·가설</span><span class="phase-tag">설계</span><span class="st" id="st_question">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">계기를 검증 가능한 질문 하나로 좁히고, 예상 답(가설)을 적기. "왜 문제인가?"처럼 넓은 질문은 탐구가 안 됩니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>청소년 도박은 왜 문제인가?</div><div class="ex-row good"><span class="tag">좋음</span>질문: 청소년 온라인 도박 경험은 또래 집단의 허용적 분위기와 얼마나 관련되는가? 가설: 처벌에 대한 인지보다 또래 집단 내 허용적 분위기가 도박 시작에 더 큰 영향을 줄 것이다.</div></div>
+          <textarea id="ta_question" class="short" placeholder="질문: … / 가설: … 형태로."></textarea>
+          <div class="meter s0" id="meter_question"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_question">0 / 80자</span><span class="meter-fb" id="fb_question"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">③ 활용한 교과 개념</span><span class="phase-tag">설계 · 5개 이상</span><span class="st" id="st_concepts">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">사회문화 개념 5개 이상. 개념명만 나열하지 말고, 어떤 개념을 분석의 축으로 쓰는지까지.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>일탈, 문화, 사회화</div><div class="ex-row good"><span class="tag">좋음</span>차별적 교제 이론, 낙인 이론, 준거 집단, 재사회화, 정보 사회의 문제 — 차별적 교제와 준거 집단을 분석의 축으로 삼고, 낙인 이론은 반론 검토에 사용.</div></div>
+          <textarea id="ta_concepts" class="short" placeholder="개념 5개 이상 + 어떤 개념이 분석의 축인지."></textarea>
+          <div class="meter s0" id="meter_concepts"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_concepts">0 / 60자</span><span class="meter-fb" id="fb_concepts"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">④ 자료·방법·출처</span><span class="phase-tag">자료</span><span class="st" id="st_data">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">어떤 자료(통계·기사·문헌·설문 등)를 어디서 구했고, 어떻게 분석했는지. 출처(기관·매체·날짜)를 반드시 적기.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>인터넷에서 자료를 찾아봤다.</div><div class="ex-row good"><span class="tag">좋음</span>한국도박문제예방치유원 2024 청소년 실태조사(공식 통계), 관련 기사 2건(한겨레 5/12, KBS 5/20), 교과서 일탈 이론 단원. 통계는 연령대별 경험률 표를 재구성해 비교 분석함.</div></div>
+          <textarea id="ta_data" placeholder="자료 + 출처 + 분석 방법."></textarea>
+          <div class="meter s0" id="meter_data"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_data">0 / 100자</span><span class="meter-fb" id="fb_data"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑤ 분석과 결론</span><span class="phase-tag">본문 · 핵심</span><span class="st" id="st_analysis">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">자료를 교과 개념으로 분석하고(사실과 해석 구분), 반론·한계를 검토한 뒤, 내가 도달한 주장으로 마무리. 이 칸이 보고서의 본문입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>조사 결과 도박 문제는 심각했고 예방이 필요하다고 생각했다.</div><div class="ex-row good"><span class="tag">좋음</span>실태조사에서 도박 경험 청소년의 68%가 "친구를 통해 처음 접했다"고 답해(사실) 차별적 교제 이론의 설명과 부합했다(해석). 다만 낙인 이론 관점에서는 적발·처벌 경험이 오히려 일탈을 강화할 수 있다는 반론이 가능했고, 내 자료로는 두 효과를 분리할 수 없다는 한계도 확인했다. 결론적으로 처벌 중심 대책보다 또래 관계에 개입하는 예방이 우선이라는 주장에 도달했다.</div></div>
+          <textarea id="ta_analysis" style="min-height:180px" placeholder="개념 적용 분석 → 반론·한계 → 결론의 흐름으로."></textarea>
+          <div class="meter s0" id="meter_analysis"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_analysis">0 / 200자</span><span class="meter-fb" id="fb_analysis"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑥ 실제로 한 일</span><span class="phase-tag">과정 기록 · 세특 근거</span><span class="st" id="st_work">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">날짜와 함께, 무엇을 검색·발췌·대조·계산·질문했는지 동사 중심으로. "열심히 했다"가 아니라 한 일 자체를 적습니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>자료를 열심히 찾고 정리했다.</div><div class="ex-row good"><span class="tag">좋음</span>6/10 실태조사 원문에서 연령별 표를 발췌했고, 6/12 기사 2건의 수치를 조사 원문과 대조하다 기사 수치가 다른 것을 발견해 원문 기준으로 수정했다. 6/15 교과서 이론과 자료의 대응표를 만들고, 6/18 결론 초고에 반론 문단을 추가했다.</div></div>
+          <textarea id="ta_work" placeholder="날짜 + 행동(검색·발췌·대조·계산·질문…) 순서대로."></textarea>
+          <div class="meter s0" id="meter_work"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_work">0 / 100자</span><span class="meter-fb" id="fb_work"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑦ 한 문장 요약</span><span class="phase-tag">100자 이내</span><span class="st" id="st_summary">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">내 탐구를 한 문장으로: 무엇을(자료·개념), 어떻게(방법), 어떤 결론에. 100자 이내로 압축하세요.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>청소년 도박에 대해 탐구했다.</div><div class="ex-row good"><span class="tag">좋음</span>차별적 교제 이론으로 청소년 온라인 도박 통계를 분석해, 처벌보다 또래 개입이 우선임을 논증한 탐구.</div></div>
+          <textarea id="ta_summary" class="short" placeholder="한 문장, 100자 이내."></textarea>
+          <div class="meter s0" id="meter_summary"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_summary">0 / 50자</span><span class="meter-fb" id="fb_summary"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑧ 성찰과 확장</span><span class="phase-tag">성찰 · 확장</span><span class="st" id="st_next">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">계획으로 끝내지 마세요. ①생각의 변화: 탐구 전과 후, 내 관점이 어떻게 달라졌나? ②확장: 새로 생긴 의문 + 다음에 확인할 자료·사례. ③진로·다른 교과와 자연스럽게 닿으면 적기(억지 연결 X). "더 알아보고 싶다"로 끝나면 약한 답입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>흥미로운 주제였고 앞으로 더 알아보고 싶다.</div><div class="ex-row good"><span class="tag">좋음</span>탐구 전에는 도박을 개인 의지의 문제로 봤는데, 자료를 보고 또래 구조의 문제로 관점이 바뀌었다. 다음엔 또래 개입 프로그램의 효과를 다룬 해외 사례를 비교하고, 낙인 효과를 분리할 수 있는 설문 문항을 설계해 2학기 수행평가로 이어가고 싶다.</div></div>
+          <textarea id="ta_next" placeholder="생각의 변화(전↔후) + 새로 생긴 의문 + 다음에 할 일."></textarea>
+          <div class="meter s0" id="meter_next"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_next">0 / 100자</span><span class="meter-fb" id="fb_next"></span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="foot">
+    <div class="prog-row">
+      <span class="prog-lb">작성 완료 <b id="doneCount">0</b> / 8 칸</span>
+      <div class="bar"><i id="bar" style="width:0%"></i></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-main" id="submitBtn">📤 제출하기</button>
+      <button type="button" class="btn btn-save" id="saveBtn">💾 임시저장</button>
+      <button type="button" class="btn btn-sub" id="txtBtn">📄 텍스트로 저장(.txt)</button>
+      <button type="button" class="btn btn-sub" id="clearBtn">🗑 임시저장 지우기</button>
+    </div>
+    <div class="msg" id="msg"></div>
+    <div class="local-info">💾 임시저장 = 이 기기에만 보관 (시트 전송 X) · 📤 제출 = 선생님 시트로 전송 · 마지막 저장 <b id="saveTime">—</b></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// 설정 — 배포 후 Apps Script /exec URL로 교체
+// ─────────────────────────────────────────────
+var APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+
+var SECTIONS = [
+  { key:'motive',   label:'① 탐구 계기',      target:100, nudge:'어떤 수업·자료에서, 어떤 질문이 떠올랐는지 더 구체적으로.', tip:'수업·자료 + 처음 질문이 보이면 완성!' },
+  { key:'question', label:'② 탐구 질문·가설',  target:80,  nudge:'질문을 하나로 좁히고 가설까지.', tip:'검증 가능한 질문 + 가설이면 완성!' },
+  { key:'concepts', label:'③ 활용한 교과 개념', target:60,  nudge:'개념 5개 이상 + 분석의 축이 되는 개념.', tip:'개념 5개 + 축이 보이면 완성!' },
+  { key:'data',     label:'④ 자료·방법·출처',  target:100, nudge:'자료마다 출처(기관·매체·날짜)를 붙이세요.', tip:'출처 있는 자료 + 방법이면 완성!' },
+  { key:'analysis', label:'⑤ 분석과 결론',     target:200, nudge:'사실/해석 구분 → 반론·한계 → 결론 순서로.', tip:'분석-반론-결론이 이어지면 완성!' },
+  { key:'work',     label:'⑥ 실제로 한 일',    target:100, nudge:'날짜 + 동사(발췌·대조·계산…)로 적어보세요.', tip:'날짜·행동이 구체적이면 완성! (세특 근거)' },
+  { key:'summary',  label:'⑦ 한 문장 요약',    target:50,  nudge:'무엇을·어떻게·어떤 결론, 한 문장으로.', tip:'100자 이내로 압축되면 완성!' },
+  { key:'next',     label:'⑧ 성찰과 확장',     target:100, nudge:'생각의 변화(전↔후)부터, 그다음 확장 계획을.', tip:'관점 변화 + 구체적 다음 계획이면 완성!' },
+];
+
+function $(id){return document.getElementById(id);}
+
+var current = null; // {ban,num,name}
+
+// ─── 학생 정보 직접 입력 ───
+function readId(){
+  return { ban:$('inBan').value.trim(), num:$('inNum').value.trim(), name:$('inName').value.trim() };
+}
+function idComplete(id){ return !!(id.ban && id.num && id.name); }
+
+function refreshLock(){
+  var id = readId();
+  if(idComplete(id)){
+    current = id;
+    $('cfName').textContent = id.name;
+    $('cfId').textContent = id.ban + '반 ' + id.num + '번';
+    $('confirm').classList.add('show');
+  } else {
+    current = null;
+    $('confirm').classList.remove('show');
+  }
+}
+['inBan','inNum','inName'].forEach(function(fid){
+  $(fid).addEventListener('input', refreshLock);
+  $(fid).addEventListener('change', function(){ refreshLock(); if(current){ loadLocal(); updateAll(); } });
+});
+
+// ─── 저장 키 ───
+function getKey(){
+  if(!current) return '';
+  return 'sm_ft_' + current.ban + '_' + current.num + '_' + current.name;
+}
+
+function readForm(){
+  var d = {
+    ban: current ? current.ban : '', num: current ? current.num : '', name: current ? current.name : '',
+    title: $('title').value, motiveType: $('motiveType').value
+  };
+  SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
+  return d;
+}
+
+function writeForm(d){
+  $('title').value = d.title || '';
+  $('motiveType').value = d.motiveType || '';
+  SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
+}
+
+function saveLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    localStorage.setItem(k, JSON.stringify(readForm()));
+    var t = new Date();
+    $('saveTime').textContent = ('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2)+':'+('0'+t.getSeconds()).slice(-2);
+  }catch(e){}
+}
+
+function loadLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    var raw = localStorage.getItem(k);
+    if(raw){ writeForm(JSON.parse(raw)); $('saveTime').textContent = '(이전 임시저장 복원됨)'; }
+    else { writeForm({}); $('saveTime').textContent = '—'; }
+  }catch(e){}
+}
+
+function clearLocal(){
+  var k = getKey();
+  if(!k){ showMsg('warn','먼저 반·번호·이름을 입력하세요.'); return; }
+  if(!confirm('이 기기의 임시저장만 지워요 (제출된 시트는 안 건드림). 진행?')) return;
+  try{ localStorage.removeItem(k); }catch(e){}
+  writeForm({});
+  updateAll();
+  $('saveTime').textContent = '지움';
+}
+
+// ─── 단계별 미터 + 상태 ───
+function updateSection(s){
+  var el = $('ta_' + s.key);
+  var len = el.value.trim().length;
+  var meter = $('meter_' + s.key);
+  var bar = meter.querySelector('.meter-bar > i');
+  var ch = $('ch_' + s.key);
+  var fb = $('fb_' + s.key);
+  var st = $('st_' + s.key);
+
+  var pct = Math.min(100, Math.round(len / s.target * 100));
+  bar.style.width = pct + '%';
+  ch.textContent = len + ' / ' + s.target + '자';
+
+  var stage, msg;
+  if(len === 0){ stage = 0; msg = ''; st.textContent='미작성'; st.className='st'; }
+  else if(len < s.target * 0.4){ stage = 1; msg = '🌱 좋은 출발! ' + s.nudge; st.textContent='작성중'; st.className='st ing'; }
+  else if(len < s.target){ stage = 2; msg = '✏️ 거의 다 왔어요. 조금만 더 구체적으로.'; st.textContent='작성중'; st.className='st ing'; }
+  else { stage = 3; msg = '✅ 분량 충분! ' + s.tip; st.textContent='✓ 완료'; st.className='st done'; }
+
+  // ⑦ 한 문장 요약: 100자 초과 경고
+  if(s.key === 'summary' && len > 100){
+    stage = 1; msg = '⚠ 100자를 넘었어요 (' + len + '자). 더 압축해 보세요.';
+    st.textContent='압축 필요'; st.className='st ing';
+  }
+
+  meter.className = 'meter s' + stage;
+  fb.textContent = msg;
+  return len >= s.target && !(s.key === 'summary' && len > 100);
+}
+
+function updateAll(){
+  var done = 0;
+  SECTIONS.forEach(function(s){ if(updateSection(s)) done++; });
+  $('doneCount').textContent = done;
+  $('bar').style.width = Math.round(done / SECTIONS.length * 100) + '%';
+}
+
+// 입력 이벤트
+['title'].forEach(function(id){
+  $(id).addEventListener('input', function(){ saveLocal(); });
+});
+$('motiveType').addEventListener('change', function(){ saveLocal(); });
+SECTIONS.forEach(function(s){
+  $('ta_' + s.key).addEventListener('input', function(){ updateAll(); saveLocal(); });
+});
+$('clearBtn').addEventListener('click', clearLocal);
+
+$('saveBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 반·번호·이름을 입력하세요.'); return; }
+  saveLocal();
+  showMsg('ok', '💾 이 기기에 임시저장됐어요. (시트에 올리려면 📤 제출하기를 눌러주세요)');
+});
+
+// ─── 텍스트(.txt) 저장 ───
+function buildText(){
+  var d = readForm();
+  var L = [];
+  L.push('사회·문화 — 수업연계 후속탐구 워크북');
+  L.push('──────────────────────────');
+  L.push(d.ban + '반 ' + d.num + '번 / ' + d.name);
+  L.push('후속탐구 제목: ' + (d.title || '(미작성)'));
+  L.push('탐구 계기 유형: ' + (d.motiveType || '(미선택)'));
+  L.push('작성 시각: ' + new Date().toLocaleString('ko-KR'));
+  L.push('');
+  SECTIONS.forEach(function(s){
+    L.push('【' + s.label + '】 (' + $('ta_'+s.key).value.trim().length + '자)');
+    var v = d[s.key] && d[s.key].trim();
+    L.push(v ? d[s.key] : '(미작성)');
+    L.push('');
+  });
+  return L.join('\n');
+}
+
+$('txtBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 반·번호·이름을 입력하세요.'); return; }
+  try{
+    var blob = new Blob(['﻿' + buildText()], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '후속탐구_' + current.ban + '-' + current.num + '_' + current.name + '.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+    showMsg('ok', '📄 텍스트 파일을 저장했어요. (다운로드 폴더 확인 — 제출이 안 돼도 본인 사본은 남습니다)');
+  }catch(e){ showMsg('err', '저장 실패: ' + e.message); }
+});
+
+// ─── 제출 ───
+function showMsg(type, text){
+  var m = $('msg');
+  m.className = 'msg show ' + type;
+  m.textContent = text;
+}
+
+$('submitBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 반·번호·이름을 입력하세요.'); return; }
+  var d = readForm();
+  if(!d.title.trim()){ showMsg('warn', '후속탐구 제목을 적어주세요. 임시 제목도 괜찮아요.'); return; }
+  var anyContent = SECTIONS.some(function(s){ return d[s.key].trim().length >= 5; });
+  if(!anyContent){
+    if(!confirm('아직 작성한 칸이 없어요. 제목만 제출할까요? (나중에 이어서 추가 제출 가능)')) return;
+  }
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+    showMsg('err', '⚠ APPS_SCRIPT_URL이 설정 안 됨. 선생님께 알려주세요. (그동안 📄 텍스트로 저장으로 본인 사본을 보관하세요)');
+    return;
+  }
+
+  $('submitBtn').disabled = true;
+  $('submitBtn').textContent = '⏳ 제출 중…';
+  showMsg('warn', '서버에 전송 중… 잠시만요.');
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(Object.assign({action:'submit'}, d))
+  }).then(function(){
+    showMsg('ok', '✅ 전송했어요. 지금까지 쓴 내용이 올라갔습니다. (확인이 안 되면 📄 텍스트로 저장으로 사본을 남기고 선생님께 알려주세요.) 나머지 칸을 채워 또 제출하면 이어서 저장됩니다.');
+    saveLocal();
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 다시 제출하기 (이어서 저장)';
+  }).catch(function(err){
+    showMsg('err', '❌ 전송 실패: ' + err.message + ' — 다시 시도하거나 📄 텍스트로 저장으로 사본을 남기세요.');
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 제출하기';
+  });
+});
+
+updateAll();
+</script>
+</body>
+</html>
