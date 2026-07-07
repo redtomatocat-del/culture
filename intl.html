@@ -1,0 +1,575 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>국제정치 — 수업연계 후속탐구 워크북</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#F6F9F8; --paper:#FFFFFF; --surface:#EBF1F0; --border:#D8E2E0;
+  --main:#0F5E68; --main-d:#0A3037; --topic:#2D7E88;
+  --sub:#57534E; --muted:#96A5A3; --text:#14201F;
+  --guide-bg:#FAEEDA; --guide-tx:#854F0B;
+  --weak-bg:#FBEAE8; --weak-tx:#9C3B30; --good-bg:#E5F2F0; --good-tx:#0F5E68;
+  --font-body:'Pretendard',sans-serif;
+  --font-head:'Gowun Dodum','Pretendard',sans-serif;
+  --font-data:'JetBrains Mono',monospace;
+  --r:10px; --sh:0 1px 2px rgba(20,32,31,.04),0 4px 12px rgba(20,32,31,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:var(--font-body);color:var(--text);background:var(--bg);letter-spacing:-.005em;word-break:keep-all}
+body{padding:18px 16px;background-image:radial-gradient(circle,#C4D5D2 1px,transparent 1.2px);background-size:18px 18px}
+.wrap{max-width:840px;margin:0 auto}
+
+.hd{background:var(--main-d);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:18px 22px;box-shadow:var(--sh)}
+.hd h1{font-family:var(--font-head);font-weight:400;font-size:22px;margin-bottom:4px}
+.hd p{font-size:12.5px;opacity:.85;line-height:1.6}
+
+.note{background:#FFF7ED;border-left:4px solid #C2410C;border-radius:0 8px 8px 0;padding:11px 14px;margin:14px 0;font-size:12.5px;line-height:1.65;color:#6B2E0A}
+.note b{color:#C2410C}
+
+.card{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.card-hd{background:var(--topic);color:#fff;padding:10px 18px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.card-hd .num{font-family:var(--font-data);font-size:11px;background:rgba(255,255,255,.18);padding:2px 7px;border-radius:4px}
+.card-body{padding:14px 18px}
+
+.grid{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;align-items:center}
+.grid .lb{font-size:12.5px;font-weight:600;color:var(--sub)}
+.grid select,.grid input{width:100%;font-family:var(--font-body);font-size:13.5px;padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none;transition:border-color .12s}
+.grid select:focus,.grid input:focus{border-color:var(--main)}
+.tgt-inline{font-family:var(--font-data);font-size:10.5px;font-weight:500;color:var(--muted)}
+
+.confirm{margin-top:12px;display:none;align-items:center;gap:8px;background:var(--good-bg);color:var(--good-tx);border:1px solid #B4D6D1;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600}
+.confirm.show{display:flex}
+.confirm .chip{font-family:var(--font-data);font-size:11px;background:#fff;border:1px solid #B4D6D1;border-radius:5px;padding:2px 8px;font-weight:500}
+
+/* 심화 경로 선택기 */
+.paths{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:4px}
+@media (max-width:640px){.paths{grid-template-columns:1fr}}
+.path{border:1.5px solid var(--border);border-radius:9px;padding:10px 12px;cursor:pointer;background:var(--paper);transition:all .12s;position:relative}
+.path:hover{border-color:var(--topic)}
+.path.sel{border-color:var(--main);background:var(--good-bg);box-shadow:0 0 0 1px var(--main)}
+.path .p-name{font-weight:700;font-size:13px;margin-bottom:3px;display:flex;align-items:center;gap:6px}
+.path .p-tag{font-family:var(--font-data);font-size:9px;background:var(--surface);border:1px solid var(--border);color:var(--sub);padding:1px 6px;border-radius:8px}
+.path.sel .p-tag{background:#fff}
+.path .p-desc{font-size:11.5px;color:var(--sub);line-height:1.55}
+.path-ex{margin-top:10px;display:none;background:#F0F7F6;border:1px solid #B4D6D1;border-left:4px solid var(--main);border-radius:0 8px 8px 0;padding:10px 13px;font-size:12.5px;line-height:1.7;color:#0A3D45}
+.path-ex.show{display:block}
+.path-ex b{color:var(--main)}
+
+.phase{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.phase-hd{background:var(--main);color:#fff;padding:11px 18px;display:flex;align-items:center;gap:10px}
+.phase-hd .ttl{font-weight:700;font-size:14px}
+.phase-hd .phase-tag{font-family:var(--font-data);font-size:10px;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:4px;letter-spacing:.03em}
+.phase-hd .st{margin-left:auto;font-family:var(--font-data);font-size:10.5px;padding:2px 9px;border-radius:10px;background:rgba(255,255,255,.16);font-weight:500}
+.phase-hd .st.done{background:#9ED4CB;color:#0A3D45}
+.phase-hd .st.ing{background:#F4D58A;color:#7A5B12}
+.phase-body{padding:14px 18px}
+
+.guide{background:var(--guide-bg);color:var(--guide-tx);padding:10px 13px;border-radius:7px;font-size:12px;line-height:1.65;margin-bottom:9px;font-style:italic}
+
+.ex-body{padding:0 0 9px;display:flex;flex-direction:column;gap:9px}
+.ex-row{font-size:12.5px;line-height:1.6;border-radius:7px;padding:9px 12px}
+.ex-row.weak{background:var(--weak-bg);color:var(--weak-tx)}
+.ex-row.good{background:var(--good-bg);color:var(--good-tx)}
+.ex-row .tag{display:inline-block;font-family:var(--font-data);font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;margin-right:7px;vertical-align:middle}
+.ex-row.weak .tag{background:#E9A89F;color:#7A271B}
+.ex-row.good .tag{background:#9ED4CB;color:#0A3D45}
+
+textarea{width:100%;font-family:var(--font-body);font-size:13.5px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;background:var(--paper);color:var(--text);outline:none;resize:vertical;min-height:120px;line-height:1.7;transition:border-color .12s}
+textarea:focus{border-color:var(--main)}
+textarea.short{min-height:70px}
+
+.meter{margin-top:7px}
+.meter-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.meter-bar > i{display:block;height:100%;width:0%;background:var(--muted);border-radius:3px;transition:width .25s,background .25s}
+.meter-row{display:flex;align-items:center;gap:8px}
+.meter-ch{font-family:var(--font-data);font-size:10.5px;color:var(--muted);min-width:90px}
+.meter-fb{font-size:12px;line-height:1.4;flex:1}
+.meter.s0 .meter-bar > i{background:var(--muted)}
+.meter.s1 .meter-bar > i{background:#E0A93B}
+.meter.s2 .meter-bar > i{background:#3E9AA5}
+.meter.s3 .meter-bar > i{background:var(--main)}
+.meter.s0 .meter-fb{color:var(--muted)}
+.meter.s1 .meter-fb{color:#9A6B12}
+.meter.s2 .meter-fb{color:#2A7680}
+.meter.s3 .meter-fb{color:var(--main);font-weight:600}
+
+.foot{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-top:14px}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-lb{font-size:12px;color:var(--sub);font-weight:600;min-width:96px}
+.prog-lb b{color:var(--main)}
+.bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--main);transition:width .25s}
+
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:var(--font-body);font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;cursor:pointer;border:1.5px solid;transition:all .12s}
+.btn-main{background:var(--main);color:#fff;border-color:var(--main)}
+.btn-main:hover{background:var(--main-d);border-color:var(--main-d)}
+.btn-main:disabled{background:var(--muted);border-color:var(--muted);cursor:not-allowed}
+.btn-save{background:#FFF7ED;color:#9A6B12;border-color:#F4D58A}
+.btn-save:hover{background:#FCEFD6}
+.btn-sub{background:var(--paper);color:var(--sub);border-color:var(--border)}
+.btn-sub:hover{background:var(--surface)}
+
+.msg{margin-top:10px;font-size:12.5px;padding:9px 12px;border-radius:7px;display:none;line-height:1.55}
+.msg.show{display:block}
+.msg.ok{background:#ECFDF5;color:#065F46;border:1px solid #6EE7B7}
+.msg.err{background:#FEF2F2;color:#991B1B;border:1px solid #FCA5A5}
+.msg.warn{background:#FFFBEB;color:#92400E;border:1px solid #FCD34D}
+
+.local-info{font-size:11.5px;color:var(--muted);font-family:var(--font-data);margin-top:8px}
+.local-info b{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hd">
+    <h1>🌐 국제정치 — 수업연계 후속탐구 워크북</h1>
+    <p>1차 탐구(정반합 보고서)를 끝으로 두지 않습니다. <b>1차가 남긴 반론·한계에서 후속 질문을 꺼내</b> 한 단계 더 파고듭니다. · 자동 임시저장 · 여러 번 제출 OK(이어서 저장)</p>
+  </div>
+
+  <div class="note">
+    <b>📝 작성 안내</b><br>
+    1) <b>학년·반·번호·이름</b>을 정확히 입력하세요. (이 정보로 임시저장·제출이 구분됩니다)<br>
+    2) 1차 탐구의 렌즈를 고르면 <b>심화 경로 5종</b> 중 맞는 것을 추천 예시와 함께 보여줍니다. 경로 하나를 골라 출발하세요.<br>
+    3) ①~⑧을 차례로. <b>①1차 요약과 ②남은 반론</b>이 이 워크북의 심장입니다 — 여기가 구체적이면 나머지가 쉬워요.<br>
+    4) <b>⑦ 실제로 한 일</b>과 <b>마무리 한 문장</b>은 학교생활기록부(세특) 기록의 근거가 됩니다. 날짜·행동이 드러나게.<br>
+    5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
+  </div>
+
+  <!-- 학생 정보 -->
+  <div class="card">
+    <div class="card-hd"><span class="num">STEP 0</span> 학생 정보 (직접 입력)</div>
+    <div class="card-body">
+      <div class="grid">
+        <div class="lb">학년</div>
+        <input type="text" id="inGrade" inputmode="numeric" placeholder="예: 2">
+        <div class="lb">반</div>
+        <input type="text" id="inBan" inputmode="numeric" placeholder="예: 3">
+        <div class="lb">번호</div>
+        <input type="text" id="inNum" inputmode="numeric" placeholder="예: 5">
+        <div class="lb">이름</div>
+        <input type="text" id="inName" placeholder="본인 이름">
+      </div>
+      <div class="confirm" id="confirm">
+        <span>✓ <b id="cfName"></b> 님</span>
+        <span class="chip" id="cfId"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="formArea">
+
+    <!-- 개요 + 심화 경로 선택기 -->
+    <div class="card">
+      <div class="card-hd"><span class="num">STEP 1</span> 후속탐구 개요 — 1차에서 출발하기</div>
+      <div class="card-body">
+        <div class="grid">
+          <div class="lb">후속탐구 제목</div>
+          <input type="text" id="title" placeholder="예: 발표는 안보, 투자는 시장 — 반도체 전쟁 속 기업의 실제 선택 (나중에 바꿔도 OK)">
+          <div class="lb">1차 탐구 렌즈</div>
+          <select id="lens1">
+            <option value="">— 1차 보고서에서 쓴 이론 렌즈 —</option>
+            <option>현실주의</option>
+            <option>자유주의</option>
+            <option>구성주의</option>
+            <option>복합</option>
+          </select>
+        </div>
+        <div style="margin-top:14px;font-size:12.5px;font-weight:600;color:var(--sub)">심화 경로 선택 <span class="tgt-inline">— 하나를 고르면 추천 질문 틀이 나옵니다</span></div>
+        <div class="paths" id="paths"></div>
+        <div class="path-ex" id="pathEx"></div>
+      </div>
+    </div>
+
+    <!-- 8단계 -->
+    <div id="sections">
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">① 1차 탐구 요약</span><span class="phase-tag">출발점</span><span class="st" id="st_prior">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">1차 보고서를 3줄로: 주제 + 사용한 렌즈 + 정반합의 '합'(최종 결론). 다시 읽고 쓰세요 — 기억으로 쓰면 계기가 흐려집니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>반도체에 대해 탐구했다.</div><div class="ex-row good"><span class="tag">좋음</span>1차에서 미중 반도체 수출통제를 현실주의 안보 딜레마로 분석했다(렌즈: 현실주의). '합'으로, 한국 기업의 선택지는 강대국 경쟁 구조에 근본적으로 제약된다고 결론지었다.</div></div>
+          <textarea id="ta_prior" class="short" placeholder="주제 + 렌즈 + 최종 결론, 3줄."></textarea>
+          <div class="meter s0" id="meter_prior"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_prior">0 / 80자</span><span class="meter-fb" id="fb_prior"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">② 남은 반론·한계</span><span class="phase-tag">심장 · 심화의 근거</span><span class="st" id="st_gap">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">정반합에서 '합'이 완전히 누르지 못한 반(反)은 무엇인가? 못 본 자료, 비워둔 행위자·제도, 검증 못 한 가정을 적으세요. 여기서 후속 질문이 나옵니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>자료가 부족했고 시간이 모자랐다.</div><div class="ex-row good"><span class="tag">좋음</span>"기업은 국가 논리만 따르지 않는다"는 반론을 합에서 충분히 누르지 못했다. 기업의 실제 우회 전략(제3국 투자) 자료를 안 봤고, 수출통제 레짐 같은 제도의 역할도 비워 두었다.</div></div>
+          <textarea id="ta_gap" placeholder="합이 못 누른 반론 + 못 본 자료·행위자·제도."></textarea>
+          <div class="meter s0" id="meter_gap"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_gap">0 / 100자</span><span class="meter-fb" id="fb_gap"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">③ 후속 질문·가설</span><span class="phase-tag">설계</span><span class="st" id="st_question">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">②의 반론·한계를 검증 가능한 질문 하나로 바꾸고, 예상 답(가설)을 적기. 위 심화 경로의 추천 질문 틀을 활용하세요.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>반도체 전쟁은 앞으로 어떻게 될까?</div><div class="ex-row good"><span class="tag">좋음</span>질문: 수출통제 이후 삼성·SK의 실제 투자 배치는 안보 논리와 시장 논리 중 무엇을 더 따랐는가? 가설: 발표는 안보 논리를 따르되, 실제 투자액 배분은 시장 논리를 유지했을 것이다.</div></div>
+          <textarea id="ta_question" class="short" placeholder="질문: … / 가설: … 형태로."></textarea>
+          <div class="meter s0" id="meter_question"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_question">0 / 80자</span><span class="meter-fb" id="fb_question"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">④ 렌즈 전환·심화</span><span class="phase-tag">이론</span><span class="st" id="st_lens">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이번 후속탐구는 어떤 렌즈로 보나? 1차와 같은 렌즈를 더 깊게 쓰든, 다른 렌즈로 전환하든 — 그 렌즈가 1차에서 안 보이던 무엇을 새로 보여주는지까지 쓰세요.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>이번에는 자유주의로 보겠다.</div><div class="ex-row good"><span class="tag">좋음</span>1차의 현실주의 렌즈를 자유주의(상호의존·제도)로 전환한다. 이 렌즈는 국가 간 힘이 아니라, 공급망 상호의존의 비용과 수출통제 레짐의 규칙이 기업 행동을 어떻게 묶는지를 새로 보여준다.</div></div>
+          <textarea id="ta_lens" class="short" placeholder="이번 렌즈 + 그 렌즈가 새로 보여주는 것."></textarea>
+          <div class="meter s0" id="meter_lens"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_lens">0 / 80자</span><span class="meter-fb" id="fb_lens"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑤ 자료·방법·출처</span><span class="phase-tag">자료</span><span class="st" id="st_data">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">어떤 자료(공식 문서·통계·기사·보고서)를 어디서 구해 어떻게 분석하나? 출처(기관·매체·날짜) 필수. 1차에서 안 쓴 새 자료가 하나는 있어야 후속탐구입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>인터넷에서 자료를 찾아봤다.</div><div class="ex-row good"><span class="tag">좋음</span>미 상무부 BIS 수출통제 고시 원문(2025), 삼성·SK 분기 IR 자료의 지역별 투자액, KOTRA 공급망 보고서. 두 기업의 공식 발표문과 실제 투자액을 표로 대조 분석함.</div></div>
+          <textarea id="ta_data" placeholder="자료 + 출처 + 분석 방법. 새 자료 최소 1개."></textarea>
+          <div class="meter s0" id="meter_data"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_data">0 / 100자</span><span class="meter-fb" id="fb_data"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑥ 분석·결론</span><span class="phase-tag">본문 · 핵심</span><span class="st" id="st_analysis">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">자료를 렌즈로 분석하고(사실/해석 구분), 이번에도 남는 한계를 인정한 뒤, 1차 결론이 어떻게 수정·보강·반박되는지로 마무리. 1차와의 비교가 이 칸의 핵심입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>조사해 보니 문제가 복잡하다는 것을 알게 되었다.</div><div class="ex-row good"><span class="tag">좋음</span>IR 자료에서 대중국 투자 비중은 공식 발표와 달리 완만하게만 감소해(사실) 시장 논리가 유지되고 있음을 시사했다(해석). 다만 장비 반입 예외 승인이라는 제도 변수를 통제하지 못한 한계가 있다. 결론적으로 기업 행동은 안보와 시장의 타협이며, 1차의 현실주의 단독 결론은 수정이 필요하다.</div></div>
+          <textarea id="ta_analysis" style="min-height:180px" placeholder="분석(사실/해석) → 이번 한계 → 1차 결론의 수정·보강."></textarea>
+          <div class="meter s0" id="meter_analysis"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_analysis">0 / 200자</span><span class="meter-fb" id="fb_analysis"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑦ 실제로 한 일</span><span class="phase-tag">과정 기록 · 세특 근거</span><span class="st" id="st_work">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">날짜와 함께, 무엇을 검색·발췌·대조·계산·질문했는지 동사 중심으로. "열심히 했다"가 아니라 한 일 자체를 적습니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>자료를 열심히 찾고 정리했다.</div><div class="ex-row good"><span class="tag">좋음</span>7/10 BIS 고시 원문에서 통제 대상 품목을 발췌했고, 7/12 두 기업 IR에서 지역별 투자액 표를 만들었다. 7/15 1차 보고서의 '합' 문단과 새 자료를 대조해 결론 문장을 수정했다.</div></div>
+          <textarea id="ta_work" placeholder="날짜 + 행동(발췌·대조·계산·수정…) 순서대로."></textarea>
+          <div class="meter s0" id="meter_work"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_work">0 / 100자</span><span class="meter-fb" id="fb_work"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑧ 성찰과 확장</span><span class="phase-tag">성찰 · 확장</span><span class="st" id="st_reflect">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">계획으로 끝내지 마세요. ①생각의 변화: 1차 때와 지금, 사안을 보는 내 눈이 어떻게 달라졌나? ②확장: 새로 생긴 의문 + 다음에 확인할 자료·사례. ③진로·다른 교과와 자연스럽게 닿으면 적기(억지 X).</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>흥미로운 주제였고 앞으로 더 알아보고 싶다.</div><div class="ex-row good"><span class="tag">좋음</span>1차에서는 국가가 기업을 일방적으로 제약한다고 봤는데, 후속에서 기업이 제도의 틈을 활용하는 능동적 행위자임을 알게 됐다. 다음엔 EU의 대중국 디리스킹 사례와 비교해 레짐마다 기업의 운신 폭이 왜 다른지 확인하고 싶다.</div></div>
+          <textarea id="ta_reflect" placeholder="생각의 변화(1차↔지금) + 새로 생긴 의문 + 다음에 할 일."></textarea>
+          <div class="meter s0" id="meter_reflect"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_reflect">0 / 100자</span><span class="meter-fb" id="fb_reflect"></span></div></div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 마무리 한 문장 -->
+    <div class="card">
+      <div class="card-hd"><span class="num">마무리</span> 내 후속탐구 한 문장 <span class="tgt-inline" style="margin-left:auto">100자 이내</span></div>
+      <div class="card-body">
+        <textarea id="ta_summary" class="short" placeholder="무엇을(자료·렌즈), 어떻게(방법), 1차 결론이 어떻게 달라졌는지 — 한 문장. 예: 기업 IR 자료를 자유주의 렌즈로 대조 분석해, 1차의 현실주의 결론을 '안보와 시장의 타협'으로 수정한 후속탐구."></textarea>
+        <div class="meter s0" id="meter_summary"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_summary">0 / 50자</span><span class="meter-fb" id="fb_summary"></span></div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="foot">
+    <div class="prog-row">
+      <span class="prog-lb">작성 완료 <b id="doneCount">0</b> / 9 칸</span>
+      <div class="bar"><i id="bar" style="width:0%"></i></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-main" id="submitBtn">📤 제출하기</button>
+      <button type="button" class="btn btn-save" id="saveBtn">💾 임시저장</button>
+      <button type="button" class="btn btn-sub" id="txtBtn">📄 텍스트로 저장(.txt)</button>
+      <button type="button" class="btn btn-sub" id="clearBtn">🗑 임시저장 지우기</button>
+    </div>
+    <div class="msg" id="msg"></div>
+    <div class="local-info">💾 임시저장 = 이 기기에만 보관 (시트 전송 X) · 📤 제출 = 선생님 시트로 전송 · 마지막 저장 <b id="saveTime">—</b></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// 설정 — 배포 후 Apps Script /exec URL로 교체
+// ─────────────────────────────────────────────
+var APPS_SCRIPT_URL = 'PASTE_YOUR_APPS_SCRIPT_EXEC_URL_HERE';
+
+// 심화 경로 5종 — ex(lens)는 1차 렌즈에 맞춘 추천 질문 틀
+var OTHER_LENS = {
+  '현실주의':'자유주의(제도·상호의존)나 구성주의(정체성·인식)',
+  '자유주의':'현실주의(힘·안보)나 구성주의(정체성·인식)',
+  '구성주의':'현실주의(힘·안보)나 자유주의(제도·상호의존)',
+  '복합':'1차에서 비중이 가장 작았던 렌즈',
+  '':'다른 이론 렌즈'
+};
+var PATHS = [
+  { key:'렌즈 전환형', tag:'이론', desc:'같은 사안을 다른 이론 렌즈로 재조명 — 무엇이 새로 보이나?',
+    ex:function(l){ return '1차에서 <b>'+(l||'한 렌즈')+'</b>로 본 사안을 <b>'+OTHER_LENS[l||'']+'</b>로 다시 보면, 1차 결론의 어디가 흔들리는가?'; } },
+  { key:'반론 검증형', tag:'논증', desc:"정반합에서 '합'이 누른 반(反)을 자료로 재검증 — 내 결론이 틀릴 조건 찾기.",
+    ex:function(l){ return "1차의 '합'이 기각한 반론이 <b>옳아지는 조건</b>은 무엇인가? 그 조건이 실제 자료에서 관찰되는가?"; } },
+  { key:'사례 확장형', tag:'비교', desc:'같은 질문·렌즈를 다른 국가·지역·사례에 적용해 비교 — 일반화 가능한가?',
+    ex:function(l){ return '1차의 <b>'+(l||'')+'</b> 분석 틀을 <b>다른 사례</b>(다른 국가·시기·산업)에 적용하면 같은 결론이 나오는가? 다르다면 무엇이 그 차이를 만드는가?'; } },
+  { key:'시간축 추적형', tag:'검증', desc:'1차 이후의 사태 전개를 추적 — 내 예측·결론이 현실에서 맞았는지 확인.',
+    ex:function(l){ return '1차 보고서 제출 <b>이후의 전개</b>(뉴스·공식 발표)는 내 결론과 일치하는가? 어긋난 지점은 이론적으로 어떻게 설명되는가?'; } },
+  { key:'정책 설계형', tag:'처방', desc:'분석을 처방으로 — 행위자(한국·기업·국제기구)의 선택지를 설계하고 이론으로 정당화.',
+    ex:function(l){ return '1차 분석이 맞다면 <b>한국(또는 해당 행위자)의 최선 선택지</b>는 무엇인가? 그 처방을 <b>'+(l||'이론')+'</b> 논리로 정당화하고, 반대 렌즈의 비판에 답하라.'; } }
+];
+
+var SECTIONS = [
+  { key:'prior',    label:'① 1차 탐구 요약',   target:80,  nudge:'주제·렌즈·최종 결론이 다 들어가게.', tip:'1차 보고서를 다시 읽고 썼다면 완성!' },
+  { key:'gap',      label:'② 남은 반론·한계',  target:100, nudge:"'합'이 못 누른 반론을 구체적으로.", tip:'반론 + 못 본 자료·행위자가 보이면 완성!' },
+  { key:'question', label:'③ 후속 질문·가설',  target:80,  nudge:'질문 하나로 좁히고 가설까지.', tip:'검증 가능한 질문 + 가설이면 완성!' },
+  { key:'lens',     label:'④ 렌즈 전환·심화',  target:80,  nudge:'렌즈 + 그 렌즈가 새로 보여주는 것.', tip:'렌즈의 역할까지 썼으면 완성!' },
+  { key:'data',     label:'⑤ 자료·방법·출처',  target:100, nudge:'출처(기관·매체·날짜) + 새 자료 1개 이상.', tip:'출처 있는 새 자료 + 방법이면 완성!' },
+  { key:'analysis', label:'⑥ 분석·결론',       target:200, nudge:'사실/해석 구분 → 한계 → 1차 결론의 수정.', tip:'1차와의 비교로 끝나면 완성!' },
+  { key:'work',     label:'⑦ 실제로 한 일',    target:100, nudge:'날짜 + 동사(발췌·대조·수정…)로.', tip:'날짜·행동이 구체적이면 완성! (세특 근거)' },
+  { key:'reflect',  label:'⑧ 성찰과 확장',     target:100, nudge:'생각의 변화(1차↔지금)부터, 그다음 확장.', tip:'관점 변화 + 구체적 다음 계획이면 완성!' },
+  { key:'summary',  label:'마무리 한 문장',     target:50,  nudge:'자료·렌즈·달라진 결론을 한 문장에.', tip:'100자 이내로 압축되면 완성!' },
+];
+
+function $(id){return document.getElementById(id);}
+
+var current = null; // {grade,ban,num,name}
+var selPath = '';
+
+// ─── 심화 경로 선택기 ───
+function renderPaths(){
+  var l = $('lens1').value;
+  $('paths').innerHTML = PATHS.map(function(p){
+    return '<div class="path'+(selPath===p.key?' sel':'')+'" data-path="'+p.key+'">'+
+      '<div class="p-name">'+p.key+' <span class="p-tag">'+p.tag+'</span></div>'+
+      '<div class="p-desc">'+p.desc+'</div></div>';
+  }).join('');
+  var ex = $('pathEx');
+  var cur = null;
+  for(var i=0;i<PATHS.length;i++){ if(PATHS[i].key===selPath) cur=PATHS[i]; }
+  if(cur){
+    ex.innerHTML = '<b>추천 질문 틀 — '+cur.key+'</b><br>'+cur.ex(l)+
+      '<br><span style="font-size:11px;color:#57534E">이 틀을 ③ 후속 질문·가설에 내 사안으로 바꿔 넣으세요.</span>';
+    ex.classList.add('show');
+  } else {
+    ex.classList.remove('show');
+  }
+  document.querySelectorAll('.path').forEach(function(el){
+    el.addEventListener('click', function(){
+      selPath = el.dataset.path;
+      renderPaths(); saveLocal();
+    });
+  });
+}
+$('lens1').addEventListener('change', function(){ renderPaths(); saveLocal(); });
+
+// ─── 학생 정보 직접 입력 ───
+function readId(){
+  return { grade:$('inGrade').value.trim(), ban:$('inBan').value.trim(), num:$('inNum').value.trim(), name:$('inName').value.trim() };
+}
+function idComplete(id){ return !!(id.grade && id.ban && id.num && id.name); }
+
+function refreshLock(){
+  var id = readId();
+  if(idComplete(id)){
+    current = id;
+    $('cfName').textContent = id.name;
+    $('cfId').textContent = id.grade + '학년 ' + id.ban + '반 ' + id.num + '번';
+    $('confirm').classList.add('show');
+  } else {
+    current = null;
+    $('confirm').classList.remove('show');
+  }
+}
+['inGrade','inBan','inNum','inName'].forEach(function(fid){
+  $(fid).addEventListener('input', refreshLock);
+  $(fid).addEventListener('change', function(){ refreshLock(); if(current){ loadLocal(); updateAll(); } });
+});
+
+// ─── 저장 키 ───
+function getKey(){
+  if(!current) return '';
+  return 'ip_ft_' + current.grade + '_' + current.ban + '_' + current.num + '_' + current.name;
+}
+
+function readForm(){
+  var d = {
+    grade: current ? current.grade : '', ban: current ? current.ban : '',
+    num: current ? current.num : '', name: current ? current.name : '',
+    title: $('title').value, lens1: $('lens1').value, path: selPath
+  };
+  SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
+  return d;
+}
+
+function writeForm(d){
+  $('title').value = d.title || '';
+  $('lens1').value = d.lens1 || '';
+  selPath = d.path || '';
+  SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
+  renderPaths();
+}
+
+function saveLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    localStorage.setItem(k, JSON.stringify(readForm()));
+    var t = new Date();
+    $('saveTime').textContent = ('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2)+':'+('0'+t.getSeconds()).slice(-2);
+  }catch(e){}
+}
+
+function loadLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    var raw = localStorage.getItem(k);
+    if(raw){ writeForm(JSON.parse(raw)); $('saveTime').textContent = '(이전 임시저장 복원됨)'; }
+    else { writeForm({}); $('saveTime').textContent = '—'; }
+  }catch(e){}
+}
+
+function clearLocal(){
+  var k = getKey();
+  if(!k){ showMsg('warn','먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  if(!confirm('이 기기의 임시저장만 지워요 (제출된 시트는 안 건드림). 진행?')) return;
+  try{ localStorage.removeItem(k); }catch(e){}
+  writeForm({});
+  updateAll();
+  $('saveTime').textContent = '지움';
+}
+
+// ─── 칸별 미터 + 상태 ───
+function updateSection(s){
+  var el = $('ta_' + s.key);
+  var len = el.value.trim().length;
+  var meter = $('meter_' + s.key);
+  var bar = meter.querySelector('.meter-bar > i');
+  var ch = $('ch_' + s.key);
+  var fb = $('fb_' + s.key);
+  var st = $('st_' + s.key); // summary는 st 없음
+
+  var pct = Math.min(100, Math.round(len / s.target * 100));
+  bar.style.width = pct + '%';
+  ch.textContent = len + ' / ' + s.target + '자';
+
+  var stage, msg;
+  if(len === 0){ stage = 0; msg = ''; if(st){st.textContent='미작성'; st.className='st';} }
+  else if(len < s.target * 0.4){ stage = 1; msg = '🌱 좋은 출발! ' + s.nudge; if(st){st.textContent='작성중'; st.className='st ing';} }
+  else if(len < s.target){ stage = 2; msg = '✏️ 거의 다 왔어요. 조금만 더 구체적으로.'; if(st){st.textContent='작성중'; st.className='st ing';} }
+  else { stage = 3; msg = '✅ 분량 충분! ' + s.tip; if(st){st.textContent='✓ 완료'; st.className='st done';} }
+
+  if(s.key === 'summary' && len > 100){
+    stage = 1; msg = '⚠ 100자를 넘었어요 (' + len + '자). 더 압축해 보세요.';
+  }
+
+  meter.className = 'meter s' + stage;
+  fb.textContent = msg;
+  return len >= s.target && !(s.key === 'summary' && len > 100);
+}
+
+function updateAll(){
+  var done = 0;
+  SECTIONS.forEach(function(s){ if(updateSection(s)) done++; });
+  $('doneCount').textContent = done;
+  $('bar').style.width = Math.round(done / SECTIONS.length * 100) + '%';
+}
+
+// 입력 이벤트
+$('title').addEventListener('input', function(){ saveLocal(); });
+SECTIONS.forEach(function(s){
+  $('ta_' + s.key).addEventListener('input', function(){ updateAll(); saveLocal(); });
+});
+$('clearBtn').addEventListener('click', clearLocal);
+
+$('saveBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  saveLocal();
+  showMsg('ok', '💾 이 기기에 임시저장됐어요. (시트에 올리려면 📤 제출하기를 눌러주세요)');
+});
+
+// ─── 텍스트(.txt) 저장 ───
+function buildText(){
+  var d = readForm();
+  var L = [];
+  L.push('국제정치 — 수업연계 후속탐구 워크북');
+  L.push('──────────────────────────');
+  L.push(d.grade + '학년 ' + d.ban + '반 ' + d.num + '번 / ' + d.name);
+  L.push('후속탐구 제목: ' + (d.title || '(미작성)'));
+  L.push('1차 렌즈: ' + (d.lens1 || '(미선택)') + ' · 심화 경로: ' + (d.path || '(미선택)'));
+  L.push('작성 시각: ' + new Date().toLocaleString('ko-KR'));
+  L.push('');
+  SECTIONS.forEach(function(s){
+    L.push('【' + s.label + '】 (' + $('ta_'+s.key).value.trim().length + '자)');
+    var v = d[s.key] && d[s.key].trim();
+    L.push(v ? d[s.key] : '(미작성)');
+    L.push('');
+  });
+  return L.join('\n');
+}
+
+$('txtBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  try{
+    var blob = new Blob(['﻿' + buildText()], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = '국제정치_후속탐구_' + current.grade + '-' + current.ban + '-' + current.num + '_' + current.name + '.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+    showMsg('ok', '📄 텍스트 파일을 저장했어요. (다운로드 폴더 확인 — 제출이 안 돼도 본인 사본은 남습니다)');
+  }catch(e){ showMsg('err', '저장 실패: ' + e.message); }
+});
+
+// ─── 제출 ───
+function showMsg(type, text){
+  var m = $('msg');
+  m.className = 'msg show ' + type;
+  m.textContent = text;
+}
+
+$('submitBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  var d = readForm();
+  if(!d.title.trim()){ showMsg('warn', '후속탐구 제목을 적어주세요. 임시 제목도 괜찮아요.'); return; }
+  var anyContent = SECTIONS.some(function(s){ return d[s.key].trim().length >= 5; });
+  if(!anyContent){
+    if(!confirm('아직 작성한 칸이 없어요. 제목만 제출할까요? (나중에 이어서 추가 제출 가능)')) return;
+  }
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+    showMsg('err', '⚠ APPS_SCRIPT_URL이 설정 안 됨. 선생님께 알려주세요. (그동안 📄 텍스트로 저장으로 본인 사본을 보관하세요)');
+    return;
+  }
+
+  $('submitBtn').disabled = true;
+  $('submitBtn').textContent = '⏳ 제출 중…';
+  showMsg('warn', '서버에 전송 중… 잠시만요.');
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(Object.assign({action:'submit'}, d))
+  }).then(function(){
+    showMsg('ok', '✅ 전송했어요. 지금까지 쓴 내용이 올라갔습니다. (확인이 안 되면 📄 텍스트로 저장으로 사본을 남기고 선생님께 알려주세요.) 나머지 칸을 채워 또 제출하면 이어서 저장됩니다.');
+    saveLocal();
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 다시 제출하기 (이어서 저장)';
+  }).catch(function(err){
+    showMsg('err', '❌ 전송 실패: ' + err.message + ' — 다시 시도하거나 📄 텍스트로 저장으로 사본을 남기세요.');
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 제출하기';
+  });
+});
+
+renderPaths();
+updateAll();
+</script>
+</body>
+</html>
