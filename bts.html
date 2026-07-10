@@ -514,10 +514,10 @@ $('txtBtn').addEventListener('click', function(){
   }catch(e){ showMsg('err', '저장 실패: ' + e.message); }
 });
 
-function showMsg(type, text){
+function showMsg(type, text, isHtml){
   var m = $('msg');
   m.className = 'msg show ' + type;
-  m.textContent = text;
+  if(isHtml){ m.innerHTML = text; } else { m.textContent = text; }
 }
 
 $('submitBtn').addEventListener('click', function(){
@@ -543,7 +543,7 @@ $('submitBtn').addEventListener('click', function(){
     headers: {'Content-Type': 'text/plain;charset=utf-8'},
     body: JSON.stringify(Object.assign({action:'submit'}, d))
   }).then(function(){
-    showMsg('ok', '✅ 전송했어요. 지금까지 쓴 내용이 올라갔습니다. (확인이 안 되면 📄 텍스트로 저장으로 사본을 남기고 선생님께 알려주세요.) 나머지 칸을 채워 또 제출하면 이어서 저장됩니다.');
+    showMsg('ok', '✅ 전송했어요. 지금까지 쓴 내용이 올라갔습니다. 나머지 칸을 채워 또 제출하면 이어서 저장됩니다.<br><b>📋 마지막 한 걸음 — 수업 성찰 설문 (5분):</b> <a href="https://docs.google.com/forms/d/e/1FAIpQLSftBLYy6Houg-39BHOk3ZNCgGWjmMSLvkz7dxBoqmyOcaHbdw/viewform" target="_blank" style="color:inherit;font-weight:700;text-decoration:underline">여기를 눌러 설문하기</a>', true);
     saveLocal();
     $('submitBtn').disabled = false;
     $('submitBtn').textContent = '📤 다시 제출하기 (이어서 저장)';
