@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<base target="_top">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF7F2; --paper:#FFFFFF; --surface:#F2ECE2; --border:#E3DACB;
+  --main:#7A3B2E; --main-d:#3E1E17; --sub:#57534E; --muted:#A89F92; --text:#221A15;
+  --font-body:'Pretendard',sans-serif;
+  --font-head:'Gowun Dodum','Pretendard',sans-serif;
+  --font-data:'JetBrains Mono',monospace;
+  --r:10px; --sh:0 1px 2px rgba(34,26,21,.04),0 4px 12px rgba(34,26,21,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:var(--font-body);color:var(--text);background:var(--bg);letter-spacing:-.005em;word-break:keep-all}
+body{background-image:radial-gradient(circle,#DDD2BE 1px,transparent 1.2px);background-size:18px 18px;padding:18px}
+.wrap{max-width:1400px;margin:0 auto}
+
+.hd{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);padding:14px 20px;box-shadow:var(--sh);margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.hd h1{font-family:var(--font-head);font-weight:400;font-size:21px}
+.hd h1 b{color:var(--main);font-weight:400}
+.hd .upd{font-family:var(--font-data);font-size:11px;color:var(--muted)}
+.hd .upd b{color:var(--main)}
+.hd-right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.btn{font-family:var(--font-body);font-weight:700;font-size:12.5px;padding:7px 13px;border:1.5px solid var(--border);background:var(--paper);color:var(--text);border-radius:7px;cursor:pointer;transition:all .12s}
+.btn:hover{background:var(--surface)}
+.auto-label{font-size:11.5px;color:var(--sub);display:flex;align-items:center;gap:6px}
+
+.filterbar{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);padding:11px 18px;box-shadow:var(--sh);margin-bottom:10px;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.fb-label{font-family:var(--font-data);font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--sub);font-weight:600}
+.filterbar select,.filterbar input{font-family:var(--font-body);font-size:13px;padding:6px 10px;border:1.5px solid var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none}
+.filterbar select:focus,.filterbar input:focus{border-color:var(--main)}
+.filterbar input{width:180px}
+.fb-count{margin-left:auto;font-family:var(--font-data);font-size:11.5px;color:var(--sub)}
+.fb-count b{color:var(--main)}
+
+.board{display:grid;grid-template-columns:repeat(auto-fill,minmax(270px,1fr));gap:10px}
+.memo{border:1px solid var(--border);border-radius:8px;padding:11px 13px;background:var(--paper);cursor:pointer;transition:all .12s;position:relative;border-top:3px solid var(--main)}
+.memo:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.1)}
+.memo-top{display:flex;align-items:baseline;gap:6px;margin-bottom:5px;flex-wrap:wrap}
+.memo-name{font-weight:700;font-size:13.5px}
+.memo-id{font-family:var(--font-data);font-size:10px;color:var(--muted)}
+.memo-path{margin-left:auto;font-family:var(--font-data);font-size:9.5px;background:var(--surface);border:1px solid var(--border);color:var(--sub);padding:1px 7px;border-radius:9px;white-space:nowrap}
+.memo-lens{font-family:var(--font-data);font-size:9.5px;background:#F3EBE0;border:1px solid #D9C6B0;color:#7A3B2E;padding:1px 7px;border-radius:9px;white-space:nowrap}
+.memo-topic{font-size:12.5px;line-height:1.55;margin-bottom:5px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;font-weight:600}
+.memo-prev{font-size:11.5px;color:var(--sub);line-height:1.5;margin-bottom:6px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.memo-prev::before{content:'✎ '}
+.memo-prog{display:flex;align-items:center;gap:6px}
+.memo-bar{flex:1;height:4px;background:var(--border);border-radius:2px;overflow:hidden}
+.memo-bar > i{display:block;height:100%;background:var(--main)}
+.memo-pct{font-family:var(--font-data);font-size:10px;color:var(--sub);font-weight:600}
+.board-empty{font-size:13px;color:var(--muted);text-align:center;padding:50px 8px;background:var(--paper);border:1px solid var(--border);border-radius:var(--r)}
+.loading{text-align:center;padding:60px 20px;color:var(--muted);font-size:14px}
+
+.modal{position:fixed;inset:0;background:rgba(34,26,21,.55);display:none;align-items:flex-start;justify-content:center;z-index:100;padding:30px 16px;overflow-y:auto}
+.modal.open{display:flex}
+.modal-box{width:min(720px,100%);background:var(--paper);border-radius:14px;box-shadow:0 20px 60px rgba(0,0,0,.3)}
+.modal-hd{display:flex;align-items:center;justify-content:space-between;padding:16px 22px;border-bottom:1px solid var(--border);border-radius:14px 14px 0 0;position:sticky;top:0;background:var(--paper)}
+.modal-hd h3{font-family:var(--font-head);font-weight:400;font-size:18px}
+.modal-hd .b-tag{font-family:var(--font-data);font-size:10px;padding:2px 7px;border-radius:4px;color:#fff;background:var(--main);margin-left:8px;letter-spacing:.08em}
+.modal-close{background:var(--surface);border:1px solid var(--border);color:var(--sub);width:30px;height:30px;border-radius:7px;cursor:pointer;font-size:15px}
+.modal-body{padding:18px 22px 24px}
+.m-sec{margin-bottom:16px}
+.m-sec-t{font-family:var(--font-data);font-size:10.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--main);font-weight:600;margin-bottom:6px;padding-bottom:3px;border-bottom:1px solid var(--border)}
+.m-kv{font-size:13px;line-height:1.7;margin-bottom:6px}
+.m-kv b{color:var(--sub)}
+.m-kv .v{color:var(--text)}
+.m-section{background:#FBF9F5;border-left:3px solid var(--main);border-radius:0 6px 6px 0;padding:10px 13px;margin-bottom:8px}
+.m-section .sec-t{font-weight:700;font-size:13px;color:var(--main);margin-bottom:5px}
+.m-section .sec-c{font-size:13px;line-height:1.75;color:var(--text);white-space:pre-wrap}
+.m-section .sec-c.empty{color:var(--muted);font-style:italic}
+.m-setuk{background:#FFF7ED;border:1.5px solid #FB923C;border-radius:8px;padding:12px 14px;font-size:13px;line-height:1.8}
+.m-setuk-t{font-family:var(--font-data);font-size:10px;letter-spacing:.12em;color:#C2410C;font-weight:700;margin-bottom:5px;text-transform:uppercase}
+.m-copy{margin-top:8px;font-family:var(--font-body);font-weight:700;font-size:12px;padding:6px 12px;border:1px solid #C2410C;background:#fff;color:#C2410C;border-radius:6px;cursor:pointer}
+.m-copy:hover{background:#C2410C;color:#fff}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="hd">
+    <h1>🎲 Beyond the Screen <b>학급 보드</b></h1>
+    <span class="upd">마지막 갱신 <b id="updTime">—</b></span>
+    <div class="hd-right">
+      <span class="auto-label"><input type="checkbox" id="autoChk" checked> 30초 자동 갱신</span>
+      <button class="btn" id="reloadBtn" type="button">⟳ 지금 갱신</button>
+    </div>
+  </div>
+
+  <div class="filterbar">
+    <span class="fb-label">반</span>
+    <select id="banFilter"><option value="">전체 반</option></select>
+    <span class="fb-label">전공 모둠</span>
+    <select id="pathFilter"><option value="">전체 전공</option></select>
+    <span class="fb-label">이름</span>
+    <input type="text" id="nameSearch" placeholder="학생 이름…">
+    <span class="fb-count" id="fbCount"></span>
+  </div>
+
+  <div id="boardWrap">
+    <div class="loading" id="loading">학생 카드를 불러오는 중…</div>
+    <div class="board" id="board" style="display:none;"></div>
+    <div class="board-empty" id="boardEmpty" style="display:none;">표시할 학생이 없어요</div>
+  </div>
+</div>
+
+<div class="modal" id="modal">
+  <div class="modal-box">
+    <div class="modal-hd">
+      <h3 id="mTitle">학생</h3>
+      <button class="modal-close" id="mClose" type="button">✕</button>
+    </div>
+    <div class="modal-body" id="mBody"></div>
+  </div>
+</div>
+
+<script>
+var URL_BAN = '<?= banParam ?>';
+var STORE_KEY = 'bts_board_ban';
+var DATA = null;
+
+function esc(s){return String(s==null?'':s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');}
+function nl(s){return esc(s).replace(/\n/g,'<br>');}
+
+function fillFilters(){
+  var bans = {}, paths = {};
+  (DATA.activities||[]).forEach(function(a){
+    if(a.ban) bans[a.ban]=1;
+    if(a.major) paths[a.major]=1;
+  });
+  var bf=document.getElementById('banFilter'), pf=document.getElementById('pathFilter');
+  var bv=bf.value, pv=pf.value;
+  bf.innerHTML='<option value="">전체 반</option>'+Object.keys(bans).sort(function(a,b){return +a-+b;}).map(function(b){return '<option value="'+esc(b)+'">'+esc(b)+'반</option>';}).join('');
+  pf.innerHTML='<option value="">전체 전공</option>'+Object.keys(paths).sort().map(function(t){return '<option value="'+esc(t)+'">'+esc(t)+'</option>';}).join('');
+  bf.value=bv; pf.value=pv;
+}
+
+function render(){
+  if(!DATA) return;
+  document.getElementById('loading').style.display='none';
+  fillFilters();
+  var board=document.getElementById('board');
+  document.getElementById('updTime').textContent=DATA.updatedAt;
+
+  var bf=document.getElementById('banFilter').value;
+  var pf=document.getElementById('pathFilter').value;
+  var ns=(document.getElementById('nameSearch').value||'').trim();
+
+  var list=(DATA.activities||[]).filter(function(a){
+    if(bf && String(a.ban||'').trim()!==bf) return false;
+    if(pf && String(a.major||'').trim()!==pf) return false;
+    if(ns && String(a.name||'').indexOf(ns)<0) return false;
+    return true;
+  });
+
+  var total=(DATA.activities||[]).length;
+  document.getElementById('fbCount').innerHTML='제출 <b>'+total+'</b>명 · 표시 <b>'+list.length+'</b>건';
+
+  if(list.length===0){
+    board.style.display='none';
+    document.getElementById('boardEmpty').style.display='block';
+    return;
+  }
+  document.getElementById('boardEmpty').style.display='none';
+  board.style.display='grid';
+
+  board.innerHTML=list.map(function(a){
+    return '<div class="memo" data-key="'+esc(a.key)+'">'+
+      '<div class="memo-top"><span class="memo-name">'+esc(a.name)+'</span>'+
+      '<span class="memo-id">'+esc(a.grade)+'-'+esc(a.ban)+'-'+esc(a.num)+'</span>'+
+      (a.keyword?'<span class="memo-lens">'+esc(a.keyword)+'</span>':'')+
+      (a.major?'<span class="memo-path">'+esc(a.major)+'</span>':'')+'</div>'+
+      '<div class="memo-topic">'+esc(a.title)+'</div>'+
+      (a.summary_preview?'<div class="memo-prev">'+esc(a.summary_preview)+'</div>':'')+
+      '<div class="memo-prog"><div class="memo-bar"><i style="width:'+a.progress+'%"></i></div>'+
+      '<span class="memo-pct">'+a.progress+'%</span></div>'+
+    '</div>';
+  }).join('');
+
+  board.querySelectorAll('.memo[data-key]').forEach(function(el){
+    el.addEventListener('click',function(){openDetail(el.dataset.key);});
+  });
+}
+
+function load(){
+  google.script.run.withSuccessHandler(function(data){
+    DATA=data;
+    if(URL_BAN){
+      document.getElementById('banFilter').value=URL_BAN;
+    } else {
+      try{
+        var saved=localStorage.getItem(STORE_KEY);
+        if(saved) document.getElementById('banFilter').value=saved;
+      }catch(e){}
+    }
+    render();
+  }).withFailureHandler(function(err){
+    document.getElementById('loading').textContent='불러오기 실패: '+err.message+' — 권한 승인 확인';
+  }).getBoardData();
+}
+
+function openDetail(key){
+  google.script.run.withSuccessHandler(showModal).getStudentDetail(key);
+}
+
+function showModal(rec){
+  if(!rec) return;
+  document.getElementById('mTitle').innerHTML=
+    esc(rec.name)+' <span class="b-tag">'+esc(rec.grade)+'학년 '+esc(rec.ban)+'반 '+esc(rec.num)+'번</span>';
+
+  function kv(k,v){v=String(v||'').trim();return v?'<div class="m-kv"><b>'+k+':</b> <span class="v">'+nl(v)+'</span></div>':'';}
+  function sec(t,c){
+    var v=String(c||'').trim();
+    return '<div class="m-section"><div class="sec-t">'+t+'</div>'+
+      '<div class="sec-c'+(v?'':' empty')+'">'+(v?nl(v):'(미작성)')+'</div></div>';
+  }
+
+  var html='';
+  html+='<div class="m-sec"><div class="m-sec-t">개요</div>'+
+    kv('제목',rec.title)+kv('전공 모둠',rec.major)+kv('이론 렌즈',rec.lens1)+kv('네 개의 열쇠',rec.keyword)+kv('한 문장 요약',rec.summary)+kv('제출일시',rec.ts)+'</div>';
+
+  html+='<div class="m-sec"><div class="m-sec-t">8칸</div>'+
+    sec('① 활동 개요와 내 역할',rec.overview)+
+    sec('② 기억에 남는 세션 장면',rec.scene)+
+    sec('③ 이론 렌즈로 해석하기',rec.lens)+
+    sec('④ 경험경제·연대의 역설',rec.economy)+
+    sec('⑤ 전공 연계 글쓰기 요약',rec.essay)+
+    sec('⑥ 생각의 변화 (전→후)',rec.change)+
+    sec('⑦ 실제로 한 일',rec.work)+
+    sec('⑧ 한 문장 요약',rec.summary)+'</div>';
+
+  html+='<div class="m-sec"><div class="m-setuk"><div class="m-setuk-t">자동 생성 세특 초안 — 다듬어서 NEIS에</div>'+
+    '<span id="setukText">'+nl(rec.setuk||'(메뉴에서 세특 초안 생성하세요)')+'</span>'+
+    '<br><button class="m-copy" id="copySetuk" type="button">📋 세특 초안 복사</button></div></div>';
+
+  document.getElementById('mBody').innerHTML=html;
+  document.getElementById('modal').classList.add('open');
+
+  var cp=document.getElementById('copySetuk');
+  if(cp) cp.addEventListener('click',function(){
+    var t=rec.setuk||'';
+    try{navigator.clipboard.writeText(t);cp.textContent='✓ 복사됨!';
+      setTimeout(function(){cp.textContent='📋 세특 초안 복사';},2000);
+    }catch(e){
+      var ta=document.createElement('textarea');ta.value=t;document.body.appendChild(ta);
+      ta.select();document.execCommand('copy');document.body.removeChild(ta);
+      cp.textContent='✓ 복사됨!';
+    }
+  });
+}
+
+document.getElementById('mClose').addEventListener('click',function(){document.getElementById('modal').classList.remove('open');});
+document.getElementById('modal').addEventListener('click',function(e){if(e.target.id==='modal') document.getElementById('modal').classList.remove('open');});
+document.getElementById('reloadBtn').addEventListener('click',load);
+
+document.getElementById('banFilter').addEventListener('change',function(){
+  try{localStorage.setItem(STORE_KEY,this.value);}catch(e){}
+  render();
+});
+document.getElementById('pathFilter').addEventListener('change',render);
+document.getElementById('nameSearch').addEventListener('input',render);
+
+var autoTimer=null;
+function setAuto(on){
+  if(autoTimer){clearInterval(autoTimer);autoTimer=null;}
+  if(on) autoTimer=setInterval(load,30000);
+}
+document.getElementById('autoChk').addEventListener('change',function(){setAuto(this.checked);});
+
+load();
+setAuto(true);
+</script>
+</body>
+</html>
