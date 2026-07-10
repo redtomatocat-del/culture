@@ -128,7 +128,7 @@ function fillFilters(){
   var bans = {}, paths = {};
   (DATA.activities||[]).forEach(function(a){
     if(a.ban) bans[a.ban]=1;
-    if(a.keyword) paths[a.keyword]=1;
+    String(a.keyword||'').split(',').forEach(function(k){k=k.trim();if(k)paths[k]=1;});
   });
   var bf=document.getElementById('banFilter'), pf=document.getElementById('pathFilter');
   var bv=bf.value, pv=pf.value;
@@ -150,7 +150,7 @@ function render(){
 
   var list=(DATA.activities||[]).filter(function(a){
     if(bf && String(a.ban||'').trim()!==bf) return false;
-    if(pf && String(a.keyword||'').trim()!==pf) return false;
+    if(pf && String(a.keyword||'').split(',').map(function(k){return k.trim();}).indexOf(pf)<0) return false;
     if(ns && String(a.name||'').indexOf(ns)<0) return false;
     return true;
   });

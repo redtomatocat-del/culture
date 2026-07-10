@@ -39,6 +39,16 @@ body{padding:18px 16px;background-image:radial-gradient(circle,#DDD2BE 1px,trans
 .grid .lb{font-size:12.5px;font-weight:600;color:var(--sub)}
 .grid select,.grid input{width:100%;font-family:var(--font-body);font-size:13.5px;padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none;transition:border-color .12s}
 .grid select:focus,.grid input:focus{border-color:var(--main)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0}
+.chip-t{font-size:12px;padding:5px 11px;border:1.5px solid var(--border);border-radius:15px;cursor:pointer;user-select:none;background:var(--paper);color:var(--sub);transition:all .12s}
+.chip-t:hover{border-color:var(--main)}
+.chip-t.on{background:var(--main);border-color:var(--main);color:#fff;font-weight:700}
+.addrow{display:flex;gap:6px;margin-top:6px}
+.addrow input{flex:1;font-family:var(--font-body);font-size:12.5px;padding:7px 10px;border:1.5px dashed var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none}
+.addrow button{font-family:var(--font-body);font-size:12px;font-weight:700;padding:7px 13px;border:none;border-radius:7px;background:var(--main-d);color:#fff;cursor:pointer}
+.comp-ref{background:#F5EFE6;border:1px dashed #C9B396;border-radius:7px;padding:9px 12px;margin-bottom:9px;font-size:11.5px;line-height:2;color:#6B5335}
+.comp-ref b{color:var(--main-d)}
+.comp-ref span{display:inline-block;background:#fff;border:1px solid #D9C6B0;border-radius:10px;padding:1px 8px;margin:0 3px 0 0;font-size:11px;color:#7A3B2E;white-space:nowrap}
 .tgt-inline{font-family:var(--font-data);font-size:10.5px;font-weight:500;color:var(--muted)}
 
 .confirm{margin-top:12px;display:none;align-items:center;gap:8px;background:var(--good-bg);color:var(--good-tx);border:1px solid #D9C6B0;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600}
@@ -159,22 +169,13 @@ textarea.short{min-height:70px}
           <input type="text" id="major" placeholder="예: 사회학, 경영학, 심리학, 미디어커뮤니케이션 …">
           <div class="lb">내 기록의 제목</div>
           <input type="text" id="title" placeholder="예: 실패한 주사위가 만든 이야기 — 고프만으로 읽은 우리 테이블">
-          <div class="lb">이론 렌즈</div>
-          <select id="lens1">
-            <option value="">— Day 2에서 고른 이론 —</option>
-            <option>상징적 상호작용론(미드·블루머)</option>
-            <option>연극론적 접근(고프만)</option>
-            <option>민속방법론(가핑켈)</option>
-            <option>구조화 이론(기든스)</option>
-          </select>
-          <div class="lb">네 개의 열쇠</div>
-          <select id="keyword">
-            <option value="">— 내 삶에 가장 필요한 개념 —</option>
-            <option>주체성(Agency)</option>
-            <option>타자(The Other)</option>
-            <option>상호작용(Interaction)</option>
-            <option>규칙(Rules)</option>
-          </select>
+          <div class="lb">이론 렌즈<br><span style="font-weight:400;font-size:10.5px;color:var(--muted)">(복수 선택 가능)</span></div>
+          <div class="chips" id="lensChips"></div>
+          <div class="lb">내 삶에 필요한 개념<br><span style="font-weight:400;font-size:10.5px;color:var(--muted)">(복수 선택 + 직접 추가)</span></div>
+          <div>
+            <div class="chips" id="keyChips"></div>
+            <div class="addrow"><input type="text" id="keyCustom" placeholder="목록에 없는 개념 직접 추가 (예: 인정 욕구)"><button type="button" id="keyAddBtn">+ 추가</button></div>
+          </div>
         </div>
       </div>
     </div>
@@ -229,7 +230,8 @@ textarea.short{min-height:70px}
       <div class="phase">
         <div class="phase-hd"><span class="ttl">⑤ 실제로 한 일</span><span class="phase-tag">과정 기록 · 세특 근거</span><span class="st" id="st_work">미작성</span></div>
         <div class="phase-body">
-          <div class="guide">이틀 동안 실제로 한 행동을 동사 중심으로: 무엇을 읽고·추론하고·묘사하고·조사하고·썼는지. "열심히 했다"가 아니라 한 일 자체를 순서대로.</div>
+          <div class="guide">이틀 동안 실제로 한 행동을 동사 중심으로: 무엇을 읽고·추론하고·묘사하고·조사하고·발표하고·썼는지. "열심히 했다"가 아니라 한 일 자체를 순서대로. 아래 핵심역량 중 내 행동에 드러난 것을 골라, 역량 이름이 아니라 <b>그 역량이 보이는 행동</b>으로 쓰세요.</div>
+          <div class="comp-ref"><b>💡 핵심역량 참고</b> — <span>비판적 사고</span><span>창의적 문제해결</span><span>의사소통</span><span>협업</span><span>공감·대인관계</span><span>회복탄력성(실패 관리)</span><span>주도성·리더십</span><span>정보·자료 활용</span><span>갈등 조정</span><span>분석적 추론</span><span>상상력·서사 구성</span><span>자기 성찰</span> 예: "실패 관리" → "주사위가 연달아 망했을 때 계획을 버리고 즉석에서 우회 전략을 제안했다"</div>
           <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>수업에 열심히 참여하고 활동지를 다 채웠다.</div><div class="ex-row good"><span class="tag">좋음</span>Day 1에 영문 지문에서 hobbyist·outcome 등의 뜻을 문맥으로 추론해 사실표를 채웠고, 캐릭터의 배경 이야기를 3문장으로 썼다. Day 2에는 모둠 조사에서 공연예술 통계 출처를 확인했고, WEF 역량 10개 중 AI와 겹치지 않는 항목을 골라 논증에 인용했으며, 지식 질문 개요를 짜서 본문을 완성했다.</div></div>
           <textarea id="ta_work" placeholder="Day 1 / Day 2로 나눠 동사 중심으로."></textarea>
           <div class="meter s0" id="meter_work"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_work">0 / 100자</span><span class="meter-fb" id="fb_work"></span></div></div>
@@ -241,7 +243,7 @@ textarea.short{min-height:70px}
       <div class="phase">
         <div class="phase-hd"><span class="ttl">⑥ 지식 질문과 나의 주장</span><span class="phase-tag">지식질문 · 주장</span><span class="st" id="st_essay">미작성</span></div>
         <div class="phase-body">
-          <div class="guide">Day 2 Part 4에서 세운 지식 질문("~은 어느 정도까지 ~할 수 있는가?")과 내 글의 주장·근거를 요약하세요. 어떤 제시문을 인용했고 어떤 체험을 근거로 썼는지 포함.</div>
+          <div class="guide">Day 2 Part 4에서 세운 지식 질문("~은 어느 정도까지 ~할 수 있는가?")과 글·발표로 정리한 주장·근거를 요약하세요. 어떤 제시문을 인용했고 어떤 체험을 근거로 들었는지, 발표에서 말한 내용도 여기에 포함.</div>
           <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>주제를 하나 정해서 글을 썼다.</div><div class="ex-row good"><span class="tag">좋음</span>지식 질문: "브랜드는 어느 정도까지 경험을 설계할 수 있는가?" 경험경제 제시문(다)과 하위징아(가)를 인용해, 기업이 팔 수 있는 것은 무대까지이고 그 위에서 벌어지는 상호작용은 참여자가 완성한다고 주장했다. 근거로는 같은 규칙인데 테이블마다 다른 이야기가 나온 우리 세션 경험을 들었다.</div></div>
           <textarea id="ta_essay" placeholder="주제어 + 지식 질문 + 주장 + 인용한 제시문·체험 근거."></textarea>
           <div class="meter s0" id="meter_essay"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_essay">0 / 120자</span><span class="meter-fb" id="fb_essay"></span></div></div>
@@ -305,6 +307,8 @@ textarea.short{min-height:70px}
 // ─────────────────────────────────────────────
 // 설정 — 배포 후 Apps Script /exec URL로 교체
 // ─────────────────────────────────────────────
+var LENSES = ['상징적 상호작용론(미드·블루머)','연극론적 접근(고프만)','민속방법론(가핑켈)','구조화 이론(기든스)'];
+var CONCEPTS = ['주체성(Agency)','타자(The Other)','상호작용(Interaction)','규칙(Rules)','연대(Solidarity)','신뢰(Trust)','협력(Cooperation)','실패와 우연','서사(이야기)','몰입(Immersion)','역할(Role)','인상 관리(무대)','공동체','놀이(Play)','공감(Empathy)','경험(Experience)'];
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3W5rVALhCi07EgZdOWM2eddBOKidSpsm5W_IqfEuSFtt5FJjVTjhPgVIB3FUWc94Y/exec';
 
 var SECTIONS = [
@@ -312,7 +316,7 @@ var SECTIONS = [
   { key:'scene',     label:'② 기억에 남는 세션 장면',  target:100, nudge:'누가·무엇을·주사위·그래서 벌어진 일 + 생긴 질문.', tip:'장면 + 질문이 보이면 완성!' },
   { key:'archetype', label:'③ 문화 원형으로 비교하기', target:120, nudge:'두 문화의 원형을 짝지어 공통점·차이점을.', tip:'비교(닮음+다름)가 보이면 완성!' },
   { key:'theory',    label:'④ 사회를 보는 이론과 접근', target:120, nudge:'개념어 2개 이상 + 경험경제·연대의 역설 연결.', tip:'이론과 조사가 이어지면 완성!' },
-  { key:'work',      label:'⑤ 실제로 한 일',          target:100, nudge:'Day 1/2로 나눠 동사 중심으로.', tip:'행동이 순서대로 보이면 완성! (세특 근거)' },
+  { key:'work',      label:'⑤ 실제로 한 일',          target:100, nudge:'Day 1/2로 나눠 동사 중심 + 역량이 보이는 행동으로.', tip:'행동과 역량이 함께 보이면 완성! (세특 근거)' },
   { key:'essay',     label:'⑥ 지식 질문과 나의 주장',  target:120, nudge:'지식 질문 + 주장 + 인용·체험 근거.', tip:'질문-주장-근거가 이어지면 완성!' },
   { key:'change',    label:'⑦ 생각의 변화 (전→후)',   target:100, nudge:'전↔후 대비 + 변화의 계기.', tip:'무엇이 바꿨는지 계기가 보이면 완성!' },
   { key:'thought',   label:'⑧ 나의 생각과 경험담',     target:100, nudge:'솔직한 경험담이면 충분 — 잘 쓰려 하지 말기.', tip:'내 목소리가 들리면 완성!' },
@@ -345,6 +349,43 @@ function refreshLock(){
   $(fid).addEventListener('change', function(){ refreshLock(); if(current){ loadLocal(); updateAll(); } });
 });
 
+function renderChips(boxId, items, cls){
+  var box = document.getElementById(boxId);
+  items.forEach(function(v){
+    if([].slice.call(box.children).some(function(c){return c.dataset.v===v;})) return;
+    var el = document.createElement('span');
+    el.className = 'chip-t'; el.textContent = v; el.dataset.v = v;
+    el.addEventListener('click', function(){ el.classList.toggle('on'); saveLocal(); });
+    box.appendChild(el);
+  });
+}
+function chipValues(boxId){
+  return [].slice.call(document.getElementById(boxId).children)
+    .filter(function(c){return c.classList.contains('on');})
+    .map(function(c){return c.dataset.v;}).join(', ');
+}
+function setChipValues(boxId, str, baseItems){
+  var vals = String(str||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+  // 목록에 없는 값(직접 추가분)은 칩으로 생성
+  var extra = vals.filter(function(v){ return baseItems.indexOf(v) < 0; });
+  if(extra.length) renderChips(boxId, extra);
+  [].slice.call(document.getElementById(boxId).children).forEach(function(c){
+    c.classList.toggle('on', vals.indexOf(c.dataset.v) >= 0);
+  });
+}
+renderChips('lensChips', LENSES);
+renderChips('keyChips', CONCEPTS);
+document.getElementById('keyAddBtn').addEventListener('click', function(){
+  var inp = document.getElementById('keyCustom');
+  var v = inp.value.trim();
+  if(!v) return;
+  renderChips('keyChips', [v]);
+  var box = document.getElementById('keyChips');
+  [].slice.call(box.children).forEach(function(c){ if(c.dataset.v===v) c.classList.add('on'); });
+  inp.value = '';
+  saveLocal();
+});
+
 function getKey(){
   if(!current) return '';
   return 'bts_' + current.grade + '_' + current.ban + '_' + current.num + '_' + current.name;
@@ -354,7 +395,7 @@ function readForm(){
   var d = {
     grade: current ? current.grade : '', ban: current ? current.ban : '',
     num: current ? current.num : '', name: current ? current.name : '',
-    title: $('title').value, major: $('major').value, lens1: $('lens1').value, keyword: $('keyword').value
+    title: $('title').value, major: $('major').value, lens1: chipValues('lensChips'), keyword: chipValues('keyChips')
   };
   SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
   return d;
@@ -363,8 +404,8 @@ function readForm(){
 function writeForm(d){
   $('title').value = d.title || '';
   $('major').value = d.major || '';
-  $('lens1').value = d.lens1 || '';
-  $('keyword').value = d.keyword || '';
+  setChipValues('lensChips', d.lens1, LENSES);
+  setChipValues('keyChips', d.keyword, CONCEPTS);
   SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
 }
 
@@ -429,9 +470,6 @@ function updateAll(){
 
 $('title').addEventListener('input', function(){ saveLocal(); });
 $('major').addEventListener('input', function(){ saveLocal(); });
-['lens1','keyword'].forEach(function(id){
-  $(id).addEventListener('change', function(){ saveLocal(); });
-});
 SECTIONS.forEach(function(s){
   $('ta_' + s.key).addEventListener('input', function(){ updateAll(); saveLocal(); });
 });
