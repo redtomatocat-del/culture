@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>Beyond the Screen — 생기부 기록 워크북</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF7F2; --paper:#FFFFFF; --surface:#F2ECE2; --border:#E3DACB;
+  --main:#7A3B2E; --main-d:#3E1E17; --topic:#A05A3F;
+  --sub:#57534E; --muted:#A89F92; --text:#221A15;
+  --guide-bg:#FAEEDA; --guide-tx:#854F0B;
+  --weak-bg:#FBEAE8; --weak-tx:#9C3B30; --good-bg:#F3EBE0; --good-tx:#7A3B2E;
+  --font-body:'Pretendard',sans-serif;
+  --font-head:'Gowun Dodum','Pretendard',sans-serif;
+  --font-data:'JetBrains Mono',monospace;
+  --r:10px; --sh:0 1px 2px rgba(34,26,21,.04),0 4px 12px rgba(34,26,21,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:var(--font-body);color:var(--text);background:var(--bg);letter-spacing:-.005em;word-break:keep-all}
+body{padding:18px 16px;background-image:radial-gradient(circle,#DDD2BE 1px,transparent 1.2px);background-size:18px 18px}
+.wrap{max-width:840px;margin:0 auto}
+
+.hd{background:var(--main-d);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:18px 22px;box-shadow:var(--sh)}
+.hd h1{font-family:var(--font-head);font-weight:400;font-size:22px;margin-bottom:4px}
+.hd p{font-size:12.5px;opacity:.85;line-height:1.6}
+
+.note{background:#FFF7ED;border-left:4px solid #C2410C;border-radius:0 8px 8px 0;padding:11px 14px;margin:14px 0;font-size:12.5px;line-height:1.65;color:#6B2E0A}
+.note b{color:#C2410C}
+
+.card{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.card-hd{background:var(--topic);color:#fff;padding:10px 18px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.card-hd .num{font-family:var(--font-data);font-size:11px;background:rgba(255,255,255,.18);padding:2px 7px;border-radius:4px}
+.card-body{padding:14px 18px}
+
+.grid{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;align-items:center}
+.grid .lb{font-size:12.5px;font-weight:600;color:var(--sub)}
+.grid select,.grid input{width:100%;font-family:var(--font-body);font-size:13.5px;padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none;transition:border-color .12s}
+.grid select:focus,.grid input:focus{border-color:var(--main)}
+.tgt-inline{font-family:var(--font-data);font-size:10.5px;font-weight:500;color:var(--muted)}
+
+.confirm{margin-top:12px;display:none;align-items:center;gap:8px;background:var(--good-bg);color:var(--good-tx);border:1px solid #D9C6B0;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600}
+.confirm.show{display:flex}
+.confirm .chip{font-family:var(--font-data);font-size:11px;background:#fff;border:1px solid #D9C6B0;border-radius:5px;padding:2px 8px;font-weight:500}
+
+.phase{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.phase-hd{background:var(--main);color:#fff;padding:11px 18px;display:flex;align-items:center;gap:10px}
+.phase-hd .ttl{font-weight:700;font-size:14px}
+.phase-hd .phase-tag{font-family:var(--font-data);font-size:10px;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:4px;letter-spacing:.03em}
+.phase-hd .st{margin-left:auto;font-family:var(--font-data);font-size:10.5px;padding:2px 9px;border-radius:10px;background:rgba(255,255,255,.16);font-weight:500}
+.phase-hd .st.done{background:#E4C9A8;color:#4A2A15}
+.phase-hd .st.ing{background:#F4D58A;color:#7A5B12}
+.phase-body{padding:14px 18px}
+
+.guide{background:var(--guide-bg);color:var(--guide-tx);padding:10px 13px;border-radius:7px;font-size:12px;line-height:1.65;margin-bottom:9px;font-style:italic}
+
+.ex-body{padding:0 0 9px;display:flex;flex-direction:column;gap:9px}
+.ex-row{font-size:12.5px;line-height:1.6;border-radius:7px;padding:9px 12px}
+.ex-row.weak{background:var(--weak-bg);color:var(--weak-tx)}
+.ex-row.good{background:var(--good-bg);color:var(--good-tx)}
+.ex-row .tag{display:inline-block;font-family:var(--font-data);font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;margin-right:7px;vertical-align:middle}
+.ex-row.weak .tag{background:#E9A89F;color:#7A271B}
+.ex-row.good .tag{background:#E4C9A8;color:#4A2A15}
+
+textarea{width:100%;font-family:var(--font-body);font-size:13.5px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;background:var(--paper);color:var(--text);outline:none;resize:vertical;min-height:120px;line-height:1.7;transition:border-color .12s}
+textarea:focus{border-color:var(--main)}
+textarea.short{min-height:70px}
+
+.meter{margin-top:7px}
+.meter-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.meter-bar > i{display:block;height:100%;width:0%;background:var(--muted);border-radius:3px;transition:width .25s,background .25s}
+.meter-row{display:flex;align-items:center;gap:8px}
+.meter-ch{font-family:var(--font-data);font-size:10.5px;color:var(--muted);min-width:90px}
+.meter-fb{font-size:12px;line-height:1.4;flex:1}
+.meter.s0 .meter-bar > i{background:var(--muted)}
+.meter.s1 .meter-bar > i{background:#E0A93B}
+.meter.s2 .meter-bar > i{background:#B77A4C}
+.meter.s3 .meter-bar > i{background:var(--main)}
+.meter.s0 .meter-fb{color:var(--muted)}
+.meter.s1 .meter-fb{color:#9A6B12}
+.meter.s2 .meter-fb{color:#8A5A2E}
+.meter.s3 .meter-fb{color:var(--main);font-weight:600}
+
+.foot{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-top:14px}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-lb{font-size:12px;color:var(--sub);font-weight:600;min-width:96px}
+.prog-lb b{color:var(--main)}
+.bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--main);transition:width .25s}
+
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:var(--font-body);font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;cursor:pointer;border:1.5px solid;transition:all .12s}
+.btn-main{background:var(--main);color:#fff;border-color:var(--main)}
+.btn-main:hover{background:var(--main-d);border-color:var(--main-d)}
+.btn-main:disabled{background:var(--muted);border-color:var(--muted);cursor:not-allowed}
+.btn-save{background:#FFF7ED;color:#9A6B12;border-color:#F4D58A}
+.btn-save:hover{background:#FCEFD6}
+.btn-sub{background:var(--paper);color:var(--sub);border-color:var(--border)}
+.btn-sub:hover{background:var(--surface)}
+
+.msg{margin-top:10px;font-size:12.5px;padding:9px 12px;border-radius:7px;display:none;line-height:1.55}
+.msg.show{display:block}
+.msg.ok{background:#ECFDF5;color:#065F46;border:1px solid #6EE7B7}
+.msg.err{background:#FEF2F2;color:#991B1B;border:1px solid #FCA5A5}
+.msg.warn{background:#FFFBEB;color:#92400E;border:1px solid #FCD34D}
+
+.local-info{font-size:11.5px;color:var(--muted);font-family:var(--font-data);margin-top:8px}
+.local-info b{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hd">
+    <h1>🎲 BEYOND THE SCREEN — 생기부 기록 워크북</h1>
+    <p>이틀의 체험(TRPG 세션·이론·논증·글쓰기)을 <b>학교생활기록부의 사실 근거</b>로 남깁니다. 8칸을 차례로 채우고 제출하세요. · 자동 임시저장 · 여러 번 제출 OK(이어서 저장)</p>
+  </div>
+
+  <div class="note">
+    <b>📝 작성 안내</b><br>
+    1) <b>학년·반·번호·이름</b>을 정확히 입력하세요. (이 정보로 임시저장·제출이 구분됩니다)<br>
+    2) 학습지(Day 1·2)를 옆에 펴 놓고 옮기세요 — 기억이 아니라 <b>기록에서</b> 출발하는 것이 정확합니다.<br>
+    3) 모든 칸은 "누가·무엇을·그래서"가 드러나게. "재미있었다"는 생기부에 못 실립니다.<br>
+    4) <b>⑦ 실제로 한 일</b>과 <b>⑧ 한 문장 요약</b>이 세특 문장의 뼈대가 됩니다. 구체적으로.<br>
+    5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
+  </div>
+
+  <!-- 학생 정보 -->
+  <div class="card">
+    <div class="card-hd"><span class="num">STEP 0</span> 학생 정보 (직접 입력)</div>
+    <div class="card-body">
+      <div class="grid">
+        <div class="lb">학년</div>
+        <input type="text" id="inGrade" inputmode="numeric" placeholder="예: 2">
+        <div class="lb">반</div>
+        <input type="text" id="inBan" inputmode="numeric" placeholder="예: 3">
+        <div class="lb">번호</div>
+        <input type="text" id="inNum" inputmode="numeric" placeholder="예: 5">
+        <div class="lb">이름</div>
+        <input type="text" id="inName" placeholder="본인 이름">
+      </div>
+      <div class="confirm" id="confirm">
+        <span>✓ <b id="cfName"></b> 님</span>
+        <span class="chip" id="cfId"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="formArea">
+
+    <!-- 개요 선택 -->
+    <div class="card">
+      <div class="card-hd"><span class="num">STEP 1</span> 나의 탐구 개요</div>
+      <div class="card-body">
+        <div class="grid">
+          <div class="lb">내 기록의 제목</div>
+          <input type="text" id="title" placeholder="예: 실패한 주사위가 만든 이야기 — 고프만으로 읽은 우리 테이블">
+          <div class="lb">전공 모둠</div>
+          <select id="major">
+            <option value="">— 선택 —</option>
+            <option>영문</option>
+            <option>미디어</option>
+            <option>경영</option>
+            <option>정외</option>
+            <option>경제</option>
+          </select>
+          <div class="lb">이론 렌즈</div>
+          <select id="lens1">
+            <option value="">— Day 2에서 고른 이론 —</option>
+            <option>상징적 상호작용론(미드·블루머)</option>
+            <option>연극론적 접근(고프만)</option>
+            <option>민속방법론(가핑켈)</option>
+            <option>구조화 이론(기든스)</option>
+          </select>
+          <div class="lb">네 개의 열쇠</div>
+          <select id="keyword">
+            <option value="">— 내 삶에 가장 필요한 개념 —</option>
+            <option>주체성(Agency)</option>
+            <option>타자(The Other)</option>
+            <option>상호작용(Interaction)</option>
+            <option>규칙(Rules)</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8칸 -->
+    <div id="sections">
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">① 활동 개요와 내 역할</span><span class="phase-tag">Day 1·2</span><span class="st" id="st_overview">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이틀 동안 무엇을 했고(영문 지문 → 캐릭터 → 세션 → 이론 → 논증 → 글쓰기), 테이블에서 내가 맡은 역할은 무엇이었나? 캐릭터가 아니라 '나'의 역할을 쓰세요.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>TRPG 게임을 하고 이론을 배웠다. 재미있게 참여했다.</div><div class="ex-row good"><span class="tag">좋음</span>영문 지문에서 D&D의 탄생 맥락을 추론하고, 캐릭터를 만들어 이틀간 세션을 플레이했다. 우리 테이블에서 나는 막힐 때마다 "여기서 뭐가 보이나요?"라고 GM에게 질문을 던져 장면을 여는 역할을 자주 맡았고, Day 2에는 모둠의 경험경제 조사에서 출처 검증을 담당했다.</div></div>
+          <textarea id="ta_overview" placeholder="한 활동들 + 테이블·모둠에서 내 역할."></textarea>
+          <div class="meter s0" id="meter_overview"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_overview">0 / 100자</span><span class="meter-fb" id="fb_overview"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">② 기억에 남는 세션 장면</span><span class="phase-tag">주사위 · 협업</span><span class="st" id="st_scene">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">세션 로그(Activity 3-1·3-2)에서 하나를 골라: 누가 무엇을 시도했고, 주사위가 어떻게 나왔고, 테이블에 무슨 일이 벌어졌나. 실패(6 이하)나 부분 성공(7~9)의 장면일수록 좋습니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>주사위가 잘 나와서 좋았고 팀워크가 좋았다.</div><div class="ex-row good"><span class="tag">좋음</span>잠긴 문 앞에서 내가 "문틈에 귀를 대고 숨을 죽인다"고 묘사했는데 주사위가 5가 나왔다. GM이 "등 뒤 발소리가 멈춘다"고 하자, 옆자리 플레이어가 즉석에서 자기 캐릭터를 미끼로 내세워 나를 구했다. 내 실패가 남의 선택을 만들고, 그 선택이 이야기를 바꾸는 걸 처음 봤다.</div></div>
+          <textarea id="ta_scene" placeholder="누가 · 무엇을 · 주사위 결과 · 그래서 테이블에 벌어진 일."></textarea>
+          <div class="meter s0" id="meter_scene"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_scene">0 / 100자</span><span class="meter-fb" id="fb_scene"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">③ 이론 렌즈로 해석하기</span><span class="phase-tag">개념어 2개 이상</span><span class="st" id="st_lens">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">위에서 고른 이론의 개념어를 두 개 이상 사용해 ②의 장면(또는 다른 장면)을 해석하세요. "그 순간 나는/우리는 ~했는데, ○○의 개념으로 보면 이는 ~이다" 구조로.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>고프만의 이론처럼 우리는 연극을 하는 것 같았다.</div><div class="ex-row good"><span class="tag">좋음</span>세션 중 나는 캐릭터라는 배역을 연기하면서도 주사위가 망하면 웃음을 터뜨리며 '무대 뒤'의 나로 돌아왔다. 고프만의 개념으로 보면 테이블은 무대 앞과 무대 뒤가 몇 초 단위로 교차하는 공간이었고, 우리는 서로의 인상 관리가 무너지는 순간을 함께 웃어넘기며 오히려 가까워졌다.</div></div>
+          <textarea id="ta_lens" placeholder="장면 + 개념어 2개 이상 + 해석."></textarea>
+          <div class="meter s0" id="meter_lens"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_lens">0 / 120자</span><span class="meter-fb" id="fb_lens"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">④ 경험경제·연대의 역설</span><span class="phase-tag">조사 · 논증</span><span class="st" id="st_economy">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">Day 2 Part 3의 조사(면대면 산업)와 논증("완벽한 AI와의 교류가 일상화될수록 불완전한 인간 사이의 연대가 더 필요해진다")을 요약하세요. 내가 찾은 분야·출처와 나의 결론이 드러나게.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>AI 시대에도 사람끼리 만나는 것이 중요하다고 생각했다.</div><div class="ex-row good"><span class="tag">좋음</span>우리 모둠은 보드게임 카페와 라이브 공연 산업을 조사해, 파는 것이 '결과물'이 아니라 '함께 있는 시간'임을 확인했다(문체부 공연예술조사 인용). 나는 AI 대화가 더 편하다는 반론을 먼저 인정한 뒤, 편한 관계만 남으면 갈등을 조율하는 능력 자체가 사라진다는 근거로 명제에 동의하는 논증을 썼다.</div></div>
+          <textarea id="ta_economy" placeholder="조사한 분야·출처 + 나의 논증(반론 인정 → 근거 → 결론)."></textarea>
+          <div class="meter s0" id="meter_economy"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_economy">0 / 120자</span><span class="meter-fb" id="fb_economy"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑤ 전공 연계 글쓰기 요약</span><span class="phase-tag">지식질문 · 주장</span><span class="st" id="st_essay">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">Day 2 Part 4에서 세운 지식 질문("~은 어느 정도까지 ~할 수 있는가?")과 내 글의 주장·근거를 요약하세요. 어떤 제시문을 인용했고 어떤 체험을 근거로 썼는지 포함.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>내 전공과 관련된 주제로 글을 썼다.</div><div class="ex-row good"><span class="tag">좋음</span>지식 질문: "브랜드는 어느 정도까지 경험을 설계할 수 있는가?" 경험경제 제시문(다)과 하위징아(가)를 인용해, 기업이 팔 수 있는 것은 무대까지이고 그 위에서 벌어지는 상호작용은 참여자가 완성한다고 주장했다. 근거로는 같은 규칙인데 테이블마다 다른 이야기가 나온 우리 세션 경험을 들었다.</div></div>
+          <textarea id="ta_essay" placeholder="주제어 + 지식 질문 + 주장 + 인용한 제시문·체험 근거."></textarea>
+          <div class="meter s0" id="meter_essay"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_essay">0 / 120자</span><span class="meter-fb" id="fb_essay"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑥ 생각의 변화 (전 → 후)</span><span class="phase-tag">성찰</span><span class="st" id="st_change">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">수업 전의 내 생각과 지금의 생각을 대비시키세요. 무엇이 그 변화를 만들었는지(장면·제시문·대화) 계기를 함께.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>게임에 대한 생각이 긍정적으로 바뀌었다.</div><div class="ex-row good"><span class="tag">좋음</span>전에는 규칙이 많을수록 자유가 줄어든다고 생각했다. 그런데 "말할 수 있는 것은 무엇이든 시도할 수 있다"는 단 하나의 원칙 위에서 오히려 디지털 게임보다 훨씬 자유로웠다. 규칙이 행동의 목록을 정하는 게 아니라 가능성의 무대를 만들 수 있다는 걸, 기든스의 '구조의 이중성'이라는 말로 정리하게 됐다.</div></div>
+          <textarea id="ta_change" placeholder="전: … → 후: … + 변화의 계기."></textarea>
+          <div class="meter s0" id="meter_change"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_change">0 / 100자</span><span class="meter-fb" id="fb_change"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑦ 실제로 한 일</span><span class="phase-tag">과정 기록 · 세특 근거</span><span class="st" id="st_work">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이틀 동안 실제로 한 행동을 동사 중심으로: 무엇을 읽고·추론하고·묘사하고·조사하고·썼는지. "열심히 했다"가 아니라 한 일 자체를 순서대로.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>수업에 열심히 참여하고 활동지를 다 채웠다.</div><div class="ex-row good"><span class="tag">좋음</span>Day 1에 영문 지문에서 hobbyist·outcome 등의 뜻을 문맥으로 추론해 사실표를 채웠고, 캐릭터의 배경 이야기를 3문장으로 썼다. Day 2에는 모둠 조사에서 공연예술 통계 출처를 확인했고, WEF 역량 10개 중 AI와 겹치지 않는 항목을 골라 논증에 인용했으며, 지식 질문 개요를 짜서 본문을 완성했다.</div></div>
+          <textarea id="ta_work" placeholder="Day 1 / Day 2로 나눠 동사 중심으로."></textarea>
+          <div class="meter s0" id="meter_work"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_work">0 / 100자</span><span class="meter-fb" id="fb_work"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑧ 한 문장 요약</span><span class="phase-tag">100자 이내</span><span class="st" id="st_summary">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">내 이틀을 한 문장으로: 무엇을 체험하고, 어떤 이론·개념으로 해석해, 어떤 결론(또는 질문)에 도달했는지. 100자 이내.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>TRPG를 하며 많은 것을 배웠다.</div><div class="ex-row good"><span class="tag">좋음</span>TRPG 세션의 실패 장면을 고프만의 무대 개념으로 해석하고, 면대면 상호작용이 AI 시대에 더 귀해지는 이유를 논증한 이틀.</div></div>
+          <textarea id="ta_summary" class="short" placeholder="한 문장, 100자 이내."></textarea>
+          <div class="meter s0" id="meter_summary"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_summary">0 / 50자</span><span class="meter-fb" id="fb_summary"></span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="foot">
+    <div class="prog-row">
+      <span class="prog-lb">작성 완료 <b id="doneCount">0</b> / 8 칸</span>
+      <div class="bar"><i id="bar" style="width:0%"></i></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-main" id="submitBtn">📤 제출하기</button>
+      <button type="button" class="btn btn-save" id="saveBtn">💾 임시저장</button>
+      <button type="button" class="btn btn-sub" id="txtBtn">📄 텍스트로 저장(.txt)</button>
+      <button type="button" class="btn btn-sub" id="clearBtn">🗑 임시저장 지우기</button>
+    </div>
+    <div class="msg" id="msg"></div>
+    <div class="local-info">💾 임시저장 = 이 기기에만 보관 (시트 전송 X) · 📤 제출 = 선생님 시트로 전송 · 마지막 저장 <b id="saveTime">—</b></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// 설정 — 배포 후 Apps Script /exec URL로 교체
+// ─────────────────────────────────────────────
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3W5rVALhCi07EgZdOWM2eddBOKidSpsm5W_IqfEuSFtt5FJjVTjhPgVIB3FUWc94Y/exec';
+
+var SECTIONS = [
+  { key:'overview', label:'① 활동 개요와 내 역할',  target:100, nudge:'한 활동 + 테이블·모둠에서 내 역할을 구체적으로.', tip:'역할이 행동으로 보이면 완성!' },
+  { key:'scene',    label:'② 기억에 남는 세션 장면', target:100, nudge:'누가·무엇을·주사위·그래서 벌어진 일.', tip:'실패·우연의 장면이면 더 좋음!' },
+  { key:'lens',     label:'③ 이론 렌즈로 해석하기',  target:120, nudge:'개념어 2개 이상으로 장면을 해석.', tip:'"~의 개념으로 보면 ~이다"가 보이면 완성!' },
+  { key:'economy',  label:'④ 경험경제·연대의 역설',  target:120, nudge:'조사한 분야·출처 + 반론 인정 → 결론.', tip:'출처와 논증 구조가 보이면 완성!' },
+  { key:'essay',    label:'⑤ 전공 연계 글쓰기 요약', target:120, nudge:'지식 질문 + 주장 + 인용·체험 근거.', tip:'질문-주장-근거가 이어지면 완성!' },
+  { key:'change',   label:'⑥ 생각의 변화 (전→후)',  target:100, nudge:'전↔후 대비 + 변화의 계기.', tip:'무엇이 바꿨는지 계기가 보이면 완성!' },
+  { key:'work',     label:'⑦ 실제로 한 일',        target:100, nudge:'Day 1/2로 나눠 동사 중심으로.', tip:'행동이 순서대로 보이면 완성! (세특 근거)' },
+  { key:'summary',  label:'⑧ 한 문장 요약',        target:50,  nudge:'체험·이론·결론을 한 문장에.', tip:'100자 이내로 압축되면 완성!' },
+];
+
+function $(id){return document.getElementById(id);}
+
+var current = null; // {grade,ban,num,name}
+
+function readId(){
+  return { grade:$('inGrade').value.trim(), ban:$('inBan').value.trim(), num:$('inNum').value.trim(), name:$('inName').value.trim() };
+}
+function idComplete(id){ return !!(id.grade && id.ban && id.num && id.name); }
+
+function refreshLock(){
+  var id = readId();
+  if(idComplete(id)){
+    current = id;
+    $('cfName').textContent = id.name;
+    $('cfId').textContent = id.grade + '학년 ' + id.ban + '반 ' + id.num + '번';
+    $('confirm').classList.add('show');
+  } else {
+    current = null;
+    $('confirm').classList.remove('show');
+  }
+}
+['inGrade','inBan','inNum','inName'].forEach(function(fid){
+  $(fid).addEventListener('input', refreshLock);
+  $(fid).addEventListener('change', function(){ refreshLock(); if(current){ loadLocal(); updateAll(); } });
+});
+
+function getKey(){
+  if(!current) return '';
+  return 'bts_' + current.grade + '_' + current.ban + '_' + current.num + '_' + current.name;
+}
+
+function readForm(){
+  var d = {
+    grade: current ? current.grade : '', ban: current ? current.ban : '',
+    num: current ? current.num : '', name: current ? current.name : '',
+    title: $('title').value, major: $('major').value, lens1: $('lens1').value, keyword: $('keyword').value
+  };
+  SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
+  return d;
+}
+
+function writeForm(d){
+  $('title').value = d.title || '';
+  $('major').value = d.major || '';
+  $('lens1').value = d.lens1 || '';
+  $('keyword').value = d.keyword || '';
+  SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
+}
+
+function saveLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    localStorage.setItem(k, JSON.stringify(readForm()));
+    var t = new Date();
+    $('saveTime').textContent = ('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2)+':'+('0'+t.getSeconds()).slice(-2);
+  }catch(e){}
+}
+
+function loadLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    var raw = localStorage.getItem(k);
+    if(raw){ writeForm(JSON.parse(raw)); $('saveTime').textContent = '(이전 임시저장 복원됨)'; }
+    else { writeForm({}); $('saveTime').textContent = '—'; }
+  }catch(e){}
+}
+
+function clearLocal(){
+  var k = getKey();
+  if(!k){ showMsg('warn','먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  if(!confirm('이 기기의 임시저장만 지워요 (제출된 시트는 안 건드림). 진행?')) return;
+  try{ localStorage.removeItem(k); }catch(e){}
+  writeForm({});
+  updateAll();
+  $('saveTime').textContent = '지움';
+}
+
+function updateSection(s){
+  var el = $('ta_' + s.key);
+  var len = el.value.trim().length;
+  var meter = $('meter_' + s.key);
+  var bar = meter.querySelector('.meter-bar > i');
+  var ch = $('ch_' + s.key);
+  var fb = $('fb_' + s.key);
+  var st = $('st_' + s.key);
+
+  var pct = Math.min(100, Math.round(len / s.target * 100));
+  bar.style.width = pct + '%';
+  ch.textContent = len + ' / ' + s.target + '자';
+
+  var stage, msg;
+  if(len === 0){ stage = 0; msg = ''; st.textContent='미작성'; st.className='st'; }
+  else if(len < s.target * 0.4){ stage = 1; msg = '🌱 좋은 출발! ' + s.nudge; st.textContent='작성중'; st.className='st ing'; }
+  else if(len < s.target){ stage = 2; msg = '✏️ 거의 다 왔어요. 조금만 더 구체적으로.'; st.textContent='작성중'; st.className='st ing'; }
+  else { stage = 3; msg = '✅ 분량 충분! ' + s.tip; st.textContent='✓ 완료'; st.className='st done'; }
+
+  if(s.key === 'summary' && len > 100){
+    stage = 1; msg = '⚠ 100자를 넘었어요 (' + len + '자). 더 압축해 보세요.';
+    st.textContent='압축 필요'; st.className='st ing';
+  }
+
+  meter.className = 'meter s' + stage;
+  fb.textContent = msg;
+  return len >= s.target && !(s.key === 'summary' && len > 100);
+}
+
+function updateAll(){
+  var done = 0;
+  SECTIONS.forEach(function(s){ if(updateSection(s)) done++; });
+  $('doneCount').textContent = done;
+  $('bar').style.width = Math.round(done / SECTIONS.length * 100) + '%';
+}
+
+$('title').addEventListener('input', function(){ saveLocal(); });
+['major','lens1','keyword'].forEach(function(id){
+  $(id).addEventListener('change', function(){ saveLocal(); });
+});
+SECTIONS.forEach(function(s){
+  $('ta_' + s.key).addEventListener('input', function(){ updateAll(); saveLocal(); });
+});
+$('clearBtn').addEventListener('click', clearLocal);
+
+$('saveBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  saveLocal();
+  showMsg('ok', '💾 이 기기에 임시저장됐어요. (시트에 올리려면 📤 제출하기를 눌러주세요)');
+});
+
+function buildText(){
+  var d = readForm();
+  var L = [];
+  L.push('BEYOND THE SCREEN — 생기부 기록 워크북');
+  L.push('──────────────────────────');
+  L.push(d.grade + '학년 ' + d.ban + '반 ' + d.num + '번 / ' + d.name);
+  L.push('제목: ' + (d.title || '(미작성)'));
+  L.push('전공 모둠: ' + (d.major || '(미선택)') + ' · 이론 렌즈: ' + (d.lens1 || '(미선택)') + ' · 네 개의 열쇠: ' + (d.keyword || '(미선택)'));
+  L.push('작성 시각: ' + new Date().toLocaleString('ko-KR'));
+  L.push('');
+  SECTIONS.forEach(function(s){
+    L.push('【' + s.label + '】 (' + $('ta_'+s.key).value.trim().length + '자)');
+    var v = d[s.key] && d[s.key].trim();
+    L.push(v ? d[s.key] : '(미작성)');
+    L.push('');
+  });
+  return L.join('\n');
+}
+
+$('txtBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  try{
+    var blob = new Blob(['﻿' + buildText()], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'BTS_' + current.grade + '-' + current.ban + '-' + current.num + '_' + current.name + '.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+    showMsg('ok', '📄 텍스트 파일을 저장했어요. (다운로드 폴더 확인 — 제출이 안 돼도 본인 사본은 남습니다)');
+  }catch(e){ showMsg('err', '저장 실패: ' + e.message); }
+});
+
+function showMsg(type, text){
+  var m = $('msg');
+  m.className = 'msg show ' + type;
+  m.textContent = text;
+}
+
+$('submitBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  var d = readForm();
+  if(!d.title.trim()){ showMsg('warn', '내 기록의 제목을 적어주세요. 임시 제목도 괜찮아요.'); return; }
+  var anyContent = SECTIONS.some(function(s){ return d[s.key].trim().length >= 5; });
+  if(!anyContent){
+    if(!confirm('아직 작성한 칸이 없어요. 제목만 제출할까요? (나중에 이어서 추가 제출 가능)')) return;
+  }
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+    showMsg('err', '⚠ APPS_SCRIPT_URL이 설정 안 됨. 선생님께 알려주세요. (그동안 📄 텍스트로 저장으로 본인 사본을 보관하세요)');
+    return;
+  }
+
+  $('submitBtn').disabled = true;
+  $('submitBtn').textContent = '⏳ 제출 중…';
+  showMsg('warn', '서버에 전송 중… 잠시만요.');
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(Object.assign({action:'submit'}, d))
+  }).then(function(){
+    showMsg('ok', '✅ 전송했어요. 지금까지 쓴 내용이 올라갔습니다. (확인이 안 되면 📄 텍스트로 저장으로 사본을 남기고 선생님께 알려주세요.) 나머지 칸을 채워 또 제출하면 이어서 저장됩니다.');
+    saveLocal();
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 다시 제출하기 (이어서 저장)';
+  }).catch(function(err){
+    showMsg('err', '❌ 전송 실패: ' + err.message + ' — 다시 시도하거나 📄 텍스트로 저장으로 사본을 남기세요.');
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 제출하기';
+  });
+});
+
+updateAll();
+</script>
+</body>
+</html>
