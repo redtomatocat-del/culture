@@ -115,7 +115,7 @@ textarea.short{min-height:70px}
 
   <div class="hd">
     <h1>🎲 BEYOND THE SCREEN — 생기부 기록 워크북</h1>
-    <p>이틀의 체험(TRPG 세션·이론·논증·글쓰기)을 <b>학교생활기록부의 사실 근거</b>로 남깁니다. 8칸을 차례로 채우고 제출하세요. · 자동 임시저장 · 여러 번 제출 OK(이어서 저장)</p>
+    <p>이틀의 체험(TRPG 세션·이론·논증·글쓰기)을 <b>학교생활기록부의 사실 근거</b>로 남깁니다. 계기 → 연구 → 결과 → 후속의 9칸을 차례로 채우고 제출하세요. · 자동 임시저장 · 여러 번 제출 OK(이어서 저장)</p>
   </div>
 
   <div class="note">
@@ -123,7 +123,7 @@ textarea.short{min-height:70px}
     1) <b>학년·반·번호·이름</b>을 정확히 입력하세요. (이 정보로 임시저장·제출이 구분됩니다)<br>
     2) 학습지(Day 1·2)를 옆에 펴 놓고 옮기세요 — 기억이 아니라 <b>기록에서</b> 출발하는 것이 정확합니다.<br>
     3) 모든 칸은 "누가·무엇을·그래서"가 드러나게. "재미있었다"는 생기부에 못 실립니다.<br>
-    4) <b>⑦ 실제로 한 일</b>과 <b>⑧ 한 문장 요약</b>이 세특 문장의 뼈대가 됩니다. 구체적으로.<br>
+    4) <b>⑤ 실제로 한 일</b>과 <b>⑧ 한 문장 요약</b>이 세특 문장의 뼈대가 됩니다. 구체적으로.<br>
     5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
   </div>
 
@@ -157,15 +157,6 @@ textarea.short{min-height:70px}
         <div class="grid">
           <div class="lb">내 기록의 제목</div>
           <input type="text" id="title" placeholder="예: 실패한 주사위가 만든 이야기 — 고프만으로 읽은 우리 테이블">
-          <div class="lb">전공 모둠</div>
-          <select id="major">
-            <option value="">— 선택 —</option>
-            <option>영문</option>
-            <option>미디어</option>
-            <option>경영</option>
-            <option>정외</option>
-            <option>경제</option>
-          </select>
           <div class="lb">이론 렌즈</div>
           <select id="lens1">
             <option value="">— Day 2에서 고른 이론 —</option>
@@ -189,6 +180,8 @@ textarea.short{min-height:70px}
     <!-- 8칸 -->
     <div id="sections">
 
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 1 · 계기 — 수업에서 출발하다</div>
+
       <div class="phase">
         <div class="phase-hd"><span class="ttl">① 활동 개요와 내 역할</span><span class="phase-tag">Day 1·2</span><span class="st" id="st_overview">미작성</span></div>
         <div class="phase-body">
@@ -202,12 +195,14 @@ textarea.short{min-height:70px}
       <div class="phase">
         <div class="phase-hd"><span class="ttl">② 기억에 남는 세션 장면</span><span class="phase-tag">주사위 · 협업</span><span class="st" id="st_scene">미작성</span></div>
         <div class="phase-body">
-          <div class="guide">세션 로그(Activity 3-1·3-2)에서 하나를 골라: 누가 무엇을 시도했고, 주사위가 어떻게 나왔고, 테이블에 무슨 일이 벌어졌나. 실패(6 이하)나 부분 성공(7~9)의 장면일수록 좋습니다.</div>
+          <div class="guide">세션 로그(Activity 3-1·3-2)에서 하나를 골라: 누가 무엇을 시도했고, 주사위가 어떻게 나왔고, 테이블에 무슨 일이 벌어졌나. 실패(6 이하)나 부분 성공(7~9)의 장면일수록 좋습니다. 마지막에 이 장면에서 생긴 질문 하나를 덧붙이면 아래 연구로 이어집니다.</div>
           <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>주사위가 잘 나와서 좋았고 팀워크가 좋았다.</div><div class="ex-row good"><span class="tag">좋음</span>잠긴 문 앞에서 내가 "문틈에 귀를 대고 숨을 죽인다"고 묘사했는데 주사위가 5가 나왔다. GM이 "등 뒤 발소리가 멈춘다"고 하자, 옆자리 플레이어가 즉석에서 자기 캐릭터를 미끼로 내세워 나를 구했다. 내 실패가 남의 선택을 만들고, 그 선택이 이야기를 바꾸는 걸 처음 봤다.</div></div>
           <textarea id="ta_scene" placeholder="누가 · 무엇을 · 주사위 결과 · 그래서 테이블에 벌어진 일."></textarea>
           <div class="meter s0" id="meter_scene"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_scene">0 / 100자</span><span class="meter-fb" id="fb_scene"></span></div></div>
         </div>
       </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 2 · 연구 — 파고들다</div>
 
       <div class="phase">
         <div class="phase-hd"><span class="ttl">③ 이론 렌즈로 해석하기</span><span class="phase-tag">개념어 2개 이상</span><span class="st" id="st_lens">미작성</span></div>
@@ -230,10 +225,22 @@ textarea.short{min-height:70px}
       </div>
 
       <div class="phase">
-        <div class="phase-hd"><span class="ttl">⑤ 전공 연계 글쓰기 요약</span><span class="phase-tag">지식질문 · 주장</span><span class="st" id="st_essay">미작성</span></div>
+        <div class="phase-hd"><span class="ttl">⑤ 실제로 한 일</span><span class="phase-tag">과정 기록 · 세특 근거</span><span class="st" id="st_work">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이틀 동안 실제로 한 행동을 동사 중심으로: 무엇을 읽고·추론하고·묘사하고·조사하고·썼는지. "열심히 했다"가 아니라 한 일 자체를 순서대로.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>수업에 열심히 참여하고 활동지를 다 채웠다.</div><div class="ex-row good"><span class="tag">좋음</span>Day 1에 영문 지문에서 hobbyist·outcome 등의 뜻을 문맥으로 추론해 사실표를 채웠고, 캐릭터의 배경 이야기를 3문장으로 썼다. Day 2에는 모둠 조사에서 공연예술 통계 출처를 확인했고, WEF 역량 10개 중 AI와 겹치지 않는 항목을 골라 논증에 인용했으며, 지식 질문 개요를 짜서 본문을 완성했다.</div></div>
+          <textarea id="ta_work" placeholder="Day 1 / Day 2로 나눠 동사 중심으로."></textarea>
+          <div class="meter s0" id="meter_work"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_work">0 / 100자</span><span class="meter-fb" id="fb_work"></span></div></div>
+        </div>
+      </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 3 · 결과 — 보고하다</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑥ 지식 질문과 나의 주장</span><span class="phase-tag">지식질문 · 주장</span><span class="st" id="st_essay">미작성</span></div>
         <div class="phase-body">
           <div class="guide">Day 2 Part 4에서 세운 지식 질문("~은 어느 정도까지 ~할 수 있는가?")과 내 글의 주장·근거를 요약하세요. 어떤 제시문을 인용했고 어떤 체험을 근거로 썼는지 포함.</div>
-          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>내 전공과 관련된 주제로 글을 썼다.</div><div class="ex-row good"><span class="tag">좋음</span>지식 질문: "브랜드는 어느 정도까지 경험을 설계할 수 있는가?" 경험경제 제시문(다)과 하위징아(가)를 인용해, 기업이 팔 수 있는 것은 무대까지이고 그 위에서 벌어지는 상호작용은 참여자가 완성한다고 주장했다. 근거로는 같은 규칙인데 테이블마다 다른 이야기가 나온 우리 세션 경험을 들었다.</div></div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>주제를 하나 정해서 글을 썼다.</div><div class="ex-row good"><span class="tag">좋음</span>지식 질문: "브랜드는 어느 정도까지 경험을 설계할 수 있는가?" 경험경제 제시문(다)과 하위징아(가)를 인용해, 기업이 팔 수 있는 것은 무대까지이고 그 위에서 벌어지는 상호작용은 참여자가 완성한다고 주장했다. 근거로는 같은 규칙인데 테이블마다 다른 이야기가 나온 우리 세션 경험을 들었다.</div></div>
           <textarea id="ta_essay" placeholder="주제어 + 지식 질문 + 주장 + 인용한 제시문·체험 근거."></textarea>
           <div class="meter s0" id="meter_essay"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_essay">0 / 120자</span><span class="meter-fb" id="fb_essay"></span></div></div>
         </div>
@@ -250,16 +257,6 @@ textarea.short{min-height:70px}
       </div>
 
       <div class="phase">
-        <div class="phase-hd"><span class="ttl">⑦ 실제로 한 일</span><span class="phase-tag">과정 기록 · 세특 근거</span><span class="st" id="st_work">미작성</span></div>
-        <div class="phase-body">
-          <div class="guide">이틀 동안 실제로 한 행동을 동사 중심으로: 무엇을 읽고·추론하고·묘사하고·조사하고·썼는지. "열심히 했다"가 아니라 한 일 자체를 순서대로.</div>
-          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>수업에 열심히 참여하고 활동지를 다 채웠다.</div><div class="ex-row good"><span class="tag">좋음</span>Day 1에 영문 지문에서 hobbyist·outcome 등의 뜻을 문맥으로 추론해 사실표를 채웠고, 캐릭터의 배경 이야기를 3문장으로 썼다. Day 2에는 모둠 조사에서 공연예술 통계 출처를 확인했고, WEF 역량 10개 중 AI와 겹치지 않는 항목을 골라 논증에 인용했으며, 지식 질문 개요를 짜서 본문을 완성했다.</div></div>
-          <textarea id="ta_work" placeholder="Day 1 / Day 2로 나눠 동사 중심으로."></textarea>
-          <div class="meter s0" id="meter_work"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_work">0 / 100자</span><span class="meter-fb" id="fb_work"></span></div></div>
-        </div>
-      </div>
-
-      <div class="phase">
         <div class="phase-hd"><span class="ttl">⑧ 한 문장 요약</span><span class="phase-tag">100자 이내</span><span class="st" id="st_summary">미작성</span></div>
         <div class="phase-body">
           <div class="guide">내 이틀을 한 문장으로: 무엇을 체험하고, 어떤 이론·개념으로 해석해, 어떤 결론(또는 질문)에 도달했는지. 100자 이내.</div>
@@ -268,6 +265,18 @@ textarea.short{min-height:70px}
           <div class="meter s0" id="meter_summary"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_summary">0 / 50자</span><span class="meter-fb" id="fb_summary"></span></div></div>
         </div>
       </div>
+<div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 4 · 후속연구 — 예고하다</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑨ 후속 탐구 예고</span><span class="phase-tag">다음 연구</span><span class="st" id="st_followup">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이번 보고를 끝으로 두지 않습니다. 이 탐구에서 새로 생긴 의문 하나를 골라 예고하세요: 주제 → 선택한 이유 → 탐구 질문 → 자료·방법. 실제 진행은 나중에 하더라도, 예고가 구체적일수록 기록의 성장서사가 이어집니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>나중에 기회가 되면 더 알아보고 싶다.</div><div class="ex-row good"><span class="tag">좋음</span>후속 주제: 온라인 게임 길드와 오프라인 테이블의 협력 방식 비교. 세션에서 느낀 '얼굴을 마주한 신뢰'가 익명 환경에서도 성립하는지 궁금해졌기 때문이다. 질문: 익명성은 협력을 약화시키는가, 아니면 다른 형태로 바꾸는가? 방법: 게임 커뮤니티 관찰 기록과 사회적 자본 관련 자료 조사.</div></div>
+          <textarea id="ta_followup" placeholder="주제 → 이유 → 탐구 질문 → 자료·방법."></textarea>
+          <div class="meter s0" id="meter_followup"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_followup">0 / 100자</span><span class="meter-fb" id="fb_followup"></span></div></div>
+        </div>
+      </div>
+
 
     </div>
   </div>
@@ -275,7 +284,7 @@ textarea.short{min-height:70px}
   <!-- 푸터 -->
   <div class="foot">
     <div class="prog-row">
-      <span class="prog-lb">작성 완료 <b id="doneCount">0</b> / 8 칸</span>
+      <span class="prog-lb">작성 완료 <b id="doneCount">0</b> / 9 칸</span>
       <div class="bar"><i id="bar" style="width:0%"></i></div>
     </div>
     <div class="btn-row">
@@ -298,13 +307,14 @@ var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3W5rVALhCi07EgZ
 
 var SECTIONS = [
   { key:'overview', label:'① 활동 개요와 내 역할',  target:100, nudge:'한 활동 + 테이블·모둠에서 내 역할을 구체적으로.', tip:'역할이 행동으로 보이면 완성!' },
-  { key:'scene',    label:'② 기억에 남는 세션 장면', target:100, nudge:'누가·무엇을·주사위·그래서 벌어진 일.', tip:'실패·우연의 장면이면 더 좋음!' },
+  { key:'scene',    label:'② 기억에 남는 세션 장면', target:100, nudge:'누가·무엇을·주사위·그래서 벌어진 일 + 생긴 질문.', tip:'장면 + 질문이 보이면 완성!' },
   { key:'lens',     label:'③ 이론 렌즈로 해석하기',  target:120, nudge:'개념어 2개 이상으로 장면을 해석.', tip:'"~의 개념으로 보면 ~이다"가 보이면 완성!' },
   { key:'economy',  label:'④ 경험경제·연대의 역설',  target:120, nudge:'조사한 분야·출처 + 반론 인정 → 결론.', tip:'출처와 논증 구조가 보이면 완성!' },
-  { key:'essay',    label:'⑤ 전공 연계 글쓰기 요약', target:120, nudge:'지식 질문 + 주장 + 인용·체험 근거.', tip:'질문-주장-근거가 이어지면 완성!' },
-  { key:'change',   label:'⑥ 생각의 변화 (전→후)',  target:100, nudge:'전↔후 대비 + 변화의 계기.', tip:'무엇이 바꿨는지 계기가 보이면 완성!' },
-  { key:'work',     label:'⑦ 실제로 한 일',        target:100, nudge:'Day 1/2로 나눠 동사 중심으로.', tip:'행동이 순서대로 보이면 완성! (세특 근거)' },
+  { key:'work',     label:'⑤ 실제로 한 일',        target:100, nudge:'Day 1/2로 나눠 동사 중심으로.', tip:'행동이 순서대로 보이면 완성! (세특 근거)' },
+  { key:'essay',    label:'⑥ 지식 질문과 나의 주장', target:120, nudge:'지식 질문 + 주장 + 인용·체험 근거.', tip:'질문-주장-근거가 이어지면 완성!' },
+  { key:'change',   label:'⑦ 생각의 변화 (전→후)',  target:100, nudge:'전↔후 대비 + 변화의 계기.', tip:'무엇이 바꿨는지 계기가 보이면 완성!' },
   { key:'summary',  label:'⑧ 한 문장 요약',        target:50,  nudge:'체험·이론·결론을 한 문장에.', tip:'100자 이내로 압축되면 완성!' },
+  { key:'followup', label:'⑨ 후속 탐구 예고',       target:100, nudge:'주제 → 이유 → 질문 → 방법 순으로.', tip:'다음 연구가 그려지면 완성!' },
 ];
 
 function $(id){return document.getElementById(id);}
@@ -342,7 +352,7 @@ function readForm(){
   var d = {
     grade: current ? current.grade : '', ban: current ? current.ban : '',
     num: current ? current.num : '', name: current ? current.name : '',
-    title: $('title').value, major: $('major').value, lens1: $('lens1').value, keyword: $('keyword').value
+    title: $('title').value, lens1: $('lens1').value, keyword: $('keyword').value
   };
   SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
   return d;
@@ -350,7 +360,6 @@ function readForm(){
 
 function writeForm(d){
   $('title').value = d.title || '';
-  $('major').value = d.major || '';
   $('lens1').value = d.lens1 || '';
   $('keyword').value = d.keyword || '';
   SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
@@ -421,7 +430,7 @@ function updateAll(){
 }
 
 $('title').addEventListener('input', function(){ saveLocal(); });
-['major','lens1','keyword'].forEach(function(id){
+['lens1','keyword'].forEach(function(id){
   $(id).addEventListener('change', function(){ saveLocal(); });
 });
 SECTIONS.forEach(function(s){
@@ -442,7 +451,7 @@ function buildText(){
   L.push('──────────────────────────');
   L.push(d.grade + '학년 ' + d.ban + '반 ' + d.num + '번 / ' + d.name);
   L.push('제목: ' + (d.title || '(미작성)'));
-  L.push('전공 모둠: ' + (d.major || '(미선택)') + ' · 이론 렌즈: ' + (d.lens1 || '(미선택)') + ' · 네 개의 열쇠: ' + (d.keyword || '(미선택)'));
+  L.push('이론 렌즈: ' + (d.lens1 || '(미선택)') + ' · 네 개의 열쇠: ' + (d.keyword || '(미선택)'));
   L.push('작성 시각: ' + new Date().toLocaleString('ko-KR'));
   L.push('');
   SECTIONS.forEach(function(s){

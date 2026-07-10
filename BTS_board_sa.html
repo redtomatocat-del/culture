@@ -92,8 +92,8 @@ body{background-image:radial-gradient(circle,#DDD2BE 1px,transparent 1.2px);back
   <div class="filterbar">
     <span class="fb-label">반</span>
     <select id="banFilter"><option value="">전체 반</option></select>
-    <span class="fb-label">전공 모둠</span>
-    <select id="pathFilter"><option value="">전체 전공</option></select>
+    <span class="fb-label">네 열쇠</span>
+    <select id="pathFilter"><option value="">전체 열쇠</option></select>
     <span class="fb-label">이름</span>
     <input type="text" id="nameSearch" placeholder="학생 이름…">
     <span class="fb-count" id="fbCount"></span>
@@ -128,12 +128,12 @@ function fillFilters(){
   var bans = {}, paths = {};
   (DATA.activities||[]).forEach(function(a){
     if(a.ban) bans[a.ban]=1;
-    if(a.major) paths[a.major]=1;
+    if(a.keyword) paths[a.keyword]=1;
   });
   var bf=document.getElementById('banFilter'), pf=document.getElementById('pathFilter');
   var bv=bf.value, pv=pf.value;
   bf.innerHTML='<option value="">전체 반</option>'+Object.keys(bans).sort(function(a,b){return +a-+b;}).map(function(b){return '<option value="'+esc(b)+'">'+esc(b)+'반</option>';}).join('');
-  pf.innerHTML='<option value="">전체 전공</option>'+Object.keys(paths).sort().map(function(t){return '<option value="'+esc(t)+'">'+esc(t)+'</option>';}).join('');
+  pf.innerHTML='<option value="">전체 열쇠</option>'+Object.keys(paths).sort().map(function(t){return '<option value="'+esc(t)+'">'+esc(t)+'</option>';}).join('');
   bf.value=bv; pf.value=pv;
 }
 
@@ -150,7 +150,7 @@ function render(){
 
   var list=(DATA.activities||[]).filter(function(a){
     if(bf && String(a.ban||'').trim()!==bf) return false;
-    if(pf && String(a.major||'').trim()!==pf) return false;
+    if(pf && String(a.keyword||'').trim()!==pf) return false;
     if(ns && String(a.name||'').indexOf(ns)<0) return false;
     return true;
   });
@@ -171,7 +171,7 @@ function render(){
       '<div class="memo-top"><span class="memo-name">'+esc(a.name)+'</span>'+
       '<span class="memo-id">'+esc(a.grade)+'-'+esc(a.ban)+'-'+esc(a.num)+'</span>'+
       (a.keyword?'<span class="memo-lens">'+esc(a.keyword)+'</span>':'')+
-      (a.major?'<span class="memo-path">'+esc(a.major)+'</span>':'')+'</div>'+
+      '</div>'+
       '<div class="memo-topic">'+esc(a.title)+'</div>'+
       (a.summary_preview?'<div class="memo-prev">'+esc(a.summary_preview)+'</div>':'')+
       '<div class="memo-prog"><div class="memo-bar"><i style="width:'+a.progress+'%"></i></div>'+
@@ -219,17 +219,18 @@ function showModal(rec){
 
   var html='';
   html+='<div class="m-sec"><div class="m-sec-t">개요</div>'+
-    kv('제목',rec.title)+kv('전공 모둠',rec.major)+kv('이론 렌즈',rec.lens1)+kv('네 개의 열쇠',rec.keyword)+kv('한 문장 요약',rec.summary)+kv('제출일시',rec.ts)+'</div>';
+    kv('제목',rec.title)+kv('이론 렌즈',rec.lens1)+kv('네 개의 열쇠',rec.keyword)+kv('한 문장 요약',rec.summary)+kv('제출일시',rec.ts)+'</div>';
 
   html+='<div class="m-sec"><div class="m-sec-t">8칸</div>'+
     sec('① 활동 개요와 내 역할',rec.overview)+
     sec('② 기억에 남는 세션 장면',rec.scene)+
     sec('③ 이론 렌즈로 해석하기',rec.lens)+
     sec('④ 경험경제·연대의 역설',rec.economy)+
-    sec('⑤ 전공 연계 글쓰기 요약',rec.essay)+
-    sec('⑥ 생각의 변화 (전→후)',rec.change)+
-    sec('⑦ 실제로 한 일',rec.work)+
-    sec('⑧ 한 문장 요약',rec.summary)+'</div>';
+    sec('⑤ 실제로 한 일',rec.work)+
+    sec('⑥ 지식 질문과 나의 주장',rec.essay)+
+    sec('⑦ 생각의 변화 (전→후)',rec.change)+
+    sec('⑧ 한 문장 요약',rec.summary)+
+    sec('⑨ 후속 탐구 예고',rec.followup)+'</div>';
 
   html+='<div class="m-sec"><div class="m-setuk"><div class="m-setuk-t">자동 생성 세특 초안 — 다듬어서 NEIS에</div>'+
     '<span id="setukText">'+nl(rec.setuk||'(메뉴에서 세특 초안 생성하세요)')+'</span>'+

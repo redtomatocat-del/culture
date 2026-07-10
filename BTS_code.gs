@@ -16,8 +16,8 @@ const GUIDE_NAME = '📖 사용 안내';
 
 const HEADERS = [
   '제출일시', '학년', '반', '번호', '이름',
-  '제목', '전공모둠', '이론렌즈', '네열쇠',
-  '활동개요', '세션장면', '이론해석', '경험경제', '전공글쓰기', '생각변화', '실제한일', '한문장요약'
+  '제목', '이론렌즈', '네열쇠',
+  '활동개요', '세션장면', '이론해석', '경험경제', '실제한일', '질문주장', '생각변화', '한문장요약', '후속연구'
 ];
 const CONTENT_START = 5; // 콘텐츠 칸 시작 인덱스 (제목부터) — 병합 저장 대상
 
@@ -27,6 +27,7 @@ const GUIDANCE = {
   lens:     '고른 이론의 개념어 2개 이상으로 장면을 해석. "~의 개념으로 보면 ~이다".',
   economy:  '면대면 산업 조사(분야·출처) + 연대의 역설 논증(반론 인정 → 근거 → 결론).',
   essay:    '지식 질문 + 주장 + 인용한 제시문·체험 근거 요약.',
+  followup: '후속 탐구 예고: 주제 → 이유 → 탐구 질문 → 자료·방법.',
   change:   '수업 전 생각 ↔ 지금 생각 대비 + 변화의 계기.',
   work:     'Day 1/2로 나눠 동사 중심 행동 기록. 세특의 사실 근거.',
   summary:  '체험·이론·결론을 한 문장(100자 이내)에.',
@@ -37,14 +38,15 @@ const SECTIONS = [
   { key: 'scene',    col: '세션장면',   label: '② 기억에 남는 세션 장면', row: 13 },
   { key: 'lens',     col: '이론해석',   label: '③ 이론 렌즈로 해석하기',  row: 17 },
   { key: 'economy',  col: '경험경제',   label: '④ 경험경제·연대의 역설',  row: 21 },
-  { key: 'essay',    col: '전공글쓰기', label: '⑤ 전공 연계 글쓰기 요약', row: 25 },
-  { key: 'change',   col: '생각변화',   label: '⑥ 생각의 변화 (전→후)',  row: 29 },
-  { key: 'work',     col: '실제한일',   label: '⑦ 실제로 한 일',          row: 33 },
+  { key: 'work',     col: '실제한일',   label: '⑤ 실제로 한 일',          row: 25 },
+  { key: 'essay',    col: '질문주장',   label: '⑥ 지식 질문과 나의 주장', row: 29 },
+  { key: 'change',   col: '생각변화',   label: '⑦ 생각의 변화 (전→후)',  row: 33 },
   { key: 'summary',  col: '한문장요약', label: '⑧ 한 문장 요약',          row: 37 },
+  { key: 'followup', col: '후속연구',   label: '⑨ 후속 탐구 예고',        row: 41 },
 ];
-const PROGRESS_KEYS = ['overview','scene','lens','economy','essay','change','work','summary'];
-const SETUK_LABEL_ROW = 41;
-const SETUK_BODY_ROW = 42;
+const PROGRESS_KEYS = ['overview','scene','lens','economy','work','essay','change','summary','followup'];
+const SETUK_LABEL_ROW = 45;
+const SETUK_BODY_ROW = 46;
 
 const COLOR_HEADER = '#3E1E17';
 const COLOR_SECTION = '#7A3B2E';
@@ -72,8 +74,8 @@ function getSubmitSheet() {
     [2,3,4].forEach(c => sh.setColumnWidth(c, 50));
     sh.setColumnWidth(5, 90);
     sh.setColumnWidth(6, 250);
-    [7,8,9].forEach(c => sh.setColumnWidth(c, 100));
-    for (let c = 10; c <= HEADERS.length; c++) sh.setColumnWidth(c, 320);
+    [7,8].forEach(c => sh.setColumnWidth(c, 100));
+    for (let c = 9; c <= HEADERS.length; c++) sh.setColumnWidth(c, 320);
     try { sh.setTabColor('#7A3B2E'); } catch (e) {}
   }
   return sh;
@@ -117,8 +119,8 @@ function saveSubmission(d) {
   const row = [
     ts,
     s(d.grade), s(d.ban), s(d.num), s(d.name),
-    s(d.title), s(d.major), s(d.lens1), s(d.keyword),
-    s(d.overview), s(d.scene), s(d.lens), s(d.economy), s(d.essay), s(d.change), s(d.work), s(d.summary)
+    s(d.title), s(d.lens1), s(d.keyword),
+    s(d.overview), s(d.scene), s(d.lens), s(d.economy), s(d.work), s(d.essay), s(d.change), s(d.summary), s(d.followup)
   ];
 
   const key = [s(d.grade), s(d.ban), s(d.num), s(d.name)].join('|');
@@ -182,9 +184,9 @@ function rowToRec(row) {
   return {
     ts: rec['제출일시'],
     grade: s(rec['학년']), ban: s(rec['반']), num: pad2(rec['번호']), name: String(rec['이름'] == null ? '' : rec['이름']).trim(),
-    title: s(rec['제목']), major: s(rec['전공모둠']), lens1: s(rec['이론렌즈']), keyword: s(rec['네열쇠']),
+    title: s(rec['제목']), lens1: s(rec['이론렌즈']), keyword: s(rec['네열쇠']),
     overview: s(rec['활동개요']), scene: s(rec['세션장면']), lens: s(rec['이론해석']), economy: s(rec['경험경제']),
-    essay: s(rec['전공글쓰기']), change: s(rec['생각변화']), work: s(rec['실제한일']), summary: s(rec['한문장요약'])
+    work: s(rec['실제한일']), essay: s(rec['질문주장']), change: s(rec['생각변화']), summary: s(rec['한문장요약']), followup: s(rec['후속연구'])
   };
 }
 
@@ -280,7 +282,7 @@ function buildStudentTab(student, rec) {
   content[1] = [student.grade + '학년 ' + student.ban + '반 ' + student.num + '번  ·  제출: ' + (rec.ts || '미제출'), ''];
   content[2] = ['▣ 기록 개요', ''];
   content[3] = ['제목', rec.title || ''];
-  content[4] = ['전공 · 렌즈 · 열쇠', (rec.major || '-') + '  ·  ' + (rec.lens1 || '-') + '  ·  ' + (rec.keyword || '-')];
+  content[4] = ['렌즈 · 열쇠', (rec.lens1 || '-') + '  ·  ' + (rec.keyword || '-')];
   content[5] = ['한 문장 요약', rec.summary || ''];
 
   SECTIONS.forEach(sec => {
@@ -364,7 +366,7 @@ function updateMasterTab() {
   sh.clear();
   try { sh.getRange(1, 1, sh.getMaxRows(), 11).breakApart(); } catch (e) {}
 
-  const header = ['학년', '반', '번호', '이름', '전공', '이론 렌즈', '네 열쇠', '제목', '진척도', '한 문장 요약', '세특 초안 미리보기'];
+  const header = ['학년', '반', '번호', '이름', '이론 렌즈', '네 열쇠', '제목', '진척도', '한 문장 요약', '세특 초안 미리보기'];
   sh.getRange(1, 1, 1, header.length).setValues([header])
     .setBackground(COLOR_HEADER).setFontColor('#FFFFFF').setFontWeight('bold').setHorizontalAlignment('center');
   sh.setFrozenRows(1);
@@ -380,7 +382,7 @@ function updateMasterTab() {
     if (card) setuk = String(card.getRange(SETUK_BODY_ROW, 1).getValue() || '');
     if (!setuk) setuk = generateSetukDraft(rec);
     if (setuk.length > 200) setuk = setuk.slice(0, 200) + '…';
-    return [stu.grade, stu.ban, stu.num, stu.name, rec.major || '', rec.lens1 || '', rec.keyword || '', rec.title || '', pct + '%  (' + filled + '/8)', rec.summary || '', setuk];
+    return [stu.grade, stu.ban, stu.num, stu.name, rec.lens1 || '', rec.keyword || '', rec.title || '', pct + '%  (' + filled + '/9)', rec.summary || '', setuk];
   });
 
   if (rows.length > 0) {
@@ -392,16 +394,15 @@ function updateMasterTab() {
   sh.setColumnWidth(2, 45);
   sh.setColumnWidth(3, 50);
   sh.setColumnWidth(4, 85);
-  sh.setColumnWidth(5, 60);
-  sh.setColumnWidth(6, 130);
-  sh.setColumnWidth(7, 100);
-  sh.setColumnWidth(8, 200);
-  sh.setColumnWidth(9, 90);
-  sh.setColumnWidth(10, 240);
-  sh.setColumnWidth(11, 340);
+  sh.setColumnWidth(5, 130);
+  sh.setColumnWidth(6, 100);
+  sh.setColumnWidth(7, 200);
+  sh.setColumnWidth(8, 90);
+  sh.setColumnWidth(9, 240);
+  sh.setColumnWidth(10, 340);
 
   for (let i = 0; i < rows.length; i++) {
-    const m = String(rows[i][8]).match(/\((\d+)\/8\)/);
+    const m = String(rows[i][7]).match(/\((\d+)\/9\)/);
     if (m && parseInt(m[1], 10) < 4) {
       sh.getRange(i + 2, 1, 1, header.length).setBackground('#FFFBEB');
     }
@@ -450,7 +451,6 @@ function ensureGuideTab() {
 // ─── 세특 초안 ───
 function generateSetukDraft(rec) {
   const title = String(rec.title || '').trim();
-  const major = String(rec.major || '').trim();
   const lens1 = String(rec.lens1 || '').trim();
   const keyword = String(rec.keyword || '').trim();
   const overview = String(rec.overview || '').trim();
@@ -458,6 +458,7 @@ function generateSetukDraft(rec) {
   const lens = String(rec.lens || '').trim();
   const economy = String(rec.economy || '').trim();
   const essay = String(rec.essay || '').trim();
+  const followup = String(rec.followup || '').trim();
   const change = String(rec.change || '').trim();
   const work = String(rec.work || '').trim();
   const summary = String(rec.summary || '').trim();
@@ -476,9 +477,10 @@ function generateSetukDraft(rec) {
   if (scene) parts.push('(장면) ' + clip(firstSent(scene), 180));
   if (lens) parts.push('(이론 해석)' + (lens1 ? ' [' + lens1 + '] ' : ' ') + clip(firstSent(lens), 200));
   if (economy) parts.push('(논증) ' + clip(firstSent(economy), 180));
-  if (essay) parts.push('(전공 연계)' + (major ? ' [' + major + '] ' : ' ') + clip(firstSent(essay), 180));
+  if (essay) parts.push('(지식 질문·주장) ' + clip(firstSent(essay), 180));
   if (change) parts.push('(변화) ' + clip(firstSent(change), 160));
   if (work) parts.push('(과정) ' + clip(firstSent(work), 180));
+  if (followup) parts.push('(후속 예고) ' + clip(firstSent(followup), 150));
   parts.push('면대면 상호작용의 체험을 사회학 이론과 전공 관심으로 확장하고' + (keyword ? ", '" + keyword + "'을(를) 자기 삶의 개념으로 끌어와" : '') + ' 경험을 지식으로 번역하는 융합적 탐구 태도가 드러남.');
   return parts.join(' ');
 }
@@ -660,7 +662,7 @@ function exportCurrentToDoc() {
   body.appendParagraph('Beyond the Screen 기록 — ' + name).setHeading(H1);
   body.appendParagraph(grade + '학년 ' + ban + '반 ' + num + '번');
   body.appendParagraph('제목: ' + (rec.title || '-'));
-  body.appendParagraph('전공 모둠: ' + (rec.major || '-') + ' · 이론 렌즈: ' + (rec.lens1 || '-') + ' · 네 개의 열쇠: ' + (rec.keyword || '-'));
+  body.appendParagraph('이론 렌즈: ' + (rec.lens1 || '-') + ' · 네 개의 열쇠: ' + (rec.keyword || '-'));
   body.appendParagraph('한 문장 요약: ' + (rec.summary || '-'));
   body.appendParagraph('').appendHorizontalRule();
 
@@ -706,7 +708,6 @@ function getBoardData() {
       key: stu.key, rowNum: subs[stu.key].rowNum,
       grade: stu.grade, ban: stu.ban, num: stu.num, name: stu.name,
       title: rec.title || '(제목 미작성)',
-      major: rec.major || '',
       lens1: rec.lens1 || '',
       keyword: rec.keyword || '',
       summary_preview: clip(rec.summary || rec.scene, 80),
