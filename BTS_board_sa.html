@@ -219,17 +219,17 @@ function showModal(rec){
 
   var html='';
   html+='<div class="m-sec"><div class="m-sec-t">개요</div>'+
-    kv('제목',rec.title)+kv('이론 렌즈',rec.lens1)+kv('네 개의 열쇠',rec.keyword)+kv('한 문장 요약',rec.summary)+kv('제출일시',rec.ts)+'</div>';
+    kv('제목',rec.title)+kv('희망 전공·계열',rec.major)+kv('이론 렌즈',rec.lens1)+kv('네 개의 열쇠',rec.keyword)+kv('제출일시',rec.ts)+'</div>';
 
   html+='<div class="m-sec"><div class="m-sec-t">8칸</div>'+
     sec('① 활동 개요와 내 역할',rec.overview)+
     sec('② 기억에 남는 세션 장면',rec.scene)+
-    sec('③ 이론 렌즈로 해석하기',rec.lens)+
-    sec('④ 경험경제·연대의 역설',rec.economy)+
+    sec('③ 문화 원형으로 비교하기',rec.archetype)+
+    sec('④ 사회를 보는 이론과 접근',rec.theory)+
     sec('⑤ 실제로 한 일',rec.work)+
     sec('⑥ 지식 질문과 나의 주장',rec.essay)+
     sec('⑦ 생각의 변화 (전→후)',rec.change)+
-    sec('⑧ 한 문장 요약',rec.summary)+
+    sec('⑧ 나의 생각과 경험담',rec.thought)+
     sec('⑨ 후속 탐구 예고',rec.followup)+'</div>';
 
   html+='<div class="m-sec"><div class="m-setuk"><div class="m-setuk-t">자동 생성 세특 초안 — 다듬어서 NEIS에</div>'+

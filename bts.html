@@ -123,7 +123,7 @@ textarea.short{min-height:70px}
     1) <b>학년·반·번호·이름</b>을 정확히 입력하세요. (이 정보로 임시저장·제출이 구분됩니다)<br>
     2) 학습지(Day 1·2)를 옆에 펴 놓고 옮기세요 — 기억이 아니라 <b>기록에서</b> 출발하는 것이 정확합니다.<br>
     3) 모든 칸은 "누가·무엇을·그래서"가 드러나게. "재미있었다"는 생기부에 못 실립니다.<br>
-    4) <b>⑤ 실제로 한 일</b>과 <b>⑧ 한 문장 요약</b>이 세특 문장의 뼈대가 됩니다. 구체적으로.<br>
+    4) <b>③ 문화 원형 비교</b>와 <b>⑤ 실제로 한 일</b>이 세특 문장의 뼈대가 됩니다. 구체적으로.<br>
     5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
   </div>
 
@@ -155,6 +155,8 @@ textarea.short{min-height:70px}
       <div class="card-hd"><span class="num">STEP 1</span> 나의 탐구 개요</div>
       <div class="card-body">
         <div class="grid">
+          <div class="lb">희망 전공·계열</div>
+          <input type="text" id="major" placeholder="예: 사회학, 경영학, 심리학, 미디어커뮤니케이션 …">
           <div class="lb">내 기록의 제목</div>
           <input type="text" id="title" placeholder="예: 실패한 주사위가 만든 이야기 — 고프만으로 읽은 우리 테이블">
           <div class="lb">이론 렌즈</div>
@@ -205,22 +207,22 @@ textarea.short{min-height:70px}
       <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 2 · 연구 — 파고들다</div>
 
       <div class="phase">
-        <div class="phase-hd"><span class="ttl">③ 이론 렌즈로 해석하기</span><span class="phase-tag">개념어 2개 이상</span><span class="st" id="st_lens">미작성</span></div>
+        <div class="phase-hd"><span class="ttl">③ 문화 원형으로 비교하기</span><span class="phase-tag">비교문화론</span><span class="st" id="st_archetype">미작성</span></div>
         <div class="phase-body">
-          <div class="guide">위에서 고른 이론의 개념어를 두 개 이상 사용해 ②의 장면(또는 다른 장면)을 해석하세요. "그 순간 나는/우리는 ~했는데, ○○의 개념으로 보면 이는 ~이다" 구조로.</div>
-          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>고프만의 이론처럼 우리는 연극을 하는 것 같았다.</div><div class="ex-row good"><span class="tag">좋음</span>세션 중 나는 캐릭터라는 배역을 연기하면서도 주사위가 망하면 웃음을 터뜨리며 '무대 뒤'의 나로 돌아왔다. 고프만의 개념으로 보면 테이블은 무대 앞과 무대 뒤가 몇 초 단위로 교차하는 공간이었고, 우리는 서로의 인상 관리가 무너지는 순간을 함께 웃어넘기며 오히려 가까워졌다.</div></div>
-          <textarea id="ta_lens" placeholder="장면 + 개념어 2개 이상 + 해석."></textarea>
-          <div class="meter s0" id="meter_lens"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_lens">0 / 120자</span><span class="meter-fb" id="fb_lens"></span></div></div>
+          <div class="guide">TRPG(D&D)는 어느 문화의 원형에서 나왔을까? 영문 지문에서 본 D&D의 뿌리(원탁의 이야기판, 영웅 서사, 취미가들의 문화)와 우리 문화의 놀이·이야기 원형(마당놀이, 판소리의 창과 추임새, 이야기판 등)을 비교해 보세요. 핵심은 각 문화에는 저마다의 원형이 있고, 그 원형이 지금의 놀이·상호작용 방식을 만든다는 비교문화론적 이해입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>미국은 D&D를 하고 한국은 다른 놀이를 한다. 문화가 다르기 때문이다.</div><div class="ex-row good"><span class="tag">좋음</span>D&D는 서구의 원탁 서사와 영웅 모험담이라는 원형 위에 서 있다. 세션에서 GM의 묘사를 들으며 판소리의 아니리가 떠올랐는데, 한국의 이야기판은 청중이 추임새로 끼어들며 함께 완성한다는 점에서 GM-플레이어 관계와 닮았고, 역할이 캐릭터 시트로 고정되는 서구형과 달리 경계가 흐리다는 차이가 있었다. 문화마다 '함께 이야기를 만드는 원형'이 다르게 진화했음을 확인했다.</div></div>
+          <textarea id="ta_archetype" placeholder="서구의 원형 ↔ 우리 문화의 원형: 닮은 점 + 다른 점 + 내 해석."></textarea>
+          <div class="meter s0" id="meter_archetype"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_archetype">0 / 120자</span><span class="meter-fb" id="fb_archetype"></span></div></div>
         </div>
       </div>
 
       <div class="phase">
-        <div class="phase-hd"><span class="ttl">④ 경험경제·연대의 역설</span><span class="phase-tag">조사 · 논증</span><span class="st" id="st_economy">미작성</span></div>
+        <div class="phase-hd"><span class="ttl">④ 사회를 보는 이론과 접근</span><span class="phase-tag">개념어 · 조사 연결</span><span class="st" id="st_theory">미작성</span></div>
         <div class="phase-body">
-          <div class="guide">Day 2 Part 3의 조사(면대면 산업)와 논증("완벽한 AI와의 교류가 일상화될수록 불완전한 인간 사이의 연대가 더 필요해진다")을 요약하세요. 내가 찾은 분야·출처와 나의 결론이 드러나게.</div>
-          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>AI 시대에도 사람끼리 만나는 것이 중요하다고 생각했다.</div><div class="ex-row good"><span class="tag">좋음</span>우리 모둠은 보드게임 카페와 라이브 공연 산업을 조사해, 파는 것이 '결과물'이 아니라 '함께 있는 시간'임을 확인했다(문체부 공연예술조사 인용). 나는 AI 대화가 더 편하다는 반론을 먼저 인정한 뒤, 편한 관계만 남으면 갈등을 조율하는 능력 자체가 사라진다는 근거로 명제에 동의하는 논증을 썼다.</div></div>
-          <textarea id="ta_economy" placeholder="조사한 분야·출처 + 나의 논증(반론 인정 → 근거 → 결론)."></textarea>
-          <div class="meter s0" id="meter_economy"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_economy">0 / 120자</span><span class="meter-fb" id="fb_economy"></span></div></div>
+          <div class="guide">위에서 고른 이론 렌즈의 개념어 2개 이상으로 세션 장면을 해석하세요. 그리고 Day 2에서 조사한 경제·경영 내용(경험경제, 면대면 산업, 연대의 역설)을 따로 두지 말고 여기에 붙여, 이론이 현실 산업·사회 현상까지 설명하는 데로 이어가세요. "~의 개념으로 보면 ~이다 → 이는 경험경제 관점에서 ~를 뜻한다" 구조.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>고프만의 이론처럼 우리는 연극을 하는 것 같았다. AI 시대에도 사람이 중요하다.</div><div class="ex-row good"><span class="tag">좋음</span>세션 중 나는 캐릭터라는 배역을 연기하면서도 주사위가 망하면 '무대 뒤'의 나로 돌아왔다. 고프만의 개념으로 보면 테이블은 무대 앞뒤가 몇 초 단위로 교차하는 공간이다. 이를 경험경제 관점과 이으면, 보드게임 카페가 파는 것은 게임이 아니라 이 무대가 무너지고 복구되는 시간 자체다(공연예술조사 인용). 완벽한 AI 교류가 늘수록 불완전한 인간의 무대가 귀해진다는 연대의 역설로 결론지었다.</div></div>
+          <textarea id="ta_theory" placeholder="장면 + 개념어 2개 이상 해석 → 경험경제·연대의 역설 조사와 연결 → 결론."></textarea>
+          <div class="meter s0" id="meter_theory"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_theory">0 / 120자</span><span class="meter-fb" id="fb_theory"></span></div></div>
         </div>
       </div>
 
@@ -247,7 +249,7 @@ textarea.short{min-height:70px}
       </div>
 
       <div class="phase">
-        <div class="phase-hd"><span class="ttl">⑥ 생각의 변화 (전 → 후)</span><span class="phase-tag">성찰</span><span class="st" id="st_change">미작성</span></div>
+        <div class="phase-hd"><span class="ttl">⑦ 생각의 변화 (전 → 후)</span><span class="phase-tag">성찰</span><span class="st" id="st_change">미작성</span></div>
         <div class="phase-body">
           <div class="guide">수업 전의 내 생각과 지금의 생각을 대비시키세요. 무엇이 그 변화를 만들었는지(장면·제시문·대화) 계기를 함께.</div>
           <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>게임에 대한 생각이 긍정적으로 바뀌었다.</div><div class="ex-row good"><span class="tag">좋음</span>전에는 규칙이 많을수록 자유가 줄어든다고 생각했다. 그런데 "말할 수 있는 것은 무엇이든 시도할 수 있다"는 단 하나의 원칙 위에서 오히려 디지털 게임보다 훨씬 자유로웠다. 규칙이 행동의 목록을 정하는 게 아니라 가능성의 무대를 만들 수 있다는 걸, 기든스의 '구조의 이중성'이라는 말로 정리하게 됐다.</div></div>
@@ -257,12 +259,12 @@ textarea.short{min-height:70px}
       </div>
 
       <div class="phase">
-        <div class="phase-hd"><span class="ttl">⑧ 한 문장 요약</span><span class="phase-tag">100자 이내</span><span class="st" id="st_summary">미작성</span></div>
+        <div class="phase-hd"><span class="ttl">⑧ 나의 생각과 경험담</span><span class="phase-tag">자유 서술</span><span class="st" id="st_thought">미작성</span></div>
         <div class="phase-body">
-          <div class="guide">내 이틀을 한 문장으로: 무엇을 체험하고, 어떤 이론·개념으로 해석해, 어떤 결론(또는 질문)에 도달했는지. 100자 이내.</div>
-          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>TRPG를 하며 많은 것을 배웠다.</div><div class="ex-row good"><span class="tag">좋음</span>TRPG 세션의 실패 장면을 고프만의 무대 개념으로 해석하고, 면대면 상호작용이 AI 시대에 더 귀해지는 이유를 논증한 이틀.</div></div>
-          <textarea id="ta_summary" class="short" placeholder="한 문장, 100자 이내."></textarea>
-          <div class="meter s0" id="meter_summary"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_summary">0 / 50자</span><span class="meter-fb" id="fb_summary"></span></div></div>
+          <div class="guide">형식 없이, 이 이틀에 대한 내 생각과 경험담을 쓰세요. 재밌었던 것, 어색했던 것, 예상과 달랐던 것, 친구들에 대해 새로 알게 된 것 — 솔직할수록 좋습니다. 요약하려 하지 말고 내 목소리로.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>재미있었다. 또 하고 싶다.</div><div class="ex-row good"><span class="tag">좋음</span>처음엔 목소리 연기가 오글거려서 대사를 전부 3인칭으로 돌렸는데, 둘째 날엔 나도 모르게 캐릭터 말투가 튀어나왔다. 평소 조용하던 친구가 GM 앞에서 제일 크게 웃는 걸 보고, 교실이 아니라 판이 깔리면 사람이 달라진다는 게 신기했다.</div></div>
+          <textarea id="ta_thought" placeholder="이 이틀에 대한 솔직한 생각과 경험담."></textarea>
+          <div class="meter s0" id="meter_thought"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_thought">0 / 100자</span><span class="meter-fb" id="fb_thought"></span></div></div>
         </div>
       </div>
 <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 4 · 후속연구 — 예고하다</div>
@@ -306,15 +308,15 @@ textarea.short{min-height:70px}
 var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbz3W5rVALhCi07EgZdOWM2eddBOKidSpsm5W_IqfEuSFtt5FJjVTjhPgVIB3FUWc94Y/exec';
 
 var SECTIONS = [
-  { key:'overview', label:'① 활동 개요와 내 역할',  target:100, nudge:'한 활동 + 테이블·모둠에서 내 역할을 구체적으로.', tip:'역할이 행동으로 보이면 완성!' },
-  { key:'scene',    label:'② 기억에 남는 세션 장면', target:100, nudge:'누가·무엇을·주사위·그래서 벌어진 일 + 생긴 질문.', tip:'장면 + 질문이 보이면 완성!' },
-  { key:'lens',     label:'③ 이론 렌즈로 해석하기',  target:120, nudge:'개념어 2개 이상으로 장면을 해석.', tip:'"~의 개념으로 보면 ~이다"가 보이면 완성!' },
-  { key:'economy',  label:'④ 경험경제·연대의 역설',  target:120, nudge:'조사한 분야·출처 + 반론 인정 → 결론.', tip:'출처와 논증 구조가 보이면 완성!' },
-  { key:'work',     label:'⑤ 실제로 한 일',        target:100, nudge:'Day 1/2로 나눠 동사 중심으로.', tip:'행동이 순서대로 보이면 완성! (세특 근거)' },
-  { key:'essay',    label:'⑥ 지식 질문과 나의 주장', target:120, nudge:'지식 질문 + 주장 + 인용·체험 근거.', tip:'질문-주장-근거가 이어지면 완성!' },
-  { key:'change',   label:'⑦ 생각의 변화 (전→후)',  target:100, nudge:'전↔후 대비 + 변화의 계기.', tip:'무엇이 바꿨는지 계기가 보이면 완성!' },
-  { key:'summary',  label:'⑧ 한 문장 요약',        target:50,  nudge:'체험·이론·결론을 한 문장에.', tip:'100자 이내로 압축되면 완성!' },
-  { key:'followup', label:'⑨ 후속 탐구 예고',       target:100, nudge:'주제 → 이유 → 질문 → 방법 순으로.', tip:'다음 연구가 그려지면 완성!' },
+  { key:'overview',  label:'① 활동 개요와 내 역할',   target:100, nudge:'한 활동 + 테이블·모둠에서 내 역할을 구체적으로.', tip:'역할이 행동으로 보이면 완성!' },
+  { key:'scene',     label:'② 기억에 남는 세션 장면',  target:100, nudge:'누가·무엇을·주사위·그래서 벌어진 일 + 생긴 질문.', tip:'장면 + 질문이 보이면 완성!' },
+  { key:'archetype', label:'③ 문화 원형으로 비교하기', target:120, nudge:'두 문화의 원형을 짝지어 공통점·차이점을.', tip:'비교(닮음+다름)가 보이면 완성!' },
+  { key:'theory',    label:'④ 사회를 보는 이론과 접근', target:120, nudge:'개념어 2개 이상 + 경험경제·연대의 역설 연결.', tip:'이론과 조사가 이어지면 완성!' },
+  { key:'work',      label:'⑤ 실제로 한 일',          target:100, nudge:'Day 1/2로 나눠 동사 중심으로.', tip:'행동이 순서대로 보이면 완성! (세특 근거)' },
+  { key:'essay',     label:'⑥ 지식 질문과 나의 주장',  target:120, nudge:'지식 질문 + 주장 + 인용·체험 근거.', tip:'질문-주장-근거가 이어지면 완성!' },
+  { key:'change',    label:'⑦ 생각의 변화 (전→후)',   target:100, nudge:'전↔후 대비 + 변화의 계기.', tip:'무엇이 바꿨는지 계기가 보이면 완성!' },
+  { key:'thought',   label:'⑧ 나의 생각과 경험담',     target:100, nudge:'솔직한 경험담이면 충분 — 잘 쓰려 하지 말기.', tip:'내 목소리가 들리면 완성!' },
+  { key:'followup',  label:'⑨ 후속 탐구 예고',        target:100, nudge:'주제 → 이유 → 질문 → 방법 순으로.', tip:'다음 연구가 그려지면 완성!' },
 ];
 
 function $(id){return document.getElementById(id);}
@@ -352,7 +354,7 @@ function readForm(){
   var d = {
     grade: current ? current.grade : '', ban: current ? current.ban : '',
     num: current ? current.num : '', name: current ? current.name : '',
-    title: $('title').value, lens1: $('lens1').value, keyword: $('keyword').value
+    title: $('title').value, major: $('major').value, lens1: $('lens1').value, keyword: $('keyword').value
   };
   SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
   return d;
@@ -360,6 +362,7 @@ function readForm(){
 
 function writeForm(d){
   $('title').value = d.title || '';
+  $('major').value = d.major || '';
   $('lens1').value = d.lens1 || '';
   $('keyword').value = d.keyword || '';
   SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
@@ -412,14 +415,9 @@ function updateSection(s){
   else if(len < s.target){ stage = 2; msg = '✏️ 거의 다 왔어요. 조금만 더 구체적으로.'; st.textContent='작성중'; st.className='st ing'; }
   else { stage = 3; msg = '✅ 분량 충분! ' + s.tip; st.textContent='✓ 완료'; st.className='st done'; }
 
-  if(s.key === 'summary' && len > 100){
-    stage = 1; msg = '⚠ 100자를 넘었어요 (' + len + '자). 더 압축해 보세요.';
-    st.textContent='압축 필요'; st.className='st ing';
-  }
-
   meter.className = 'meter s' + stage;
   fb.textContent = msg;
-  return len >= s.target && !(s.key === 'summary' && len > 100);
+  return len >= s.target;
 }
 
 function updateAll(){
@@ -430,6 +428,7 @@ function updateAll(){
 }
 
 $('title').addEventListener('input', function(){ saveLocal(); });
+$('major').addEventListener('input', function(){ saveLocal(); });
 ['lens1','keyword'].forEach(function(id){
   $(id).addEventListener('change', function(){ saveLocal(); });
 });
@@ -451,6 +450,7 @@ function buildText(){
   L.push('──────────────────────────');
   L.push(d.grade + '학년 ' + d.ban + '반 ' + d.num + '번 / ' + d.name);
   L.push('제목: ' + (d.title || '(미작성)'));
+  L.push('희망 전공·계열: ' + (d.major || '(미작성)'));
   L.push('이론 렌즈: ' + (d.lens1 || '(미선택)') + ' · 네 개의 열쇠: ' + (d.keyword || '(미선택)'));
   L.push('작성 시각: ' + new Date().toLocaleString('ko-KR'));
   L.push('');

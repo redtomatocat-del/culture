@@ -16,35 +16,35 @@ const GUIDE_NAME = '📖 사용 안내';
 
 const HEADERS = [
   '제출일시', '학년', '반', '번호', '이름',
-  '제목', '이론렌즈', '네열쇠',
-  '활동개요', '세션장면', '이론해석', '경험경제', '실제한일', '질문주장', '생각변화', '한문장요약', '후속연구'
+  '전공', '제목', '이론렌즈', '네열쇠',
+  '활동개요', '세션장면', '문화원형', '이론접근', '실제한일', '질문주장', '생각변화', '나의생각', '후속연구'
 ];
 const CONTENT_START = 5; // 콘텐츠 칸 시작 인덱스 (제목부터) — 병합 저장 대상
 
 const GUIDANCE = {
   overview: '이틀 활동 개요 + 테이블·모둠에서 내 역할 (캐릭터가 아니라 나).',
   scene:    '누가·무엇을·주사위 결과·그래서 테이블에 벌어진 일. 실패·부분 성공 장면 환영.',
-  lens:     '고른 이론의 개념어 2개 이상으로 장면을 해석. "~의 개념으로 보면 ~이다".',
-  economy:  '면대면 산업 조사(분야·출처) + 연대의 역설 논증(반론 인정 → 근거 → 결론).',
+  archetype: '서구의 원형(원탁 서사·영웅담) ↔ 우리 문화의 원형(마당놀이·판소리·이야기판) 비교: 닮은 점 + 다른 점.',
+  theory:    '이론 렌즈 개념어 2개 이상으로 장면 해석 + 경험경제·연대의 역설 조사를 이론에 연결.',
   essay:    '지식 질문 + 주장 + 인용한 제시문·체험 근거 요약.',
   followup: '후속 탐구 예고: 주제 → 이유 → 탐구 질문 → 자료·방법.',
   change:   '수업 전 생각 ↔ 지금 생각 대비 + 변화의 계기.',
   work:     'Day 1/2로 나눠 동사 중심 행동 기록. 세특의 사실 근거.',
-  summary:  '체험·이론·결론을 한 문장(100자 이내)에.',
+  thought:  '형식 없는 자기 생각·경험담. 솔직할수록 좋음.',
 };
 
 const SECTIONS = [
   { key: 'overview', col: '활동개요',   label: '① 활동 개요와 내 역할',   row: 9  },
   { key: 'scene',    col: '세션장면',   label: '② 기억에 남는 세션 장면', row: 13 },
-  { key: 'lens',     col: '이론해석',   label: '③ 이론 렌즈로 해석하기',  row: 17 },
-  { key: 'economy',  col: '경험경제',   label: '④ 경험경제·연대의 역설',  row: 21 },
+  { key: 'archetype', col: '문화원형', label: '③ 문화 원형으로 비교하기', row: 17 },
+  { key: 'theory',    col: '이론접근', label: '④ 사회를 보는 이론과 접근', row: 21 },
   { key: 'work',     col: '실제한일',   label: '⑤ 실제로 한 일',          row: 25 },
   { key: 'essay',    col: '질문주장',   label: '⑥ 지식 질문과 나의 주장', row: 29 },
   { key: 'change',   col: '생각변화',   label: '⑦ 생각의 변화 (전→후)',  row: 33 },
-  { key: 'summary',  col: '한문장요약', label: '⑧ 한 문장 요약',          row: 37 },
+  { key: 'thought',  col: '나의생각',   label: '⑧ 나의 생각과 경험담',    row: 37 },
   { key: 'followup', col: '후속연구',   label: '⑨ 후속 탐구 예고',        row: 41 },
 ];
-const PROGRESS_KEYS = ['overview','scene','lens','economy','work','essay','change','summary','followup'];
+const PROGRESS_KEYS = ['overview','scene','archetype','theory','work','essay','change','thought','followup'];
 const SETUK_LABEL_ROW = 45;
 const SETUK_BODY_ROW = 46;
 
@@ -119,8 +119,8 @@ function saveSubmission(d) {
   const row = [
     ts,
     s(d.grade), s(d.ban), s(d.num), s(d.name),
-    s(d.title), s(d.lens1), s(d.keyword),
-    s(d.overview), s(d.scene), s(d.lens), s(d.economy), s(d.work), s(d.essay), s(d.change), s(d.summary), s(d.followup)
+    s(d.major), s(d.title), s(d.lens1), s(d.keyword),
+    s(d.overview), s(d.scene), s(d.archetype), s(d.theory), s(d.work), s(d.essay), s(d.change), s(d.thought), s(d.followup)
   ];
 
   const key = [s(d.grade), s(d.ban), s(d.num), s(d.name)].join('|');
@@ -184,9 +184,9 @@ function rowToRec(row) {
   return {
     ts: rec['제출일시'],
     grade: s(rec['학년']), ban: s(rec['반']), num: pad2(rec['번호']), name: String(rec['이름'] == null ? '' : rec['이름']).trim(),
-    title: s(rec['제목']), lens1: s(rec['이론렌즈']), keyword: s(rec['네열쇠']),
-    overview: s(rec['활동개요']), scene: s(rec['세션장면']), lens: s(rec['이론해석']), economy: s(rec['경험경제']),
-    work: s(rec['실제한일']), essay: s(rec['질문주장']), change: s(rec['생각변화']), summary: s(rec['한문장요약']), followup: s(rec['후속연구'])
+    major: s(rec['전공']), title: s(rec['제목']), lens1: s(rec['이론렌즈']), keyword: s(rec['네열쇠']),
+    overview: s(rec['활동개요']), scene: s(rec['세션장면']), archetype: s(rec['문화원형']), theory: s(rec['이론접근']),
+    work: s(rec['실제한일']), essay: s(rec['질문주장']), change: s(rec['생각변화']), thought: s(rec['나의생각']), followup: s(rec['후속연구'])
   };
 }
 
@@ -282,8 +282,8 @@ function buildStudentTab(student, rec) {
   content[1] = [student.grade + '학년 ' + student.ban + '반 ' + student.num + '번  ·  제출: ' + (rec.ts || '미제출'), ''];
   content[2] = ['▣ 기록 개요', ''];
   content[3] = ['제목', rec.title || ''];
-  content[4] = ['렌즈 · 열쇠', (rec.lens1 || '-') + '  ·  ' + (rec.keyword || '-')];
-  content[5] = ['한 문장 요약', rec.summary || ''];
+  content[4] = ['희망 전공·계열', rec.major || '-'];
+  content[5] = ['렌즈 · 열쇠', (rec.lens1 || '-') + '  ·  ' + (rec.keyword || '-')];
 
   SECTIONS.forEach(sec => {
     content[sec.row - 1] = ['▣ ' + sec.label, ''];
@@ -334,7 +334,7 @@ function buildStudentTab(student, rec) {
     sh.getRange(sec.row + 2, 1, 1, 2).merge()
       .setBackground('#FFFFFF').setFontColor('#221A15').setFontSize(12)
       .setWrap(true).setVerticalAlignment('top').setFontFamily('맑은 고딕');
-    sh.setRowHeight(sec.row + 2, (sec.key === 'lens' || sec.key === 'economy') ? 130 : 90);
+    sh.setRowHeight(sec.row + 2, (sec.key === 'archetype' || sec.key === 'theory') ? 130 : 90);
 
     sh.setRowHeight(sec.row + 3, 8);
   });
@@ -366,7 +366,7 @@ function updateMasterTab() {
   sh.clear();
   try { sh.getRange(1, 1, sh.getMaxRows(), 11).breakApart(); } catch (e) {}
 
-  const header = ['학년', '반', '번호', '이름', '이론 렌즈', '네 열쇠', '제목', '진척도', '한 문장 요약', '세특 초안 미리보기'];
+  const header = ['학년', '반', '번호', '이름', '전공', '이론 렌즈', '네 열쇠', '제목', '진척도', '세특 초안 미리보기'];
   sh.getRange(1, 1, 1, header.length).setValues([header])
     .setBackground(COLOR_HEADER).setFontColor('#FFFFFF').setFontWeight('bold').setHorizontalAlignment('center');
   sh.setFrozenRows(1);
@@ -382,7 +382,7 @@ function updateMasterTab() {
     if (card) setuk = String(card.getRange(SETUK_BODY_ROW, 1).getValue() || '');
     if (!setuk) setuk = generateSetukDraft(rec);
     if (setuk.length > 200) setuk = setuk.slice(0, 200) + '…';
-    return [stu.grade, stu.ban, stu.num, stu.name, rec.lens1 || '', rec.keyword || '', rec.title || '', pct + '%  (' + filled + '/9)', rec.summary || '', setuk];
+    return [stu.grade, stu.ban, stu.num, stu.name, rec.major || '', rec.lens1 || '', rec.keyword || '', rec.title || '', pct + '%  (' + filled + '/9)', setuk];
   });
 
   if (rows.length > 0) {
@@ -426,8 +426,8 @@ function ensureGuideTab() {
     ['  4. 성찰 설문지는 메뉴 [📋 성찰 설문지 생성]으로 1회 생성 (구글 폼 링크가 뜸)', ''],
     ['', ''],
     ['📋 구조', ''],
-    ['  • 8칸: 활동개요·역할 → 세션 장면 → 이론 렌즈 해석 → 경험경제·논증 → 전공 글쓰기 → 생각 변화 → 실제 한 일 → 한 문장 요약', ''],
-    ['  • 마스터 탭에서 전공 모둠·이론 렌즈·네 열쇠 별로 필터 가능', ''],
+    ['  • 9칸: 활동개요·역할 → 세션 장면 → 문화 원형 비교 → 이론과 접근 → 실제 한 일 → 지식 질문·주장 → 생각 변화 → 나의 생각·경험담 → 후속 탐구 예고', ''],
+    ['  • 마스터 탭에서 전공·이론 렌즈·네 열쇠 별로 필터 가능', ''],
     ['', ''],
     ['⚠ 주의', ''],
     ['  • 학생은 시트에 직접 접근하지 않아요. HTML 링크만 줍니다.', ''],
@@ -455,33 +455,33 @@ function generateSetukDraft(rec) {
   const keyword = String(rec.keyword || '').trim();
   const overview = String(rec.overview || '').trim();
   const scene = String(rec.scene || '').trim();
-  const lens = String(rec.lens || '').trim();
-  const economy = String(rec.economy || '').trim();
+  const archetype = String(rec.archetype || '').trim();
+  const theory = String(rec.theory || '').trim();
+  const major = String(rec.major || '').trim();
   const essay = String(rec.essay || '').trim();
   const followup = String(rec.followup || '').trim();
   const change = String(rec.change || '').trim();
   const work = String(rec.work || '').trim();
-  const summary = String(rec.summary || '').trim();
+  const thought = String(rec.thought || '').trim();
 
-  if (!title && !overview && !lens) {
+  if (!title && !overview && !archetype && !theory) {
     return '(작성된 내용이 부족하여 자동 생성된 초안이 없습니다)';
   }
 
   const parts = [];
-  if (summary) {
-    parts.push(clip(summary, 120) + (/[.!?다음됨함임]$/.test(summary) ? '' : '.'));
-  } else if (title) {
+  if (title) {
     parts.push("영어·일반사회 융합수업(TRPG 체험)에서 '" + clip(title, 70) + "' 기록을 작성함.");
   }
   if (overview) parts.push('(역할) ' + clip(firstSent(overview), 160));
   if (scene) parts.push('(장면) ' + clip(firstSent(scene), 180));
-  if (lens) parts.push('(이론 해석)' + (lens1 ? ' [' + lens1 + '] ' : ' ') + clip(firstSent(lens), 200));
-  if (economy) parts.push('(논증) ' + clip(firstSent(economy), 180));
+  if (archetype) parts.push('(문화 원형 비교) ' + clip(firstSent(archetype), 180));
+  if (theory) parts.push('(이론 접근)' + (lens1 ? ' [' + lens1 + '] ' : ' ') + clip(firstSent(theory), 200));
   if (essay) parts.push('(지식 질문·주장) ' + clip(firstSent(essay), 180));
   if (change) parts.push('(변화) ' + clip(firstSent(change), 160));
+  if (thought) parts.push('(소감) ' + clip(firstSent(thought), 140));
   if (work) parts.push('(과정) ' + clip(firstSent(work), 180));
   if (followup) parts.push('(후속 예고) ' + clip(firstSent(followup), 150));
-  parts.push('면대면 상호작용의 체험을 사회학 이론과 전공 관심으로 확장하고' + (keyword ? ", '" + keyword + "'을(를) 자기 삶의 개념으로 끌어와" : '') + ' 경험을 지식으로 번역하는 융합적 탐구 태도가 드러남.');
+  parts.push('각 문화의 원형을 비교하는 시각으로 면대면 상호작용의 체험을 해석하고' + (major ? " 이를 '" + major + "' 분야의 관심으로 확장했으며" : '') + (keyword ? " '" + keyword + "'을(를) 자기 삶의 개념으로 끌어와" : '') + ' 경험을 지식으로 번역하는 융합적 탐구 태도가 드러남.');
   return parts.join(' ');
 }
 
@@ -663,7 +663,7 @@ function exportCurrentToDoc() {
   body.appendParagraph(grade + '학년 ' + ban + '반 ' + num + '번');
   body.appendParagraph('제목: ' + (rec.title || '-'));
   body.appendParagraph('이론 렌즈: ' + (rec.lens1 || '-') + ' · 네 개의 열쇠: ' + (rec.keyword || '-'));
-  body.appendParagraph('한 문장 요약: ' + (rec.summary || '-'));
+  body.appendParagraph('희망 전공·계열: ' + (rec.major || '-'));
   body.appendParagraph('').appendHorizontalRule();
 
   SECTIONS.forEach(sec => {
@@ -709,8 +709,9 @@ function getBoardData() {
       grade: stu.grade, ban: stu.ban, num: stu.num, name: stu.name,
       title: rec.title || '(제목 미작성)',
       lens1: rec.lens1 || '',
+      major: rec.major || '',
       keyword: rec.keyword || '',
-      summary_preview: clip(rec.summary || rec.scene, 80),
+      summary_preview: clip(rec.thought || rec.scene, 80),
       progress: progress,
       submitted: true
     });
