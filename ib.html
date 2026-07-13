@@ -1,0 +1,560 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>IB 동아리 — TOK 에세이·심포지엄 워크북</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF7F2; --paper:#FFFFFF; --surface:#F2ECE2; --border:#E3DACB;
+  --main:#7A3B2E; --main-d:#3E1E17; --topic:#A05A3F;
+  --sub:#57534E; --muted:#A89F92; --text:#221A15;
+  --guide-bg:#FAEEDA; --guide-tx:#854F0B;
+  --weak-bg:#FBEAE8; --weak-tx:#9C3B30; --good-bg:#F3EBE0; --good-tx:#7A3B2E;
+  --font-body:'Pretendard',sans-serif;
+  --font-head:'Gowun Dodum','Pretendard',sans-serif;
+  --font-data:'JetBrains Mono',monospace;
+  --r:10px; --sh:0 1px 2px rgba(34,26,21,.04),0 4px 12px rgba(34,26,21,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:var(--font-body);color:var(--text);background:var(--bg);letter-spacing:-.005em;word-break:keep-all}
+body{padding:18px 16px;background-image:radial-gradient(circle,#DDD2BE 1px,transparent 1.2px);background-size:18px 18px}
+.wrap{max-width:840px;margin:0 auto}
+
+.hd{background:var(--main-d);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:18px 22px;box-shadow:var(--sh)}
+.hd h1{font-family:var(--font-head);font-weight:400;font-size:22px;margin-bottom:4px}
+.hd p{font-size:12.5px;opacity:.85;line-height:1.6}
+
+.note{background:#FFF7ED;border-left:4px solid #C2410C;border-radius:0 8px 8px 0;padding:11px 14px;margin:14px 0;font-size:12.5px;line-height:1.65;color:#6B2E0A}
+.note b{color:#C2410C}
+
+.card{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.card-hd{background:var(--topic);color:#fff;padding:10px 18px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.card-hd .num{font-family:var(--font-data);font-size:11px;background:rgba(255,255,255,.18);padding:2px 7px;border-radius:4px}
+.card-body{padding:14px 18px}
+
+.grid{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;align-items:center}
+.grid .lb{font-size:12.5px;font-weight:600;color:var(--sub)}
+.grid select,.grid input{width:100%;font-family:var(--font-body);font-size:13.5px;padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none;transition:border-color .12s}
+.grid select:focus,.grid input:focus{border-color:var(--main)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0}
+.chip-t{font-size:12px;padding:5px 11px;border:1.5px solid var(--border);border-radius:15px;cursor:pointer;user-select:none;background:var(--paper);color:var(--sub);transition:all .12s}
+.chip-t:hover{border-color:var(--main)}
+.chip-t.on{background:var(--main);border-color:var(--main);color:#fff;font-weight:700}
+.addrow{display:flex;gap:6px;margin-top:6px}
+.addrow input{flex:1;font-family:var(--font-body);font-size:12.5px;padding:7px 10px;border:1.5px dashed var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none}
+.addrow button{font-family:var(--font-body);font-size:12px;font-weight:700;padding:7px 13px;border:none;border-radius:7px;background:var(--main-d);color:#fff;cursor:pointer}
+.comp-ref{background:#F5EFE6;border:1px dashed #C9B396;border-radius:7px;padding:9px 12px;margin-bottom:9px;font-size:11.5px;line-height:2;color:#6B5335}
+.comp-ref b{color:var(--main-d)}
+.comp-ref span{display:inline-block;background:#fff;border:1px solid #D9C6B0;border-radius:10px;padding:1px 8px;margin:0 3px 0 0;font-size:11px;color:#7A3B2E;white-space:nowrap}
+.tgt-inline{font-family:var(--font-data);font-size:10.5px;font-weight:500;color:var(--muted)}
+
+.confirm{margin-top:12px;display:none;align-items:center;gap:8px;background:var(--good-bg);color:var(--good-tx);border:1px solid #D9C6B0;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600}
+.confirm.show{display:flex}
+.confirm .chip{font-family:var(--font-data);font-size:11px;background:#fff;border:1px solid #D9C6B0;border-radius:5px;padding:2px 8px;font-weight:500}
+
+.phase{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.phase-hd{background:var(--main);color:#fff;padding:11px 18px;display:flex;align-items:center;gap:10px}
+.phase-hd .ttl{font-weight:700;font-size:14px}
+.phase-hd .phase-tag{font-family:var(--font-data);font-size:10px;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:4px;letter-spacing:.03em}
+.phase-hd .st{margin-left:auto;font-family:var(--font-data);font-size:10.5px;padding:2px 9px;border-radius:10px;background:rgba(255,255,255,.16);font-weight:500}
+.phase-hd .st.done{background:#E4C9A8;color:#4A2A15}
+.phase-hd .st.ing{background:#F4D58A;color:#7A5B12}
+.phase-body{padding:14px 18px}
+
+.guide{background:var(--guide-bg);color:var(--guide-tx);padding:10px 13px;border-radius:7px;font-size:12px;line-height:1.65;margin-bottom:9px;font-style:italic}
+
+.ex-body{padding:0 0 9px;display:flex;flex-direction:column;gap:9px}
+.ex-row{font-size:12.5px;line-height:1.6;border-radius:7px;padding:9px 12px}
+.ex-row.weak{background:var(--weak-bg);color:var(--weak-tx)}
+.ex-row.good{background:var(--good-bg);color:var(--good-tx)}
+.ex-row .tag{display:inline-block;font-family:var(--font-data);font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;margin-right:7px;vertical-align:middle}
+.ex-row.weak .tag{background:#E9A89F;color:#7A271B}
+.ex-row.good .tag{background:#E4C9A8;color:#4A2A15}
+
+textarea{width:100%;font-family:var(--font-body);font-size:13.5px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;background:var(--paper);color:var(--text);outline:none;resize:vertical;min-height:120px;line-height:1.7;transition:border-color .12s}
+textarea:focus{border-color:var(--main)}
+textarea.short{min-height:70px}
+
+.meter{margin-top:7px}
+.meter-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.meter-bar > i{display:block;height:100%;width:0%;background:var(--muted);border-radius:3px;transition:width .25s,background .25s}
+.meter-row{display:flex;align-items:center;gap:8px}
+.meter-ch{font-family:var(--font-data);font-size:10.5px;color:var(--muted);min-width:90px}
+.meter-fb{font-size:12px;line-height:1.4;flex:1}
+.meter.s0 .meter-bar > i{background:var(--muted)}
+.meter.s1 .meter-bar > i{background:#E0A93B}
+.meter.s2 .meter-bar > i{background:#B77A4C}
+.meter.s3 .meter-bar > i{background:var(--main)}
+.meter.s0 .meter-fb{color:var(--muted)}
+.meter.s1 .meter-fb{color:#9A6B12}
+.meter.s2 .meter-fb{color:#8A5A2E}
+.meter.s3 .meter-fb{color:var(--main);font-weight:600}
+
+.foot{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-top:14px}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-lb{font-size:12px;color:var(--sub);font-weight:600;min-width:96px}
+.prog-lb b{color:var(--main)}
+.bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--main);transition:width .25s}
+
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:var(--font-body);font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;cursor:pointer;border:1.5px solid;transition:all .12s}
+.btn-main{background:var(--main);color:#fff;border-color:var(--main)}
+.btn-main:hover{background:var(--main-d);border-color:var(--main-d)}
+.btn-main:disabled{background:var(--muted);border-color:var(--muted);cursor:not-allowed}
+.btn-save{background:#FFF7ED;color:#9A6B12;border-color:#F4D58A}
+.btn-save:hover{background:#FCEFD6}
+.btn-sub{background:var(--paper);color:var(--sub);border-color:var(--border)}
+.btn-sub:hover{background:var(--surface)}
+
+.msg{margin-top:10px;font-size:12.5px;padding:9px 12px;border-radius:7px;display:none;line-height:1.55}
+.msg.show{display:block}
+.msg.ok{background:#ECFDF5;color:#065F46;border:1px solid #6EE7B7}
+.msg.err{background:#FEF2F2;color:#991B1B;border:1px solid #FCA5A5}
+.msg.warn{background:#FFFBEB;color:#92400E;border:1px solid #FCD34D}
+
+.local-info{font-size:11.5px;color:var(--muted);font-family:var(--font-data);margin-top:8px}
+.local-info b{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hd">
+    <h1>🎓 IB 동아리 — TOK 에세이·심포지엄 워크북</h1>
+    <p>동아리 활동에서 출발해 자료를 모으고 책을 읽고 분석하여 에세이를 쓰고, 교내 심포지엄에서 발표·토론한 전 과정을 <b>학교생활기록부의 사실 근거</b>로 남깁니다. 계기 → 연구 → 결과 → 성찰·후속의 9칸. · 자동 임시저장 · 여러 번 제출 OK(이어서 저장)</p>
+  </div>
+
+  <div class="note">
+    <b>📝 작성 안내</b><br>
+    1) <b>학년·반·번호·이름</b>을 정확히 입력하세요. (이 정보로 임시저장·제출이 구분됩니다)<br>
+    2) 에세이 초고·독서 메모·심포지엄 기록을 옆에 펴 놓고 옮기세요 — 기억이 아니라 <b>기록에서</b> 출발해야 정확합니다.<br>
+    3) <b>② 지식 질문(KQ)</b>이 전체의 심장입니다. 열린 질문("~은 어느 정도까지 ~인가")으로.<br>
+    4) <b>③ 자료의 출처·선별 기준</b>과 <b>⑦ 심포지엄 질의응답</b>이 세특 문장의 뼈대가 됩니다. 구체적으로.<br>
+    5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
+  </div>
+
+  <!-- 학생 정보 -->
+  <div class="card">
+    <div class="card-hd"><span class="num">STEP 0</span> 학생 정보 (직접 입력)</div>
+    <div class="card-body">
+      <div class="grid">
+        <div class="lb">학년</div>
+        <input type="text" id="inGrade" inputmode="numeric" placeholder="예: 2">
+        <div class="lb">반</div>
+        <input type="text" id="inBan" inputmode="numeric" placeholder="예: 3">
+        <div class="lb">번호</div>
+        <input type="text" id="inNum" inputmode="numeric" placeholder="예: 5">
+        <div class="lb">이름</div>
+        <input type="text" id="inName" placeholder="본인 이름">
+      </div>
+      <div class="confirm" id="confirm">
+        <span>✓ <b id="cfName"></b> 님</span>
+        <span class="chip" id="cfId"></span>
+      </div>
+    </div>
+  </div>
+
+  <div id="formArea">
+
+    <!-- 개요 선택 -->
+    <div class="card">
+      <div class="card-hd"><span class="num">STEP 1</span> 나의 에세이 개요</div>
+      <div class="card-body">
+        <div class="grid">
+          <div class="lb">희망 전공·계열</div>
+          <input type="text" id="major" placeholder="예: 사회학, 경영학, 심리학, 미디어커뮤니케이션 …">
+          <div class="lb">내 기록의 제목</div>
+          <input type="text" id="title" placeholder="예: 숫자는 사회를 구성한다 — 통계 재현의 조건">
+          <div class="lb">지식 영역(AOK)<br><span style="font-weight:400;font-size:10.5px;color:var(--muted)">(복수 선택 가능)</span></div>
+          <div class="chips" id="lensChips"></div>
+          <div class="lb">내가 보여준 학습자상<br><span style="font-weight:400;font-size:10.5px;color:var(--muted)">(복수 선택 + 직접 추가)</span></div>
+          <div>
+            <div class="chips" id="keyChips"></div>
+            <div class="addrow"><input type="text" id="keyCustom" placeholder="목록에 없는 면모 직접 추가"><button type="button" id="keyAddBtn">+ 추가</button></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8칸 -->
+    <div id="sections">
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 1 · 계기 — 동아리에서 출발하다</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">① 동아리 활동 개요와 내 역할</span><span class="phase-tag">계기</span><span class="st" id="st_overview">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">그동안 IB 동아리에서 해 온 활동(세미나·토론·프로젝트)을 요약하고, 그 속에서 내가 맡아 온 역할을 쓰세요. 이번 에세이가 어느 활동에서 출발했는지 이어지면 완벽합니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>동아리에서 여러 활동을 열심히 했다.</div><div class="ex-row good"><span class="tag">좋음</span>동아리에서 '지식은 어떻게 정당화되는가'를 주제로 세미나 3회와 모의 TOK 토론을 진행했고, 나는 논제 정리와 토론 사회를 맡았다. 그중 '통계는 얼마나 객관적인가' 토론이 결론 없이 끝난 것이 이번 에세이의 출발점이 됐다.</div></div>
+          <textarea id="ta_overview" placeholder="동아리에서 해 온 활동 + 내 역할 + 이번 에세이의 출발점."></textarea>
+          <div class="meter s0" id="meter_overview"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_overview">0 / 100자</span><span class="meter-fb" id="fb_overview"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">② 지식 질문(KQ) 세우기</span><span class="phase-tag">TOK · 심장</span><span class="st" id="st_question">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">에세이의 심장입니다. 주제를 고른 계기와 지식 질문을 쓰세요. 좋은 지식 질문은 특정 사실이 아니라 지식 자체를 묻고("우리는 ~을 어떻게 아는가", "~은 어느 정도까지 ~인가"), 관점에 따라 답이 갈립니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>인공지능에 대해 조사하기로 했다.</div><div class="ex-row good"><span class="tag">좋음</span>토론에서 "통계는 거짓말한다"는 말이 계속 걸렸다. 지식 질문: "숫자 데이터는 어느 정도까지 사회 현상을 객관적으로 재현할 수 있는가?" 지식의 생산자와 해석자 중 어느 관점에 서느냐에 따라 답이 갈리기에 탐구할 가치가 있다고 판단했다.</div></div>
+          <textarea id="ta_question" placeholder="계기 + 지식 질문(&quot;~은 어느 정도까지 ~인가&quot;) + 왜 열린 질문인지."></textarea>
+          <div class="meter s0" id="meter_question"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_question">0 / 100자</span><span class="meter-fb" id="fb_question"></span></div></div>
+        </div>
+      </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 2 · 연구 — 자료·독서·분석</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">③ 자료 수집과 재구성</span><span class="phase-tag">출처 · 선별</span><span class="st" id="st_sources">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">내가 직접 모은 자료를 쓰세요: 동아리 활동 기록, 통계·기사·논문 등. 각 자료의 출처, 그리고 왜 이 자료를 골랐고 어떤 자료는 버렸는지(선정·제외 기준)까지. 이 흔적이 '짜깁기'와 '탐구'를 가르는 지점입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>인터넷에서 자료를 많이 찾아서 정리했다.</div><div class="ex-row good"><span class="tag">좋음</span>통계청 사회조사(2024) 원자료와 그것을 인용한 기사 두 편을 나란히 놓고 같은 수치가 어떻게 다르게 표현되는지 비교했다. 조회수 높은 블로그 글은 원출처가 확인되지 않아 제외했고, 동아리 토론 기록지에서 반대 측 논거 세 개를 자료로 재구성했다.</div></div>
+          <textarea id="ta_sources" placeholder="자료 목록(출처) + 고른 이유 + 버린 자료와 그 이유."></textarea>
+          <div class="meter s0" id="meter_sources"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_sources">0 / 120자</span><span class="meter-fb" id="fb_sources"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">④ 독서와 개념 연결</span><span class="phase-tag">책 · 개념</span><span class="st" id="st_reading">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">읽은 책(저자·제목)과 핵심 개념을 쓰고, 그 개념이 내 지식 질문과 자료를 어떻게 밝혀 줬는지 연결하세요. 줄거리 요약이 아니라 개념의 적용이 핵심입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>'팩트풀니스'를 읽고 많은 것을 배웠다.</div><div class="ex-row good"><span class="tag">좋음</span>한스 로슬링의 '팩트풀니스'에서 부정 본능·단일 관점 본능 개념을 가져왔다. 두 기사가 같은 통계를 정반대로 해석한 것은 데이터가 아니라 해석 틀의 문제임을 이 개념으로 설명할 수 있었고, 대럴 허프의 '새빨간 거짓말, 통계'의 표본 편향 사례를 교차시켜 보완했다.</div></div>
+          <textarea id="ta_reading" placeholder="책(저자·제목) + 핵심 개념 + 내 질문·자료와의 연결."></textarea>
+          <div class="meter s0" id="meter_reading"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_reading">0 / 120자</span><span class="meter-fb" id="fb_reading"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑤ 분석 — 관점 비교와 반례</span><span class="phase-tag">TOK · 정당화</span><span class="st" id="st_analysis">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">자료와 책을 어떻게 분석했는지 과정을 쓰세요: 무엇과 무엇을 비교했고, 어떤 기준으로 분류했으며, 내 가설과 어긋나는 자료(반례)는 어떻게 다뤘는지. TOK의 핵심은 서로 다른 관점을 나란히 놓고 각각의 정당화 방식을 검토하는 것입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>자료를 분석한 결과 통계는 왜곡될 수 있다는 것을 알았다.</div><div class="ex-row good"><span class="tag">좋음</span>같은 통계를 인용한 기사 두 편을 문장 단위로 대조해 강조·생략·비교 기준 변경의 세 유형으로 분류했다. 처음 가설은 '의도적 왜곡'이었지만 기자 인터뷰 자료에서 마감·지면 제약이라는 구조 요인이 더 크게 보여 가설을 수정했다 — 반례가 내 분석을 한 단계 밀어 올렸다.</div></div>
+          <textarea id="ta_analysis" placeholder="비교·분류 방법 + 반례 처리 + 가설이 수정된 과정."></textarea>
+          <div class="meter s0" id="meter_analysis"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_analysis">0 / 120자</span><span class="meter-fb" id="fb_analysis"></span></div></div>
+        </div>
+      </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 3 · 결과 — 에세이와 심포지엄</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑥ 에세이 논지 — 주장·반론·정당화</span><span class="phase-tag">주장 · 반론</span><span class="st" id="st_essay">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">완성한 에세이의 뼈대를 요약하세요: 주장 → 근거(자료·책 인용) → 반론 인정 → 응답 → 결론. 지식 질문에 대한 나의 최종 답("~한 정도까지")이 드러나야 합니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>통계를 비판적으로 봐야 한다고 주장했다.</div><div class="ex-row good"><span class="tag">좋음</span>주장: 숫자는 사회를 재현하는 것이 아니라 구성한다. 기사 대조 분석과 팩트풀니스의 개념을 근거로 삼았고, "그래도 숫자가 말보다 객관적"이라는 반론을 인정한 뒤 객관성은 숫자 자체가 아니라 수집·해석 절차의 투명성에서 나온다고 응답했다. 지식 질문에는 "절차가 공개되는 정도까지"라고 답했다.</div></div>
+          <textarea id="ta_essay" placeholder="주장 → 근거 → 반론 인정 → 응답 → 지식 질문의 최종 답."></textarea>
+          <div class="meter s0" id="meter_essay"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_essay">0 / 120자</span><span class="meter-fb" id="fb_essay"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑦ 심포지엄 발표와 토론</span><span class="phase-tag">발표 · 질의응답</span><span class="st" id="st_symposium">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">심포지엄에서 무엇을 발표했고, 어떤 질문·반박을 받았으며, 어떻게 답했는지 쓰세요. 토론을 거치며 내 에세이가 수정·보강된 지점이 있으면 그것이 핵심입니다. 아래 핵심역량 중 내 행동에 드러난 것을, 역량 이름이 아니라 <b>행동</b>으로 쓰세요.</div>
+          <div class="comp-ref"><b>💡 핵심역량 참고</b> — <span>비판적 사고</span><span>창의적 문제해결</span><span>의사소통</span><span>협업</span><span>공감·대인관계</span><span>회복탄력성</span><span>주도성·리더십</span><span>정보·자료 활용</span><span>갈등 조정</span><span>분석적 추론</span><span>경청·질문</span><span>자기 성찰</span> 예: "의사소통" → "반박을 받았을 때 상대의 전제를 먼저 요약한 뒤 내 근거를 제시했다"</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>발표를 잘 마쳤고 질문에 대답했다.</div><div class="ex-row good"><span class="tag">좋음</span>10분 발표에서 기사 대조 분석을 중심으로 논지를 세웠다. "표본 편향은 통계 교육으로 해결되지 않느냐"는 질문에 교육은 해석자를 바꿀 뿐 생산 구조는 남는다고 답했지만, 토론 후 결론부에 통계 리터러시의 한계 단락을 추가해 에세이를 보강했다. 다른 팀 발표의 시각화 왜곡 사례는 후속 탐구 주제로 가져왔다.</div></div>
+          <textarea id="ta_symposium" placeholder="발표 내용 + 받은 질문·반박 + 내 답변 + 에세이가 달라진 지점."></textarea>
+          <div class="meter s0" id="meter_symposium"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_symposium">0 / 120자</span><span class="meter-fb" id="fb_symposium"></span></div></div>
+        </div>
+      </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 4 · 성찰과 후속</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑧ 생각의 변화와 성찰</span><span class="phase-tag">성찰</span><span class="st" id="st_change">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">탐구 전과 후, 무엇이 달라졌나요? 지식을 대하는 태도, 나의 탐구 방식, 그리고 한계까지 솔직하게. 잘된 것만이 아니라 부족함을 아는 것도 성찰입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>많이 배웠고 뿌듯했다.</div><div class="ex-row good"><span class="tag">좋음</span>전에는 근거에 숫자가 있으면 강하다고 믿었다. 지금은 숫자를 보면 '누가, 왜, 어떻게 세었나'부터 묻게 된다. 다만 내 분석이 기사 두 편에 의존해 일반화에 한계가 있다는 지적을 받아들인다 — 그것이 후속 탐구가 필요한 이유다.</div></div>
+          <textarea id="ta_change" placeholder="전: … → 후: … + 스스로 아는 내 탐구의 한계."></textarea>
+          <div class="meter s0" id="meter_change"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_change">0 / 100자</span><span class="meter-fb" id="fb_change"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑨ 후속 탐구 예고</span><span class="phase-tag">다음 연구</span><span class="st" id="st_followup">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이번 에세이를 끝으로 두지 않습니다. 심포지엄에서 얻은 질문이나 남은 의문 하나를 골라 예고하세요: 주제 → 이유 → 탐구 질문 → 자료·방법.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>기회가 되면 더 알아보고 싶다.</div><div class="ex-row good"><span class="tag">좋음</span>후속 주제: 데이터 시각화의 수사학. 심포지엄에서 본 그래프 왜곡 사례가 문자보다 강하게 인식을 바꾼다고 느꼈기 때문이다. 질문: 시각화는 어느 정도까지 중립적일 수 있는가? 방법: 언론 그래프 30건을 축·스케일 기준으로 코딩해 분석.</div></div>
+          <textarea id="ta_followup" placeholder="주제 → 이유 → 탐구 질문 → 자료·방법."></textarea>
+          <div class="meter s0" id="meter_followup"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_followup">0 / 100자</span><span class="meter-fb" id="fb_followup"></span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="foot">
+    <div class="prog-row">
+      <span class="prog-lb">작성 완료 <b id="doneCount">0</b> / 9 칸</span>
+      <div class="bar"><i id="bar" style="width:0%"></i></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-main" id="submitBtn">📤 제출하기</button>
+      <button type="button" class="btn btn-save" id="saveBtn">💾 임시저장</button>
+      <button type="button" class="btn btn-sub" id="txtBtn">📄 텍스트로 저장(.txt)</button>
+      <button type="button" class="btn btn-sub" id="clearBtn">🗑 임시저장 지우기</button>
+    </div>
+    <div class="msg" id="msg"></div>
+    <div class="local-info">💾 임시저장 = 이 기기에만 보관 (시트 전송 X) · 📤 제출 = 선생님 시트로 전송 · 마지막 저장 <b id="saveTime">—</b></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// 설정 — 배포 후 Apps Script /exec URL로 교체
+// ─────────────────────────────────────────────
+var LENSES = ['역사','인간과학(사회·경제·심리)','자연과학','수학','예술','기술과 미디어','언어','정치','윤리'];
+var CONCEPTS = ['탐구하는 사람','지식이 풍부한 사람','사고하는 사람','소통하는 사람','원칙을 지키는 사람','열린 마음을 지닌 사람','배려하는 사람','도전하는 사람','균형 잡힌 사람','성찰하는 사람'];
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxGFjWDGaIeamnqLvahgEmB4h7rxDnhZI7YNIjej9ApUIk-6zHQyKCWDSUboUnJccdAcQ/exec';
+
+var SECTIONS = [
+  { key:'overview',  label:'① 동아리 활동 개요와 내 역할',   target:100, nudge:'활동 요약 + 내 역할 + 에세이 출발점.', tip:'역할과 출발점이 보이면 완성!' },
+  { key:'question',  label:'② 지식 질문(KQ) 세우기',        target:100, nudge:'열린 질문 + 관점에 따라 답이 갈리는 이유.', tip:'지식 자체를 묻는 질문이면 완성!' },
+  { key:'sources',   label:'③ 자료 수집과 재구성',           target:120, nudge:'출처 + 고른 이유 + 버린 이유.', tip:'선별 기준이 보이면 완성!' },
+  { key:'reading',   label:'④ 독서와 개념 연결',             target:120, nudge:'개념을 내 주제에 적용 — 줄거리 요약 금지.', tip:'개념→적용이 이어지면 완성!' },
+  { key:'analysis',  label:'⑤ 분석 — 관점 비교와 반례',      target:120, nudge:'비교 기준 + 반례를 다룬 방식.', tip:'가설이 수정·보강되는 과정이 보이면 완성!' },
+  { key:'essay',     label:'⑥ 에세이 논지 — 주장·반론·정당화', target:120, nudge:'주장-근거-반론-응답 사슬.', tip:'지식 질문의 답이 보이면 완성!' },
+  { key:'symposium', label:'⑦ 심포지엄 발표와 토론',         target:120, nudge:'질문·반박 + 내 응답 + 수정된 지점.', tip:'토론이 에세이를 바꾼 흔적이 보이면 완성!' },
+  { key:'change',    label:'⑧ 생각의 변화와 성찰',           target:100, nudge:'전↔후 대비 + 스스로 아는 한계.', tip:'한계 인식까지 보이면 완성!' },
+  { key:'followup',  label:'⑨ 후속 탐구 예고',              target:100, nudge:'주제 → 이유 → 질문 → 방법 순으로.', tip:'다음 연구가 그려지면 완성!' },
+];
+
+function $(id){return document.getElementById(id);}
+
+var current = null; // {grade,ban,num,name}
+
+function readId(){
+  return { grade:$('inGrade').value.trim(), ban:$('inBan').value.trim(), num:$('inNum').value.trim(), name:$('inName').value.trim() };
+}
+function idComplete(id){ return !!(id.grade && id.ban && id.num && id.name); }
+
+function refreshLock(){
+  var id = readId();
+  if(idComplete(id)){
+    current = id;
+    $('cfName').textContent = id.name;
+    $('cfId').textContent = id.grade + '학년 ' + id.ban + '반 ' + id.num + '번';
+    $('confirm').classList.add('show');
+  } else {
+    current = null;
+    $('confirm').classList.remove('show');
+  }
+}
+['inGrade','inBan','inNum','inName'].forEach(function(fid){
+  $(fid).addEventListener('input', refreshLock);
+  $(fid).addEventListener('change', function(){ refreshLock(); if(current){ loadLocal(); updateAll(); } });
+});
+
+function renderChips(boxId, items, cls){
+  var box = document.getElementById(boxId);
+  items.forEach(function(v){
+    if([].slice.call(box.children).some(function(c){return c.dataset.v===v;})) return;
+    var el = document.createElement('span');
+    el.className = 'chip-t'; el.textContent = v; el.dataset.v = v;
+    el.addEventListener('click', function(){ el.classList.toggle('on'); saveLocal(); });
+    box.appendChild(el);
+  });
+}
+function chipValues(boxId){
+  return [].slice.call(document.getElementById(boxId).children)
+    .filter(function(c){return c.classList.contains('on');})
+    .map(function(c){return c.dataset.v;}).join(', ');
+}
+function setChipValues(boxId, str, baseItems){
+  var vals = String(str||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+  // 목록에 없는 값(직접 추가분)은 칩으로 생성
+  var extra = vals.filter(function(v){ return baseItems.indexOf(v) < 0; });
+  if(extra.length) renderChips(boxId, extra);
+  [].slice.call(document.getElementById(boxId).children).forEach(function(c){
+    c.classList.toggle('on', vals.indexOf(c.dataset.v) >= 0);
+  });
+}
+renderChips('lensChips', LENSES);
+renderChips('keyChips', CONCEPTS);
+document.getElementById('keyAddBtn').addEventListener('click', function(){
+  var inp = document.getElementById('keyCustom');
+  var v = inp.value.trim();
+  if(!v) return;
+  renderChips('keyChips', [v]);
+  var box = document.getElementById('keyChips');
+  [].slice.call(box.children).forEach(function(c){ if(c.dataset.v===v) c.classList.add('on'); });
+  inp.value = '';
+  saveLocal();
+});
+
+function getKey(){
+  if(!current) return '';
+  return 'ib_' + current.grade + '_' + current.ban + '_' + current.num + '_' + current.name;
+}
+
+function readForm(){
+  var d = {
+    grade: current ? current.grade : '', ban: current ? current.ban : '',
+    num: current ? current.num : '', name: current ? current.name : '',
+    title: $('title').value, major: $('major').value, lens1: chipValues('lensChips'), keyword: chipValues('keyChips')
+  };
+  SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
+  return d;
+}
+
+function writeForm(d){
+  $('title').value = d.title || '';
+  $('major').value = d.major || '';
+  setChipValues('lensChips', d.lens1, LENSES);
+  setChipValues('keyChips', d.keyword, CONCEPTS);
+  SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
+}
+
+function saveLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    localStorage.setItem(k, JSON.stringify(readForm()));
+    var t = new Date();
+    $('saveTime').textContent = ('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2)+':'+('0'+t.getSeconds()).slice(-2);
+  }catch(e){}
+}
+
+function loadLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    var raw = localStorage.getItem(k);
+    if(raw){ writeForm(JSON.parse(raw)); $('saveTime').textContent = '(이전 임시저장 복원됨)'; }
+    else { writeForm({}); $('saveTime').textContent = '—'; }
+  }catch(e){}
+}
+
+function clearLocal(){
+  var k = getKey();
+  if(!k){ showMsg('warn','먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  if(!confirm('이 기기의 임시저장만 지워요 (제출된 시트는 안 건드림). 진행?')) return;
+  try{ localStorage.removeItem(k); }catch(e){}
+  writeForm({});
+  updateAll();
+  $('saveTime').textContent = '지움';
+}
+
+function updateSection(s){
+  var el = $('ta_' + s.key);
+  var len = el.value.trim().length;
+  var meter = $('meter_' + s.key);
+  var bar = meter.querySelector('.meter-bar > i');
+  var ch = $('ch_' + s.key);
+  var fb = $('fb_' + s.key);
+  var st = $('st_' + s.key);
+
+  var pct = Math.min(100, Math.round(len / s.target * 100));
+  bar.style.width = pct + '%';
+  ch.textContent = len + ' / ' + s.target + '자';
+
+  var stage, msg;
+  if(len === 0){ stage = 0; msg = ''; st.textContent='미작성'; st.className='st'; }
+  else if(len < s.target * 0.4){ stage = 1; msg = '🌱 좋은 출발! ' + s.nudge; st.textContent='작성중'; st.className='st ing'; }
+  else if(len < s.target){ stage = 2; msg = '✏️ 거의 다 왔어요. 조금만 더 구체적으로.'; st.textContent='작성중'; st.className='st ing'; }
+  else { stage = 3; msg = '✅ 분량 충분! ' + s.tip; st.textContent='✓ 완료'; st.className='st done'; }
+
+  meter.className = 'meter s' + stage;
+  fb.textContent = msg;
+  return len >= s.target;
+}
+
+function updateAll(){
+  var done = 0;
+  SECTIONS.forEach(function(s){ if(updateSection(s)) done++; });
+  $('doneCount').textContent = done;
+  $('bar').style.width = Math.round(done / SECTIONS.length * 100) + '%';
+}
+
+$('title').addEventListener('input', function(){ saveLocal(); });
+$('major').addEventListener('input', function(){ saveLocal(); });
+SECTIONS.forEach(function(s){
+  $('ta_' + s.key).addEventListener('input', function(){ updateAll(); saveLocal(); });
+});
+$('clearBtn').addEventListener('click', clearLocal);
+
+$('saveBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  saveLocal();
+  showMsg('ok', '💾 이 기기에 임시저장됐어요. (시트에 올리려면 📤 제출하기를 눌러주세요)');
+});
+
+function buildText(){
+  var d = readForm();
+  var L = [];
+  L.push('IB 동아리 — TOK 에세이·심포지엄 워크북');
+  L.push('──────────────────────────');
+  L.push(d.grade + '학년 ' + d.ban + '반 ' + d.num + '번 / ' + d.name);
+  L.push('제목: ' + (d.title || '(미작성)'));
+  L.push('희망 전공·계열: ' + (d.major || '(미작성)'));
+  L.push('지식 영역: ' + (d.lens1 || '(미선택)') + ' · 학습자상: ' + (d.keyword || '(미선택)'));
+  L.push('작성 시각: ' + new Date().toLocaleString('ko-KR'));
+  L.push('');
+  SECTIONS.forEach(function(s){
+    L.push('【' + s.label + '】 (' + $('ta_'+s.key).value.trim().length + '자)');
+    var v = d[s.key] && d[s.key].trim();
+    L.push(v ? d[s.key] : '(미작성)');
+    L.push('');
+  });
+  return L.join('\n');
+}
+
+$('txtBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  try{
+    var blob = new Blob(['﻿' + buildText()], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'BTS_' + current.grade + '-' + current.ban + '-' + current.num + '_' + current.name + '.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+    showMsg('ok', '📄 텍스트 파일을 저장했어요. (다운로드 폴더 확인 — 제출이 안 돼도 본인 사본은 남습니다)');
+  }catch(e){ showMsg('err', '저장 실패: ' + e.message); }
+});
+
+function showMsg(type, text, isHtml){
+  var m = $('msg');
+  m.className = 'msg show ' + type;
+  if(isHtml){ m.innerHTML = text; } else { m.textContent = text; }
+}
+
+$('submitBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  var d = readForm();
+  if(!d.title.trim()){ showMsg('warn', '내 기록의 제목을 적어주세요. 임시 제목도 괜찮아요.'); return; }
+  var anyContent = SECTIONS.some(function(s){ return d[s.key].trim().length >= 5; });
+  if(!anyContent){
+    if(!confirm('아직 작성한 칸이 없어요. 제목만 제출할까요? (나중에 이어서 추가 제출 가능)')) return;
+  }
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+    showMsg('err', '⚠ APPS_SCRIPT_URL이 설정 안 됨. 선생님께 알려주세요. (그동안 📄 텍스트로 저장으로 본인 사본을 보관하세요)');
+    return;
+  }
+
+  $('submitBtn').disabled = true;
+  $('submitBtn').textContent = '⏳ 제출 중…';
+  showMsg('warn', '서버에 전송 중… 잠시만요.');
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(Object.assign({action:'submit'}, d))
+  }).then(function(){
+    showMsg('ok', '✅ 전송했어요. 지금까지 쓴 내용이 올라갔습니다. 나머지 칸을 채워 또 제출하면 이어서 저장됩니다. (확인이 안 되면 📄 텍스트로 저장으로 사본을 남기고 선생님께 알려주세요)');
+    saveLocal();
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 다시 제출하기 (이어서 저장)';
+  }).catch(function(err){
+    showMsg('err', '❌ 전송 실패: ' + err.message + ' — 다시 시도하거나 📄 텍스트로 저장으로 사본을 남기세요.');
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 제출하기';
+  });
+});
+
+updateAll();
+</script>
+</body>
+</html>
