@@ -134,7 +134,8 @@ textarea.short{min-height:70px}
     2) 학습지(Day 1·2)를 옆에 펴 놓고 옮기세요 — 기억이 아니라 <b>기록에서</b> 출발하는 것이 정확합니다.<br>
     3) 모든 칸은 "누가·무엇을·그래서"가 드러나게. "재미있었다"는 생기부에 못 실립니다.<br>
     4) <b>③ 문화 원형 비교</b>와 <b>⑤ 실제로 한 일</b>이 세특 문장의 뼈대가 됩니다. 구체적으로.<br>
-    5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
+    5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.<br>
+    6) ⚠ <b>임시저장은 지금 이 기기·이 브라우저에만</b> 남아요. 다른 기기에서 이어 쓰려면 📄 텍스트로 저장을 쓰거나, 일단 📤 제출해 두세요 (재제출하면 이어짐). 카카오톡 안 브라우저 말고 <b>크롬/사파리로 열기</b>를 추천.
   </div>
 
   <!-- 학생 정보 -->
@@ -386,7 +387,13 @@ document.getElementById('keyAddBtn').addEventListener('click', function(){
   saveLocal();
 });
 
+function normPart(v){ return String(v == null ? '' : v).trim().replace(/\s+/g, ''); }
+function normNum(v){ v = normPart(v); return /^[0-9]+$/.test(v) ? String(parseInt(v, 10)) : v; }
 function getKey(){
+  if(!current) return '';
+  return 'bts_' + normNum(current.grade) + '_' + normNum(current.ban) + '_' + normNum(current.num) + '_' + normPart(current.name);
+}
+function legacyKey(){
   if(!current) return '';
   return 'bts_' + current.grade + '_' + current.ban + '_' + current.num + '_' + current.name;
 }
@@ -422,6 +429,10 @@ function loadLocal(){
   var k = getKey(); if(!k) return;
   try{
     var raw = localStorage.getItem(k);
+    if(!raw){
+      var lk = legacyKey();
+      if(lk && lk !== k){ raw = localStorage.getItem(lk); if(raw){ try{ localStorage.setItem(k, raw); localStorage.removeItem(lk); }catch(e){} } }
+    }
     if(raw){ writeForm(JSON.parse(raw)); $('saveTime').textContent = '(이전 임시저장 복원됨)'; }
     else { writeForm({}); $('saveTime').textContent = '—'; }
   }catch(e){}
