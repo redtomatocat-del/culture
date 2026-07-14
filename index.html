@@ -124,7 +124,8 @@ textarea.short{min-height:70px}
     2) 후속탐구 제목·계기 유형을 고르고, ①~⑧을 차례로 작성하세요. 한 번에 다 못 채워도 됩니다.<br>
     3) <b>약함/좋음 예시</b>를 먼저 읽고, 막대가 파란색이 되면 분량 충분.<br>
     4) <b>⑥ 실제로 한 일</b>과 <b>⑦ 한 문장 요약</b>은 학교생활기록부(세특) 기록의 근거가 됩니다. 날짜·행동이 드러나게 구체적으로.<br>
-    5) <b>제출하기</b>를 누르면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.
+    5) <b>제출하기</b>를 누르면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.<br>
+    6) ⚠ <b>임시저장은 지금 이 기기·이 브라우저에만</b> 남아요. 다른 기기에서 이어 쓰려면 📄 텍스트로 저장을 쓰거나, 일단 📤 제출해 두세요 (재제출하면 이어짐). 카카오톡 안 브라우저 말고 <b>크롬/사파리로 열기</b>를 추천.
   </div>
 
   <!-- 학생 정보 -->
@@ -321,7 +322,13 @@ function refreshLock(){
 });
 
 // ─── 저장 키 ───
+function normPart(v){ return String(v == null ? '' : v).trim().replace(/\s+/g, ''); }
+function normNum(v){ v = normPart(v); return /^[0-9]+$/.test(v) ? String(parseInt(v, 10)) : v; }
 function getKey(){
+  if(!current) return '';
+  return 'sm_ft_' + normNum(current.ban) + '_' + normNum(current.num) + '_' + normPart(current.name);
+}
+function legacyKey(){
   if(!current) return '';
   return 'sm_ft_' + current.ban + '_' + current.num + '_' + current.name;
 }
@@ -354,6 +361,10 @@ function loadLocal(){
   var k = getKey(); if(!k) return;
   try{
     var raw = localStorage.getItem(k);
+    if(!raw){
+      var lk = legacyKey();
+      if(lk && lk !== k){ raw = localStorage.getItem(lk); if(raw){ try{ localStorage.setItem(k, raw); localStorage.removeItem(lk); }catch(e){} } }
+    }
     if(raw){ writeForm(JSON.parse(raw)); $('saveTime').textContent = '(이전 임시저장 복원됨)'; }
     else { writeForm({}); $('saveTime').textContent = '—'; }
   }catch(e){}
