@@ -225,12 +225,13 @@ function showModal(rec){
     sec('① 1차 탐구 요약과 남은 한계',rec.recap)+
     sec('② 후속 질문과 가설',rec.question)+
     sec('③ 자료 탐색과 재구성',rec.sources)+
-    sec('④ 분석 과정',rec.analysis)+
-    sec('⑤ 분석 결과',rec.result)+
-    sec('⑥ 결론 — 1차 결론의 수정·보강',rec.conclusion)+
-    sec('⑦ 실제로 한 일',rec.work)+
-    sec('⑧ 성찰 — 달라진 것과 한계',rec.change)+
-    sec('⑨ 다음 탐구 예고',rec.next)+'</div>';
+    sec('④ 독서와 개념 연결',rec.reading)+
+    sec('⑤ 분석 과정',rec.analysis)+
+    sec('⑥ 분석 결과',rec.result)+
+    sec('⑦ 결론 — 1차 결론의 수정·보강',rec.conclusion)+
+    sec('⑧ 실제로 한 일',rec.work)+
+    sec('⑨ 성찰 — 달라진 것과 한계',rec.change)+
+    sec('⑩ 다음 탐구 예고',rec.next)+'</div>';
 
   html+='<div class="m-sec"><div class="m-setuk"><div class="m-setuk-t">자동 생성 세특 초안 — 다듬어서 NEIS에</div>'+
     '<span id="setukText">'+nl(rec.setuk||'(메뉴에서 세특 초안 생성하세요)')+'</span>'+

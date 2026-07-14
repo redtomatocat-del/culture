@@ -17,7 +17,7 @@ const GUIDE_NAME = '📖 사용 안내';
 const HEADERS = [
   '제출일시', '학년', '반', '번호', '이름',
   '전공', '제목', '심화경로', '분석방법',
-  '1차요약', '후속질문', '자료수집', '분석과정', '분석결과', '결론', '실제한일', '성찰', '다음예고'
+  '1차요약', '후속질문', '자료수집', '독서연결', '분석과정', '분석결과', '결론', '실제한일', '성찰', '다음예고'
 ];
 const CONTENT_START = 5; // 콘텐츠 칸 시작 인덱스 (제목부터) — 병합 저장 대상
 
@@ -25,6 +25,7 @@ const GUIDANCE = {
   recap:      '1차 결론 + 남은 한계·아쉬움.',
   question:   '1차보다 좁은 후속 질문 + 검증 가능한 가설.',
   sources:    '자료 출처 + 선정·제외 기준. 탐구의 증거.',
+  reading:    '책(저자·제목) + 핵심 개념 + 내 질문·자료에 적용.',
   analysis:   '선택한 방법(양적/질적)의 비교·분류 기준과 절차.',
   result:     '수치·패턴 + 예상과 다른 점 + 한계 한 줄.',
   conclusion: '1차 결론의 유지/수정/뒤집기 + 근거.',
@@ -37,16 +38,17 @@ const SECTIONS = [
   { key: 'recap',      col: '1차요약',   label: '① 1차 탐구 요약과 남은 한계', row: 9  },
   { key: 'question',   col: '후속질문',  label: '② 후속 질문과 가설',         row: 13 },
   { key: 'sources',    col: '자료수집',  label: '③ 자료 탐색과 재구성',        row: 17 },
-  { key: 'analysis',   col: '분석과정',  label: '④ 분석 과정',               row: 21 },
-  { key: 'result',     col: '분석결과',  label: '⑤ 분석 결과',               row: 25 },
-  { key: 'conclusion', col: '결론',      label: '⑥ 결론 — 1차 결론의 수정·보강', row: 29 },
-  { key: 'work',       col: '실제한일',  label: '⑦ 실제로 한 일',            row: 33 },
-  { key: 'change',     col: '성찰',      label: '⑧ 성찰 — 달라진 것과 한계',   row: 37 },
-  { key: 'next',       col: '다음예고',  label: '⑨ 다음 탐구 예고',           row: 41 },
+  { key: 'reading',    col: '독서연결',  label: '④ 독서와 개념 연결',         row: 21 },
+  { key: 'analysis',   col: '분석과정',  label: '⑤ 분석 과정',               row: 25 },
+  { key: 'result',     col: '분석결과',  label: '⑥ 분석 결과',               row: 29 },
+  { key: 'conclusion', col: '결론',      label: '⑦ 결론 — 1차 결론의 수정·보강', row: 33 },
+  { key: 'work',       col: '실제한일',  label: '⑧ 실제로 한 일',            row: 37 },
+  { key: 'change',     col: '성찰',      label: '⑨ 성찰 — 달라진 것과 한계',   row: 41 },
+  { key: 'next',       col: '다음예고',  label: '⑩ 다음 탐구 예고',           row: 45 },
 ];
-const PROGRESS_KEYS = ['recap','question','sources','analysis','result','conclusion','work','change','next'];
-const SETUK_LABEL_ROW = 45;
-const SETUK_BODY_ROW = 46;
+const PROGRESS_KEYS = ['recap','question','sources','reading','analysis','result','conclusion','work','change','next'];
+const SETUK_LABEL_ROW = 49;
+const SETUK_BODY_ROW = 50;
 
 const COLOR_HEADER = '#3E1E17';
 const COLOR_SECTION = '#7A3B2E';
@@ -142,7 +144,7 @@ function saveSubmission(d) {
     ts,
     s(d.grade), s(d.ban), s(d.num), s(d.name),
     s(d.major), s(d.title), s(d.lens1), s(d.keyword),
-    s(d.recap), s(d.question), s(d.sources), s(d.analysis), s(d.result), s(d.conclusion), s(d.work), s(d.change), s(d.next)
+    s(d.recap), s(d.question), s(d.sources), s(d.reading), s(d.analysis), s(d.result), s(d.conclusion), s(d.work), s(d.change), s(d.next)
   ];
 
   const key = [s(d.grade), s(d.ban), s(d.num), s(d.name)].join('|');
@@ -205,7 +207,7 @@ function rowToRec(row) {
     ts: rec['제출일시'],
     grade: s(rec['학년']), ban: s(rec['반']), num: pad2(rec['번호']), name: String(rec['이름'] == null ? '' : rec['이름']).trim(),
     major: s(rec['전공']), title: s(rec['제목']), lens1: s(rec['심화경로']), keyword: s(rec['분석방법']),
-    recap: s(rec['1차요약']), question: s(rec['후속질문']), sources: s(rec['자료수집']), analysis: s(rec['분석과정']),
+    recap: s(rec['1차요약']), question: s(rec['후속질문']), sources: s(rec['자료수집']), reading: s(rec['독서연결']), analysis: s(rec['분석과정']),
     result: s(rec['분석결과']), conclusion: s(rec['결론']), work: s(rec['실제한일']), change: s(rec['성찰']), next: s(rec['다음예고'])
   };
 }
@@ -354,7 +356,7 @@ function buildStudentTab(student, rec) {
     sh.getRange(sec.row + 2, 1, 1, 2).merge()
       .setBackground('#FFFFFF').setFontColor('#221A15').setFontSize(12)
       .setWrap(true).setVerticalAlignment('top').setFontFamily('맑은 고딕');
-    sh.setRowHeight(sec.row + 2, (['sources','analysis','result','conclusion'].indexOf(sec.key) >= 0) ? 130 : 90);
+    sh.setRowHeight(sec.row + 2, (['sources','reading','analysis','result','conclusion'].indexOf(sec.key) >= 0) ? 130 : 90);
 
     sh.setRowHeight(sec.row + 3, 8);
   });
@@ -402,7 +404,7 @@ function updateMasterTab() {
     if (card) setuk = String(card.getRange(SETUK_BODY_ROW, 1).getValue() || '');
     if (!setuk) setuk = generateSetukDraft(rec);
     if (setuk.length > 200) setuk = setuk.slice(0, 200) + '…';
-    return [stu.grade, stu.ban, stu.num, stu.name, rec.major || '', rec.lens1 || '', rec.keyword || '', rec.title || '', pct + '%  (' + filled + '/9)', setuk];
+    return [stu.grade, stu.ban, stu.num, stu.name, rec.major || '', rec.lens1 || '', rec.keyword || '', rec.title || '', pct + '%  (' + filled + '/10)', setuk];
   });
 
   if (rows.length > 0) {
@@ -445,7 +447,7 @@ function ensureGuideTab() {
     ['  3. 메뉴 → 마스터 탭 갱신 / 카드 탭 생성 / 세특 초안 생성', ''],
         ['', ''],
     ['📋 구조', ''],
-    ['  • 9칸: 1차 요약·한계 → 후속 질문·가설 → 자료 탐색·선별 → 분석 과정(양적/질적 택1) → 분석 결과 → 결론 수정·보강 → 실제 한 일 → 성찰 → 다음 예고', ''],
+    ['  • 10칸: 1차 요약·한계 → 후속 질문·가설 → 자료 탐색·선별 → 독서·개념 연결 → 분석 과정(양적/질적 택1) → 분석 결과 → 결론 수정·보강 → 실제 한 일 → 성찰 → 다음 예고', ''],
     ['  • 마스터 탭에서 전공·심화 경로·분석 방법 별로 필터 가능 · 워크북은 신원 입력 시 1차 계획을 자동으로 보여줌', ''],
     ['', ''],
     ['⚠ 주의', ''],
@@ -475,6 +477,7 @@ function generateSetukDraft(rec) {
   const recap = String(rec.recap || '').trim();
   const question = String(rec.question || '').trim();
   const sources = String(rec.sources || '').trim();
+  const reading = String(rec.reading || '').trim();
   const analysis = String(rec.analysis || '').trim();
   const result = String(rec.result || '').trim();
   const conclusion = String(rec.conclusion || '').trim();
@@ -494,6 +497,7 @@ function generateSetukDraft(rec) {
   if (recap) parts.push('(1차 연계) ' + clip(firstSent(recap), 160));
   if (question) parts.push('(후속 질문)' + (lens1 ? ' [' + lens1 + '] ' : ' ') + clip(firstSent(question), 180));
   if (sources) parts.push('(자료) ' + clip(firstSent(sources), 180));
+  if (reading) parts.push('(독서) ' + clip(firstSent(reading), 180));
   if (analysis) parts.push('(분석' + (keyword ? '·' + clip(keyword, 20) : '') + ') ' + clip(firstSent(analysis), 180));
   if (result) parts.push('(결과) ' + clip(firstSent(result), 180));
   if (conclusion) parts.push('(결론 수정) ' + clip(firstSent(conclusion), 180));
@@ -501,7 +505,7 @@ function generateSetukDraft(rec) {
   if (change) parts.push('(성찰) ' + clip(firstSent(change), 160));
   if (next) parts.push('(다음 예고) ' + clip(firstSent(next), 140));
   if (followup) parts.push('(후속 예고) ' + clip(firstSent(followup), 150));
-  parts.push('자료를 직접 수집·선별하고 스스로 세운 분석 틀로 1차 결론을 재검증하는 후속탐구를 완주했으며' + (major ? " 이를 '" + major + "' 분야의 관심으로 확장하고" : '') + ' 결론을 증거에 맞춰 수정하는 탐구 태도가 드러남.');
+  parts.push('자료를 직접 수집·선별하고 독서로 개념 틀을 세워 1차 결론을 재검증하는 후속탐구를 완주했으며' + (major ? " 이를 '" + major + "' 분야의 관심으로 확장하고" : '') + ' 결론을 증거에 맞춰 수정하는 탐구 태도가 드러남.');
   return parts.join(' ');
 }
 
