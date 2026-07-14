@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<title>경제 — 수업연계 후속탐구 워크북</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" as="style" crossorigin href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.css" />
+<link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#FAF7F2; --paper:#FFFFFF; --surface:#F2ECE2; --border:#E3DACB;
+  --main:#7A3B2E; --main-d:#3E1E17; --topic:#A05A3F;
+  --sub:#57534E; --muted:#A89F92; --text:#221A15;
+  --guide-bg:#FAEEDA; --guide-tx:#854F0B;
+  --weak-bg:#FBEAE8; --weak-tx:#9C3B30; --good-bg:#F3EBE0; --good-tx:#7A3B2E;
+  --font-body:'Pretendard',sans-serif;
+  --font-head:'Gowun Dodum','Pretendard',sans-serif;
+  --font-data:'JetBrains Mono',monospace;
+  --r:10px; --sh:0 1px 2px rgba(34,26,21,.04),0 4px 12px rgba(34,26,21,.05);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html,body{font-family:var(--font-body);color:var(--text);background:var(--bg);letter-spacing:-.005em;word-break:keep-all}
+body{padding:18px 16px;background-image:radial-gradient(circle,#DDD2BE 1px,transparent 1.2px);background-size:18px 18px}
+.wrap{max-width:840px;margin:0 auto}
+
+.hd{background:var(--main-d);color:#fff;border-radius:var(--r) var(--r) 0 0;padding:18px 22px;box-shadow:var(--sh)}
+.hd h1{font-family:var(--font-head);font-weight:400;font-size:22px;margin-bottom:4px}
+.hd p{font-size:12.5px;opacity:.85;line-height:1.6}
+
+.note{background:#FFF7ED;border-left:4px solid #C2410C;border-radius:0 8px 8px 0;padding:11px 14px;margin:14px 0;font-size:12.5px;line-height:1.65;color:#6B2E0A}
+.note b{color:#C2410C}
+
+.card{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.card-hd{background:var(--topic);color:#fff;padding:10px 18px;font-weight:700;font-size:13.5px;display:flex;align-items:center;gap:8px}
+.card-hd .num{font-family:var(--font-data);font-size:11px;background:rgba(255,255,255,.18);padding:2px 7px;border-radius:4px}
+.card-body{padding:14px 18px}
+
+.grid{display:grid;grid-template-columns:120px 1fr;gap:10px 12px;align-items:center}
+.grid .lb{font-size:12.5px;font-weight:600;color:var(--sub)}
+.grid select,.grid input{width:100%;font-family:var(--font-body);font-size:13.5px;padding:9px 11px;border:1.5px solid var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none;transition:border-color .12s}
+.grid select:focus,.grid input:focus{border-color:var(--main)}
+.chips{display:flex;flex-wrap:wrap;gap:6px;padding:2px 0}
+.chip-t{font-size:12px;padding:5px 11px;border:1.5px solid var(--border);border-radius:15px;cursor:pointer;user-select:none;background:var(--paper);color:var(--sub);transition:all .12s}
+.chip-t:hover{border-color:var(--main)}
+.chip-t.on{background:var(--main);border-color:var(--main);color:#fff;font-weight:700}
+.addrow{display:flex;gap:6px;margin-top:6px}
+.addrow input{flex:1;font-family:var(--font-body);font-size:12.5px;padding:7px 10px;border:1.5px dashed var(--border);border-radius:7px;background:var(--paper);color:var(--text);outline:none}
+.addrow button{font-family:var(--font-body);font-size:12px;font-weight:700;padding:7px 13px;border:none;border-radius:7px;background:var(--main-d);color:#fff;cursor:pointer}
+.plan-card{display:none;background:#F0F7F0;border:1.5px solid #7BA97B;border-radius:9px;padding:12px 14px;margin-top:10px;font-size:12.5px;line-height:1.7}
+.plan-card.show{display:block}
+.plan-card .pc-hd{font-weight:800;color:#2F5D2F;margin-bottom:4px}
+.plan-card .pc-topic{background:#fff;border:1px solid #CBDECB;border-radius:7px;padding:8px 10px;margin:6px 0;color:#333}
+.plan-card .pc-rec{color:#2F5D2F}
+.plan-card .pc-note{font-size:11px;color:#6B7B6B;margin-top:6px}
+.comp-ref{background:#F5EFE6;border:1px dashed #C9B396;border-radius:7px;padding:9px 12px;margin-bottom:9px;font-size:11.5px;line-height:2;color:#6B5335}
+.comp-ref b{color:var(--main-d)}
+.comp-ref span{display:inline-block;background:#fff;border:1px solid #D9C6B0;border-radius:10px;padding:1px 8px;margin:0 3px 0 0;font-size:11px;color:#7A3B2E;white-space:nowrap}
+.tgt-inline{font-family:var(--font-data);font-size:10.5px;font-weight:500;color:var(--muted)}
+
+.confirm{margin-top:12px;display:none;align-items:center;gap:8px;background:var(--good-bg);color:var(--good-tx);border:1px solid #D9C6B0;border-radius:8px;padding:9px 13px;font-size:13px;font-weight:600}
+.confirm.show{display:flex}
+.confirm .chip{font-family:var(--font-data);font-size:11px;background:#fff;border:1px solid #D9C6B0;border-radius:5px;padding:2px 8px;font-weight:500}
+
+.phase{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);margin-bottom:12px;overflow:hidden}
+.phase-hd{background:var(--main);color:#fff;padding:11px 18px;display:flex;align-items:center;gap:10px}
+.phase-hd .ttl{font-weight:700;font-size:14px}
+.phase-hd .phase-tag{font-family:var(--font-data);font-size:10px;background:rgba(255,255,255,.18);padding:2px 8px;border-radius:4px;letter-spacing:.03em}
+.phase-hd .st{margin-left:auto;font-family:var(--font-data);font-size:10.5px;padding:2px 9px;border-radius:10px;background:rgba(255,255,255,.16);font-weight:500}
+.phase-hd .st.done{background:#E4C9A8;color:#4A2A15}
+.phase-hd .st.ing{background:#F4D58A;color:#7A5B12}
+.phase-body{padding:14px 18px}
+
+.guide{background:var(--guide-bg);color:var(--guide-tx);padding:10px 13px;border-radius:7px;font-size:12px;line-height:1.65;margin-bottom:9px;font-style:italic}
+
+.ex-body{padding:0 0 9px;display:flex;flex-direction:column;gap:9px}
+.ex-row{font-size:12.5px;line-height:1.6;border-radius:7px;padding:9px 12px}
+.ex-row.weak{background:var(--weak-bg);color:var(--weak-tx)}
+.ex-row.good{background:var(--good-bg);color:var(--good-tx)}
+.ex-row .tag{display:inline-block;font-family:var(--font-data);font-size:10px;font-weight:700;padding:1px 7px;border-radius:4px;margin-right:7px;vertical-align:middle}
+.ex-row.weak .tag{background:#E9A89F;color:#7A271B}
+.ex-row.good .tag{background:#E4C9A8;color:#4A2A15}
+
+textarea{width:100%;font-family:var(--font-body);font-size:13.5px;padding:11px 13px;border:1.5px solid var(--border);border-radius:8px;background:var(--paper);color:var(--text);outline:none;resize:vertical;min-height:120px;line-height:1.7;transition:border-color .12s}
+textarea:focus{border-color:var(--main)}
+textarea.short{min-height:70px}
+
+.meter{margin-top:7px}
+.meter-bar{height:6px;background:var(--border);border-radius:3px;overflow:hidden;margin-bottom:5px}
+.meter-bar > i{display:block;height:100%;width:0%;background:var(--muted);border-radius:3px;transition:width .25s,background .25s}
+.meter-row{display:flex;align-items:center;gap:8px}
+.meter-ch{font-family:var(--font-data);font-size:10.5px;color:var(--muted);min-width:90px}
+.meter-fb{font-size:12px;line-height:1.4;flex:1}
+.meter.s0 .meter-bar > i{background:var(--muted)}
+.meter.s1 .meter-bar > i{background:#E0A93B}
+.meter.s2 .meter-bar > i{background:#B77A4C}
+.meter.s3 .meter-bar > i{background:var(--main)}
+.meter.s0 .meter-fb{color:var(--muted)}
+.meter.s1 .meter-fb{color:#9A6B12}
+.meter.s2 .meter-fb{color:#8A5A2E}
+.meter.s3 .meter-fb{color:var(--main);font-weight:600}
+
+.foot{background:var(--paper);border:1px solid var(--border);border-radius:var(--r);box-shadow:var(--sh);padding:16px 18px;margin-top:14px}
+.prog-row{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+.prog-lb{font-size:12px;color:var(--sub);font-weight:600;min-width:96px}
+.prog-lb b{color:var(--main)}
+.bar{flex:1;height:8px;background:var(--border);border-radius:4px;overflow:hidden}
+.bar > i{display:block;height:100%;background:var(--main);transition:width .25s}
+
+.btn-row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{font-family:var(--font-body);font-weight:700;font-size:13px;padding:10px 18px;border-radius:8px;cursor:pointer;border:1.5px solid;transition:all .12s}
+.btn-main{background:var(--main);color:#fff;border-color:var(--main)}
+.btn-main:hover{background:var(--main-d);border-color:var(--main-d)}
+.btn-main:disabled{background:var(--muted);border-color:var(--muted);cursor:not-allowed}
+.btn-save{background:#FFF7ED;color:#9A6B12;border-color:#F4D58A}
+.btn-save:hover{background:#FCEFD6}
+.btn-sub{background:var(--paper);color:var(--sub);border-color:var(--border)}
+.btn-sub:hover{background:var(--surface)}
+
+.msg{margin-top:10px;font-size:12.5px;padding:9px 12px;border-radius:7px;display:none;line-height:1.55}
+.msg.show{display:block}
+.msg.ok{background:#ECFDF5;color:#065F46;border:1px solid #6EE7B7}
+.msg.err{background:#FEF2F2;color:#991B1B;border:1px solid #FCA5A5}
+.msg.warn{background:#FFFBEB;color:#92400E;border:1px solid #FCD34D}
+
+.local-info{font-size:11.5px;color:var(--muted);font-family:var(--font-data);margin-top:8px}
+.local-info b{color:var(--sub)}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="hd">
+    <h1>💰 경제 — 수업연계 후속탐구 워크북</h1>
+    <p>1차 탐구(기사 포트폴리오·종합주제)에서 예고한 질문을 <b>자료와 분석으로 검증</b>하는 후속탐구입니다. 신원을 입력하면 네가 1차에서 쓴 종합주제가 아래에 떠요. 계기 → 자료 → 분석 → 결론 수정의 9칸. · 자동 임시저장 · 여러 번 제출 OK</p>
+  </div>
+
+  <div class="note">
+    <b>📝 작성 안내</b><br>
+    1) <b>학년·반·번호·이름</b>을 정확히 입력하세요. (이 정보로 임시저장·제출이 구분됩니다)<br>
+    2) 1차 산출물(보고서·워크북)을 옆에 펴 놓고 시작하세요 — 후속탐구는 <b>1차의 한계에서</b> 출발합니다.<br>
+    3) <b>② 후속 질문·가설</b>은 1차보다 좁고 검증 가능하게. "무엇이 얼마나·왜"가 들어가게.<br>
+    4) <b>④ 자료의 출처·선별 기준</b>과 <b>⑤⑥ 분석 과정·결과</b>가 후속탐구의 심장입니다. 찾은 흔적이 곧 탐구입니다.<br>
+    5) 제출하면 선생님 시트로 전송됩니다. ✅ 나중에 추가 제출해도 <b>이전에 쓴 내용은 보존</b>됩니다.<br>
+    6) ⚠ <b>임시저장은 지금 이 기기·이 브라우저에만</b> 남아요. 다른 기기에서 이어 쓰려면 📄 텍스트로 저장을 쓰거나, 일단 📤 제출해 두세요 (재제출하면 이어짐). 카카오톡 안 브라우저 말고 <b>크롬/사파리로 열기</b>를 추천.
+  </div>
+
+  <!-- 학생 정보 -->
+  <div class="card">
+    <div class="card-hd"><span class="num">STEP 0</span> 학생 정보 (직접 입력)</div>
+    <div class="card-body">
+      <div class="grid">
+        <div class="lb">학년</div>
+        <input type="text" id="inGrade" inputmode="numeric" placeholder="예: 2">
+        <div class="lb">반</div>
+        <input type="text" id="inBan" inputmode="numeric" placeholder="예: 3">
+        <div class="lb">번호</div>
+        <input type="text" id="inNum" inputmode="numeric" placeholder="예: 5">
+        <div class="lb">이름</div>
+        <input type="text" id="inName" placeholder="본인 이름">
+      </div>
+      <div class="confirm" id="confirm">
+        <span>✓ <b id="cfName"></b> 님</span>
+        <span class="chip" id="cfId"></span>
+      </div>
+      <div class="plan-card" id="planCard"></div>
+    </div>
+  </div>
+
+  <div id="formArea">
+
+    <!-- 개요 선택 -->
+    <div class="card">
+      <div class="card-hd"><span class="num">STEP 1</span> 나의 후속탐구 개요</div>
+      <div class="card-body">
+        <div class="grid">
+          <div class="lb">희망 전공·계열</div>
+          <input type="text" id="major" placeholder="예: 사회학, 경영학, 심리학, 미디어커뮤니케이션 …">
+          <div class="lb">내 기록의 제목</div>
+          <input type="text" id="title" placeholder="예: 지표는 왜 체감을 못 담는가 — 가중치와 빈도의 불일치">
+          <div class="lb">심화 경로<br><span style="font-weight:400;font-size:10.5px;color:var(--muted)">(하나 선택)</span></div>
+          <div class="chips" id="lensChips"></div>
+          <div class="lb">분석 방법<br><span style="font-weight:400;font-size:10.5px;color:var(--muted)">(하나 선택)</span></div>
+          <div>
+            <div class="chips" id="keyChips"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 8칸 -->
+    <div id="sections">
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 1 · 계기 — 1차 탐구에서 출발하다</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">① 1차 탐구 요약과 남은 한계</span><span class="phase-tag">계기</span><span class="st" id="st_recap">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">1차 탐구에서 무엇을 다뤘고 어떤 결론을 냈는지, 그리고 무엇이 아쉬웠는지(근거 부족, 검증 못 한 가설, 남은 반론) 쓰세요. 위 초록 카드에 뜬 네 1차 계획을 참고하되, 그대로 따르지 않아도 됩니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>경제 기사를 읽고 보고서를 썼다.</div><div class="ex-row good"><span class="tag">좋음</span>1차에서 기사 5건으로 '경제 지표는 왜 국민 체감을 반영하지 못하는가'를 다뤘고, 지표가 평균값이라 분배를 못 담는다는 결론을 냈다. 다만 근거가 기사 해석에 그쳐 실제 수치로 확인하지 못한 것이 한계였다.</div></div>
+          <textarea id="ta_recap" placeholder="1차에서 다룬 것 + 결론 + 남은 한계·아쉬움."></textarea>
+          <div class="meter s0" id="meter_recap"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_recap">0 / 100자</span><span class="meter-fb" id="fb_recap"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">② 후속 질문과 가설</span><span class="phase-tag">좁고 검증 가능하게</span><span class="st" id="st_question">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">1차보다 좁은 질문 하나와, 검증 가능한 가설을 세우세요. "무엇이, 얼마나, 왜"가 들어가면 자료로 확인할 수 있는 질문이 됩니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>물가에 대해 더 조사하고 싶다.</div><div class="ex-row good"><span class="tag">좋음</span>후속 질문: 소비자물가지수와 체감물가의 격차는 품목 가중치 때문인가? 가설: 자주 구매하는 품목(식료품·외식)의 가중치가 실제 구매 빈도보다 낮아 격차가 생긴다.</div></div>
+          <textarea id="ta_question" placeholder="후속 질문 + 가설 (자료로 확인 가능한 형태로)."></textarea>
+          <div class="meter s0" id="meter_question"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_question">0 / 100자</span><span class="meter-fb" id="fb_question"></span></div></div>
+        </div>
+      </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 2 · 연구 — 자료를 찾고 분석하다</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">③ 자료 탐색과 재구성</span><span class="phase-tag">출처 · 선별</span><span class="st" id="st_sources">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">직접 찾은 자료를 쓰세요: 통계·기사·논문·1차 기록 등. 각 자료의 출처, 고른 이유, 그리고 버린 자료와 그 이유까지. 이 흔적이 'AI 짜깁기'와 '탐구'를 가르는 지점입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>인터넷에서 물가 자료를 많이 찾았다.</div><div class="ex-row good"><span class="tag">좋음</span>통계청 소비자물가지수 품목별 가중치표(2025)와 한국은행 물가인식조사 원자료를 받았다. 블로그 요약글은 원출처가 없어 제외했고, 1차에서 쓴 기사 두 건은 '주장'과 '수치'를 분리해 수치만 재사용했다.</div></div>
+          <textarea id="ta_sources" placeholder="자료 목록(출처) + 고른 이유 + 버린 자료와 이유."></textarea>
+          <div class="meter s0" id="meter_sources"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_sources">0 / 120자</span><span class="meter-fb" id="fb_sources"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">④ 분석 과정 — 선택한 방법으로</span><span class="phase-tag">양적/질적 택1</span><span class="st" id="st_analysis">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">위에서 고른 방법으로 어떻게 분석했는지 과정을 쓰세요. 양적이면 무엇과 무엇을 어떤 수치로 비교했는지, 질적이면 어떤 기준으로 자료를 분류(코딩)했는지. 결과 말고 과정.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>자료를 분석했더니 물가가 문제였다.</div><div class="ex-row good"><span class="tag">좋음</span>양적 분석 선택. 가중치 상위 20개 품목과 체감물가 기여 상위 20개 품목을 표로 만들어 대조했고, 겹치지 않는 품목 7개를 추렸다. 외식·농산물이 체감 쪽에서만 상위였다.</div></div>
+          <textarea id="ta_analysis" placeholder="비교·분류의 기준과 절차 (과정 중심)."></textarea>
+          <div class="meter s0" id="meter_analysis"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_analysis">0 / 120자</span><span class="meter-fb" id="fb_analysis"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑤ 분석 결과</span><span class="phase-tag">발견 + 한계</span><span class="st" id="st_result">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">분석에서 나온 것을 쓰세요: 수치·패턴·유형. 예상과 다른 결과가 있으면 그게 제일 값진 부분입니다. 그리고 내 분석이 말할 수 없는 것(한계)도 한 줄.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>분석 결과 내 생각이 맞았다.</div><div class="ex-row good"><span class="tag">좋음</span>격차의 상당 부분은 구매 빈도가 높은 품목의 체감 민감도에서 왔다. 다만 표본이 품목 40개뿐이라 가중치 구조 전체를 설명하지는 못한다 — 결과의 한계도 함께 적는다.</div></div>
+          <textarea id="ta_result" placeholder="발견한 수치·패턴 + 예상과 달랐던 점 + 한계 한 줄."></textarea>
+          <div class="meter s0" id="meter_result"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_result">0 / 120자</span><span class="meter-fb" id="fb_result"></span></div></div>
+        </div>
+      </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 3 · 결과 — 결론을 고쳐 쓰다</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑥ 결론 — 1차 결론의 수정·보강</span><span class="phase-tag">재검증</span><span class="st" id="st_conclusion">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">분석 결과로 1차 결론을 다시 봅니다. 유지되는가, 수정되는가, 뒤집히는가? "1차에서는 ~라고 봤지만, 분석 결과 ~로 수정한다" 구조가 가장 강한 결론입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>그래서 물가 정책이 중요하다는 것을 알았다.</div><div class="ex-row good"><span class="tag">좋음</span>1차 결론('평균이라서 못 담는다')은 절반만 맞았다. 평균의 문제라기보다 구매 빈도와 가중치의 불일치가 핵심이라는 것으로 결론을 수정한다.</div></div>
+          <textarea id="ta_conclusion" placeholder="1차 결론 → 분석 결과 → 유지/수정/뒤집기 + 근거."></textarea>
+          <div class="meter s0" id="meter_conclusion"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_conclusion">0 / 120자</span><span class="meter-fb" id="fb_conclusion"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑦ 실제로 한 일</span><span class="phase-tag">과정 기록 · 세특 근거</span><span class="st" id="st_work">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이 후속탐구에서 실제로 한 행동을 동사 중심으로: 무엇을 내려받고, 세고, 분류하고, 다시 썼는지. "열심히 했다"가 아니라 한 일 자체를 순서대로.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>열심히 자료를 찾고 분석했다.</div><div class="ex-row good"><span class="tag">좋음</span>통계청에서 가중치표를 내려받아 상위 품목을 정리했고, 물가인식조사 수치와 대조표를 만들었으며, 어긋난 품목 7개의 공통점을 분류해 결론 단락을 다시 썼다.</div></div>
+          <textarea id="ta_work" placeholder="한 행동을 순서대로, 동사 중심으로."></textarea>
+          <div class="meter s0" id="meter_work"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_work">0 / 100자</span><span class="meter-fb" id="fb_work"></span></div></div>
+        </div>
+      </div>
+
+      <div style="margin:22px 0 10px;font-family:var(--font-head);font-size:15px;color:var(--main-d);border-bottom:2px solid var(--main);padding-bottom:6px">PART 4 · 성찰과 다음</div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑧ 성찰 — 달라진 것과 한계</span><span class="phase-tag">성찰</span><span class="st" id="st_change">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">후속탐구 전과 후, 무엇이 달라졌나요? 그리고 내 탐구의 한계를 스스로 지적하세요. 한계를 아는 것이 다음 탐구의 출발점입니다.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>많이 배웠고 뿌듯했다.</div><div class="ex-row good"><span class="tag">좋음</span>전에는 숫자가 있으면 근거가 된다고 생각했다. 지금은 그 숫자가 '무엇을 어떻게 세었는지'부터 확인한다. 내 분석은 두 자료에 의존해서 다른 연도로 일반화하기 어렵다는 한계도 알게 됐다.</div></div>
+          <textarea id="ta_change" placeholder="전: … → 후: … + 스스로 아는 한계."></textarea>
+          <div class="meter s0" id="meter_change"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_change">0 / 100자</span><span class="meter-fb" id="fb_change"></span></div></div>
+        </div>
+      </div>
+
+      <div class="phase">
+        <div class="phase-hd"><span class="ttl">⑨ 다음 탐구 예고</span><span class="phase-tag">확장</span><span class="st" id="st_next">미작성</span></div>
+        <div class="phase-body">
+          <div class="guide">이 결과를 어디로 확장할 수 있을까요? 주제 → 이유 → 질문 → 방법 순으로 짧게.</div>
+          <div class="ex-body"><div class="ex-row weak"><span class="tag">약함</span>기회가 되면 더 알아보고 싶다.</div><div class="ex-row good"><span class="tag">좋음</span>다음: 같은 방법을 청년·고령 가구로 나눠 반복하면 세대별 체감 격차를 비교할 수 있다. 질문: 체감물가 격차는 세대에 따라 다른가?</div></div>
+          <textarea id="ta_next" placeholder="주제 → 이유 → 질문 → 방법."></textarea>
+          <div class="meter s0" id="meter_next"><div class="meter-bar"><i></i></div><div class="meter-row"><span class="meter-ch" id="ch_next">0 / 100자</span><span class="meter-fb" id="fb_next"></span></div></div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- 푸터 -->
+  <div class="foot">
+    <div class="prog-row">
+      <span class="prog-lb">작성 완료 <b id="doneCount">0</b> / 9 칸</span>
+      <div class="bar"><i id="bar" style="width:0%"></i></div>
+    </div>
+    <div class="btn-row">
+      <button type="button" class="btn btn-main" id="submitBtn">📤 제출하기</button>
+      <button type="button" class="btn btn-save" id="saveBtn">💾 임시저장</button>
+      <button type="button" class="btn btn-sub" id="txtBtn">📄 텍스트로 저장(.txt)</button>
+      <button type="button" class="btn btn-sub" id="clearBtn">🗑 임시저장 지우기</button>
+    </div>
+    <div class="msg" id="msg"></div>
+    <div class="local-info">💾 임시저장 = 이 기기에만 보관 (시트 전송 X) · 📤 제출 = 선생님 시트로 전송 · 마지막 저장 <b id="saveTime">—</b></div>
+  </div>
+
+</div>
+
+<script>
+// ─────────────────────────────────────────────
+// 설정 — 배포 후 Apps Script /exec URL로 교체
+// ─────────────────────────────────────────────
+var LENSES = ['정책 평가형 — 정부 개입의 명암 검증','거시 연결형 — 충격→물가→정책 사슬 추적','지표 검증형 — 지표와 체감의 간극','구조 전환형 — 인구·기술·산업 변화','사례 확장형 — 다른 나라·산업에 적용'];
+var EXCLUSIVE = { lensChips: 1, keyChips: 1 };
+var REC_RULES = [[/정책|정부|개입|최저임금|부동산|복지|규제/,0],[/물가|환율|유가|금리|수출|공급|반도체/,1],[/지표|체감|통계|평균/,2],[/고령|인구|산업|기술|스트리밍|구조/,3],[/비교|다른 나라|사례|적용/,4]];
+var CONCEPTS = ['양적 분석 — 통계·설문·수치 비교','질적 분석 — 기사·인터뷰·사례 코딩'];
+var APPS_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw_Cze5X_V3VIJCxDQlXzZ9f6l1l6ZCsezi9WyMhcMd7r5dJ0AEaQ0mK4CzFPV1EpH9/exec';
+
+var SECTIONS = [
+  { key:'recap',      label:'① 1차 탐구 요약과 남은 한계', target:100, nudge:'1차 결론 + 남은 한계.', tip:'한계가 보이면 완성!' },
+  { key:'question',   label:'② 후속 질문과 가설',         target:100, nudge:'좁은 질문 + 검증 가능한 가설.', tip:'자료로 확인 가능하면 완성!' },
+  { key:'sources',    label:'③ 자료 탐색과 재구성',        target:120, nudge:'출처 + 고른 이유 + 버린 이유.', tip:'선별 기준이 보이면 완성!' },
+  { key:'analysis',   label:'④ 분석 과정',               target:120, nudge:'비교·분류의 기준과 절차.', tip:'과정이 재현 가능하면 완성!' },
+  { key:'result',     label:'⑤ 분석 결과',               target:120, nudge:'수치·패턴 + 예상과 다른 점 + 한계.', tip:'한계 한 줄까지 있으면 완성!' },
+  { key:'conclusion', label:'⑥ 결론 — 1차 결론의 수정·보강', target:120, nudge:'유지/수정/뒤집기 + 근거.', tip:'1차와의 대비가 보이면 완성!' },
+  { key:'work',       label:'⑦ 실제로 한 일',            target:100, nudge:'동사 중심, 순서대로.', tip:'행동이 보이면 완성! (세특 근거)' },
+  { key:'change',     label:'⑧ 성찰 — 달라진 것과 한계',   target:100, nudge:'전↔후 + 스스로 아는 한계.', tip:'한계 인식까지 보이면 완성!' },
+  { key:'next',       label:'⑨ 다음 탐구 예고',           target:100, nudge:'주제 → 이유 → 질문 → 방법.', tip:'다음이 그려지면 완성!' },
+];
+
+function $(id){return document.getElementById(id);}
+
+var current = null; // {grade,ban,num,name}
+
+function readId(){
+  return { grade:$('inGrade').value.trim(), ban:$('inBan').value.trim(), num:$('inNum').value.trim(), name:$('inName').value.trim() };
+}
+function idComplete(id){ return !!(id.grade && id.ban && id.num && id.name); }
+
+function refreshLock(){
+  var id = readId();
+  if(idComplete(id)){
+    current = id;
+    $('cfName').textContent = id.name;
+    $('cfId').textContent = id.grade + '학년 ' + id.ban + '반 ' + id.num + '번';
+    $('confirm').classList.add('show');
+  } else {
+    current = null;
+    $('confirm').classList.remove('show');
+  }
+}
+function recommendPath(t){
+  for(var i=0;i<REC_RULES.length;i++){ if(REC_RULES[i][0].test(t)) return REC_RULES[i][1]; }
+  return -1;
+}
+var __planFor = '';
+function fetchPlan(){
+  if(!current || APPS_SCRIPT_URL.indexOf('http') !== 0) return;
+  var sig = getKey(); if(sig === __planFor) return; __planFor = sig;
+  window.__planCb = function(r){
+    var el = $('planCard');
+    if(!r || !r.found || !String(r.topic||'').trim()){ el.className='plan-card'; return; }
+    var ri = recommendPath(String(r.topic));
+    var rec = ri >= 0 ? '<div class="pc-rec">🧭 추천 경로: <b>' + LENSES[ri] + '</b> — 위 STEP 1에서 선택해 보세요.</div>' : '';
+    el.innerHTML = '<div class="pc-hd">📌 네가 1차에서 예고한 탐구</div><div class="pc-topic">' + String(r.topic).replace(/</g,'&lt;') + '</div>' + rec + '<div class="pc-note">이대로 가도 되고, 더 좁히거나 방향을 바꿔도 좋아요. ①에 1차 요약부터 시작.</div>';
+    el.className = 'plan-card show';
+  };
+  var s = document.createElement('script');
+  s.src = APPS_SCRIPT_URL + '?plan=1&cb=__planCb&grade=' + encodeURIComponent(current.grade) + '&ban=' + encodeURIComponent(current.ban) + '&num=' + encodeURIComponent(current.num) + '&name=' + encodeURIComponent(current.name);
+  document.body.appendChild(s);
+}
+['inGrade','inBan','inNum','inName'].forEach(function(fid){
+  $(fid).addEventListener('input', refreshLock);
+  $(fid).addEventListener('change', function(){ refreshLock(); if(current){ loadLocal(); updateAll(); fetchPlan(); } });
+});
+
+function renderChips(boxId, items, cls){
+  var box = document.getElementById(boxId);
+  items.forEach(function(v){
+    if([].slice.call(box.children).some(function(c){return c.dataset.v===v;})) return;
+    var el = document.createElement('span');
+    el.className = 'chip-t'; el.textContent = v; el.dataset.v = v;
+    el.addEventListener('click', function(){ if(typeof EXCLUSIVE!=='undefined' && EXCLUSIVE[boxId]){ [].slice.call(box.children).forEach(function(c){ if(c!==el) c.classList.remove('on'); }); } el.classList.toggle('on'); saveLocal(); });
+    box.appendChild(el);
+  });
+}
+function chipValues(boxId){
+  return [].slice.call(document.getElementById(boxId).children)
+    .filter(function(c){return c.classList.contains('on');})
+    .map(function(c){return c.dataset.v;}).join(', ');
+}
+function setChipValues(boxId, str, baseItems){
+  var vals = String(str||'').split(',').map(function(s){return s.trim();}).filter(Boolean);
+  // 목록에 없는 값(직접 추가분)은 칩으로 생성
+  var extra = vals.filter(function(v){ return baseItems.indexOf(v) < 0; });
+  if(extra.length) renderChips(boxId, extra);
+  [].slice.call(document.getElementById(boxId).children).forEach(function(c){
+    c.classList.toggle('on', vals.indexOf(c.dataset.v) >= 0);
+  });
+}
+renderChips('lensChips', LENSES);
+renderChips('keyChips', CONCEPTS);
+
+
+function normPart(v){ return String(v == null ? '' : v).trim().replace(/\s+/g, ''); }
+function normNum(v){ v = normPart(v); return /^[0-9]+$/.test(v) ? String(parseInt(v, 10)) : v; }
+function getKey(){
+  if(!current) return '';
+  return 'ef_' + normNum(current.grade) + '_' + normNum(current.ban) + '_' + normNum(current.num) + '_' + normPart(current.name);
+}
+function legacyKey(){
+  if(!current) return '';
+  return 'ef_' + current.grade + '_' + current.ban + '_' + current.num + '_' + current.name;
+}
+
+function readForm(){
+  var d = {
+    grade: current ? current.grade : '', ban: current ? current.ban : '',
+    num: current ? current.num : '', name: current ? current.name : '',
+    title: $('title').value, major: $('major').value, lens1: chipValues('lensChips'), keyword: chipValues('keyChips')
+  };
+  SECTIONS.forEach(function(s){ d[s.key] = $('ta_' + s.key).value; });
+  return d;
+}
+
+function writeForm(d){
+  $('title').value = d.title || '';
+  $('major').value = d.major || '';
+  setChipValues('lensChips', d.lens1, LENSES);
+  setChipValues('keyChips', d.keyword, CONCEPTS);
+  SECTIONS.forEach(function(s){ $('ta_' + s.key).value = d[s.key] || ''; });
+}
+
+function saveLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    localStorage.setItem(k, JSON.stringify(readForm()));
+    var t = new Date();
+    $('saveTime').textContent = ('0'+t.getHours()).slice(-2)+':'+('0'+t.getMinutes()).slice(-2)+':'+('0'+t.getSeconds()).slice(-2);
+  }catch(e){}
+}
+
+function loadLocal(){
+  var k = getKey(); if(!k) return;
+  try{
+    var raw = localStorage.getItem(k);
+    if(!raw){
+      var lk = legacyKey();
+      if(lk && lk !== k){ raw = localStorage.getItem(lk); if(raw){ try{ localStorage.setItem(k, raw); localStorage.removeItem(lk); }catch(e){} } }
+    }
+    if(raw){ writeForm(JSON.parse(raw)); $('saveTime').textContent = '(이전 임시저장 복원됨)'; }
+    else { writeForm({}); $('saveTime').textContent = '—'; }
+  }catch(e){}
+}
+
+function clearLocal(){
+  var k = getKey();
+  if(!k){ showMsg('warn','먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  if(!confirm('이 기기의 임시저장만 지워요 (제출된 시트는 안 건드림). 진행?')) return;
+  try{ localStorage.removeItem(k); }catch(e){}
+  writeForm({});
+  updateAll();
+  $('saveTime').textContent = '지움';
+}
+
+function updateSection(s){
+  var el = $('ta_' + s.key);
+  var len = el.value.trim().length;
+  var meter = $('meter_' + s.key);
+  var bar = meter.querySelector('.meter-bar > i');
+  var ch = $('ch_' + s.key);
+  var fb = $('fb_' + s.key);
+  var st = $('st_' + s.key);
+
+  var pct = Math.min(100, Math.round(len / s.target * 100));
+  bar.style.width = pct + '%';
+  ch.textContent = len + ' / ' + s.target + '자';
+
+  var stage, msg;
+  if(len === 0){ stage = 0; msg = ''; st.textContent='미작성'; st.className='st'; }
+  else if(len < s.target * 0.4){ stage = 1; msg = '🌱 좋은 출발! ' + s.nudge; st.textContent='작성중'; st.className='st ing'; }
+  else if(len < s.target){ stage = 2; msg = '✏️ 거의 다 왔어요. 조금만 더 구체적으로.'; st.textContent='작성중'; st.className='st ing'; }
+  else { stage = 3; msg = '✅ 분량 충분! ' + s.tip; st.textContent='✓ 완료'; st.className='st done'; }
+
+  meter.className = 'meter s' + stage;
+  fb.textContent = msg;
+  return len >= s.target;
+}
+
+function updateAll(){
+  var done = 0;
+  SECTIONS.forEach(function(s){ if(updateSection(s)) done++; });
+  $('doneCount').textContent = done;
+  $('bar').style.width = Math.round(done / SECTIONS.length * 100) + '%';
+}
+
+$('title').addEventListener('input', function(){ saveLocal(); });
+$('major').addEventListener('input', function(){ saveLocal(); });
+SECTIONS.forEach(function(s){
+  $('ta_' + s.key).addEventListener('input', function(){ updateAll(); saveLocal(); });
+});
+$('clearBtn').addEventListener('click', clearLocal);
+
+$('saveBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  saveLocal();
+  showMsg('ok', '💾 이 기기에 임시저장됐어요. (시트에 올리려면 📤 제출하기를 눌러주세요)');
+});
+
+function buildText(){
+  var d = readForm();
+  var L = [];
+  L.push('경제 — 수업연계 후속탐구 워크북');
+  L.push('──────────────────────────');
+  L.push(d.grade + '학년 ' + d.ban + '반 ' + d.num + '번 / ' + d.name);
+  L.push('제목: ' + (d.title || '(미작성)'));
+  L.push('희망 전공·계열: ' + (d.major || '(미작성)'));
+  L.push('심화 경로: ' + (d.lens1 || '(미선택)') + ' · 분석 방법: ' + (d.keyword || '(미선택)'));
+  L.push('작성 시각: ' + new Date().toLocaleString('ko-KR'));
+  L.push('');
+  SECTIONS.forEach(function(s){
+    L.push('【' + s.label + '】 (' + $('ta_'+s.key).value.trim().length + '자)');
+    var v = d[s.key] && d[s.key].trim();
+    L.push(v ? d[s.key] : '(미작성)');
+    L.push('');
+  });
+  return L.join('\n');
+}
+
+$('txtBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  try{
+    var blob = new Blob(['﻿' + buildText()], {type:'text/plain;charset=utf-8'});
+    var a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = 'BTS_' + current.grade + '-' + current.ban + '-' + current.num + '_' + current.name + '.txt';
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function(){ URL.revokeObjectURL(a.href); }, 1500);
+    showMsg('ok', '📄 텍스트 파일을 저장했어요. (다운로드 폴더 확인 — 제출이 안 돼도 본인 사본은 남습니다)');
+  }catch(e){ showMsg('err', '저장 실패: ' + e.message); }
+});
+
+function showMsg(type, text, isHtml){
+  var m = $('msg');
+  m.className = 'msg show ' + type;
+  if(isHtml){ m.innerHTML = text; } else { m.textContent = text; }
+}
+
+$('submitBtn').addEventListener('click', function(){
+  if(!current){ showMsg('warn', '먼저 학년·반·번호·이름을 입력하세요.'); return; }
+  var d = readForm();
+  if(!d.title.trim()){ showMsg('warn', '내 기록의 제목을 적어주세요. 임시 제목도 괜찮아요.'); return; }
+  var anyContent = SECTIONS.some(function(s){ return d[s.key].trim().length >= 5; });
+  if(!anyContent){
+    if(!confirm('아직 작성한 칸이 없어요. 제목만 제출할까요? (나중에 이어서 추가 제출 가능)')) return;
+  }
+  if(!APPS_SCRIPT_URL || APPS_SCRIPT_URL.indexOf('PASTE_YOUR') === 0){
+    showMsg('err', '⚠ APPS_SCRIPT_URL이 설정 안 됨. 선생님께 알려주세요. (그동안 📄 텍스트로 저장으로 본인 사본을 보관하세요)');
+    return;
+  }
+
+  $('submitBtn').disabled = true;
+  $('submitBtn').textContent = '⏳ 제출 중…';
+  showMsg('warn', '서버에 전송 중… 잠시만요.');
+
+  fetch(APPS_SCRIPT_URL, {
+    method: 'POST',
+    mode: 'no-cors',
+    headers: {'Content-Type': 'text/plain;charset=utf-8'},
+    body: JSON.stringify(Object.assign({action:'submit'}, d))
+  }).then(function(){
+    showMsg('ok', '✅ 전송했어요. 지금까지 쓴 내용이 올라갔습니다. 나머지 칸을 채워 또 제출하면 이어서 저장됩니다. (확인이 안 되면 📄 텍스트로 저장으로 사본을 남기고 선생님께 알려주세요)');
+    saveLocal();
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 다시 제출하기 (이어서 저장)';
+  }).catch(function(err){
+    showMsg('err', '❌ 전송 실패: ' + err.message + ' — 다시 시도하거나 📄 텍스트로 저장으로 사본을 남기세요.');
+    $('submitBtn').disabled = false;
+    $('submitBtn').textContent = '📤 제출하기';
+  });
+});
+
+updateAll();
+</script>
+</body>
+</html>
